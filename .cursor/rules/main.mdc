@@ -1,0 +1,71 @@
+---
+alwaysApply: true
+---
+
+# Project Guidelines & Architecture
+
+## Core Tech Stack
+
+* **Framework:** Astro (`.astro` files)
+* **Language:** TypeScript (Use standard TS types/interfaces in frontmatter)
+* **Styling:** Tailwind CSS
+
+## Design System & Styling Rules
+
+* **Tailwind Configuration:** `tailwind.config.mjs` is the single source of truth for theme tokens (colors, fonts, container max-width). Read that file whenever choosing or applying theme values. Extend new tokens there under `theme.extend` — do not redefine them in this rules file.
+* **Strict Color Usage:** Apply theme colors only via the custom Tailwind classes defined in `tailwind.config.mjs`. Do **not** invent arbitrary hex codes or use default Tailwind colors.
+* **Typography:** Use `font-sans` / `font-heading` from `tailwind.config.mjs`. Font files live in `/public/fonts/` and are loaded in `src/styles/global.css`.
+* **Units:** Do not use `px` for font sizes — use `rem` instead. When the user specifies a value in `px`, always convert it to `rem` first (16px = 1rem) before applying it in code. **Exception:** border radius and border width values may use `px`.
+* **Container:** Use the container / `max-w-container` values from `tailwind.config.mjs` (1440px / 90rem). Do not invent a different content max-width.
+
+## Assets
+
+* All image assets are hosted at https://pub-7201b9d69f714980aff6db704be9de2d.r2.dev. Import `asset()` from `src/lib/assets.ts` to build image URLs. Do not hardcode the CDN base in components.
+
+## Responsive & Mobile-First Design
+
+* **Desktop-First Approach:** Write styles for desktop screens by default, then layer on layout and style changes using Tailwind's breakpoint prefixes (`sm:`, `md:`, `lg:`, `xl:`).
+* **Fluid Layouts:** Every component and page layout **must be responsive out of the box**. Do not build desktop-only layouts that overflow on smaller viewports.
+
+## Component Architecture
+
+* **File Structure:** Place all reusable `.astro` components in `src/components/`, page layouts in `src/layouts/`, and pages in `src/pages/`.
+* **Islands Architecture:** Keep server-first rendering by default. Only use interactive client directives (`client:load`, `client:idle`, `client:visible`) when strictly necessary for JavaScript interactivity.
+
+### What MUST Be a Component
+
+* **Global Layout Elements:** Navigation bars, footers, and SEO/Head wrappers used across multiple pages.
+* **Design System Atoms:** Standardized UI elements that repeat with different data or variants (e.g., `Button.astro`, `InputField.astro`, `Badge.astro`).
+* **Data-Driven Repeatable Blocks:** UI structures that map over data or content arrays (e.g., `FeatureCard.astro`, `TestimonialCard.astro`, `PricingCard.astro`).
+* **Interactive Islands:** Any client-side dynamic widgets requiring Astro hydration directives like `client:load` or `client:visible` (e.g., mobile menu toggles, accordions, sliders).
+
+### What MUST NOT Be a Component
+
+* **Native Typography:** Do NOT abstract basic HTML text tags into custom components (e.g., do not create `<Heading1>` or `<TextParagraph>`). Apply Tailwind utility classes directly to native `<h1>`–`<h6>` and `<p>` tags.
+* **One-Off Page Sections:** Unique layout sections (e.g., a specific Hero section, a specific "About Our Story" layout) must be written directly inside the respective page file (`index.astro`, `about.astro`) instead of being isolated into separate files.
+* **Basic Layout Wrappers:** Do not create custom components that just serve as standard CSS wrappers (e.g., replacing `<div class="max-w-container mx-auto px-4">` with a `<Container>` component). Use inline Tailwind classes instead.
+
+### Implementation Code Style
+
+* **Props Typing:** Always define explicit TypeScript interfaces for Astro component props (`interface Props { ... }`).
+* **Tailwind Variants:** For components with multiple styles (like Primary vs Secondary buttons), use a clean JavaScript object map or template literal configuration inside the Astro component script frontmatter rather than long, messy inline ternary operations.
+
+## Sanity CMS Editability
+
+* **Every page section must be Sanity-editable.** Not only dynamic/list content — also section copy (headlines, body text, CTAs, labels) and images (including alt text).
+* **Section reordering:** Page sections must be modeled so editors can reorder them in Sanity (e.g. an ordered array of section blocks).
+* **Do not expose chrome that should stay code-owned.** Skip Sanity fields where editing does not make sense — e.g. main navigation, site-wide layout chrome, and similar structural UI. Prefer hardcoding those in the codebase.
+
+## JavaScript Organization & Formatting
+
+* **Modular Files:** Do **not** write monolithic `<script>` tags or massive single JS/TS files. Split logic into small, modular files organized logically in `src/scripts/` or alongside the component.
+* **Header Comment Required:** Every JS/TS file **must** start with a brief 1–2 line comment explaining its core purpose. Don't add comments to other file types.
+
+## Documentation Context
+
+Consult these official Astro guides before generating complex logic:
+
+- Routing: https://docs.astro.build/en/guides/routing/
+- Astro Components: https://docs.astro.build/en/basics/astro-components/
+- Content Collections: https://docs.astro.build/en/guides/content-collections/
+- Styling & Tailwind: https://docs.astro.build/en/guides/styling/

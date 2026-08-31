@@ -1,0 +1,34 @@
+# build output
+dist/
+# generated types
+.astro/
+# Sanity Studio runtime
+.sanity/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# environment variables
+.env
+.env.production
+*.local
+
+# coverage / typescript
+coverage/
+*.tsbuildinfo
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
+
+# secrets / certs
+*.pem
