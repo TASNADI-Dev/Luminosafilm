@@ -1,0 +1,178 @@
+---
+import { asset } from '../lib/assets';
+import {
+	type Locale,
+	localeHomePath,
+	navItems,
+	navUi,
+	switchLocalePath,
+} from '../lib/i18n';
+
+interface Props {
+	locale?: Locale;
+}
+
+const { locale = 'hu' } = Astro.props;
+const items = navItems[locale];
+const ui = navUi[locale];
+const pathname = Astro.url.pathname;
+const huHref = switchLocalePath(pathname, 'hu');
+const enHref = switchLocalePath(pathname, 'en');
+const navLabel = locale === 'hu' ? 'Főnavigáció' : 'Main navigation';
+const langLabel = locale === 'hu' ? 'Nyelvválasztó' : 'Language switcher';
+---
+
+<header class="sticky top-0 z-50 bg-woodsmoke text-woodsmoke-50" data-navigation>
+	<nav
+		class="mx-auto flex h-[5rem] max-w-container items-center justify-between gap-6 px-6 lg:px-10"
+		aria-label={navLabel}
+	>
+		<a href={localeHomePath(locale)} class="shrink-0" aria-label={ui.homeAria}>
+			<img
+				src={asset('/global/logo.svg')}
+				alt="Luminosa Film"
+				width="59"
+				height="56"
+				class="h-14 w-auto"
+			/>
+		</a>
+
+		<div class="flex items-center gap-6 lg:gap-10">
+			<ul class="hidden items-center gap-8 lg:flex">
+				{
+					items.map((item) => (
+						<li>
+							<a
+								href={item.href}
+								class="font-sans text-[0.9375rem] font-medium tracking-wide text-woodsmoke-50 transition-colors hover:text-azure-300"
+							>
+								{item.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+
+			<div
+				class="hidden items-center gap-2 text-[0.9375rem] font-medium tracking-wide lg:flex"
+				aria-label={langLabel}
+			>
+				<a
+					href={huHref}
+					hreflang="hu"
+					class:list={[
+						'transition-colors hover:text-azure-300',
+						locale === 'hu' && 'underline underline-offset-4',
+					]}
+					aria-current={locale === 'hu' ? 'true' : undefined}
+				>
+					HU
+				</a>
+				<span class="text-woodsmoke-400" aria-hidden="true">/</span>
+				<a
+					href={enHref}
+					hreflang="en"
+					class:list={[
+						'transition-colors hover:text-azure-300',
+						locale === 'en' && 'underline underline-offset-4',
+					]}
+					aria-current={locale === 'en' ? 'true' : undefined}
+				>
+					EN
+				</a>
+			</div>
+
+			<button
+				type="button"
+				class="inline-flex h-10 w-10 items-center justify-center lg:hidden"
+				data-nav-toggle
+				data-label-open={ui.menuOpen}
+				data-label-close={ui.menuClose}
+				aria-expanded="false"
+				aria-controls="mobile-nav-panel"
+				aria-label={ui.menuOpen}
+			>
+				<svg
+					class="h-5 w-5"
+					data-nav-icon="menu"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.5"
+					aria-hidden="true"
+				>
+					<path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+				</svg>
+				<svg
+					class="hidden h-5 w-5"
+					data-nav-icon="close"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.5"
+					aria-hidden="true"
+				>
+					<path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+				</svg>
+			</button>
+		</div>
+	</nav>
+
+	<div
+		id="mobile-nav-panel"
+		class="border-t border-woodsmoke-800 bg-woodsmoke px-6 pb-6 pt-4 lg:hidden"
+		data-nav-panel
+		hidden
+	>
+		<ul class="flex flex-col gap-4">
+			{
+				items.map((item) => (
+					<li>
+						<a
+							href={item.href}
+							class="block font-sans text-[0.9375rem] font-medium text-woodsmoke-50 transition-colors hover:text-azure-300"
+						>
+							{item.label}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+		<div
+			class="mt-6 flex items-center gap-2 text-[0.9375rem] font-medium tracking-wide"
+			aria-label={langLabel}
+		>
+			<a
+				href={huHref}
+				hreflang="hu"
+				class:list={[
+					'transition-colors hover:text-azure-300',
+					locale === 'hu' && 'underline underline-offset-4',
+				]}
+				aria-current={locale === 'hu' ? 'true' : undefined}
+			>
+				HU
+			</a>
+			<span class="text-woodsmoke-400" aria-hidden="true">/</span>
+			<a
+				href={enHref}
+				hreflang="en"
+				class:list={[
+					'transition-colors hover:text-azure-300',
+					locale === 'en' && 'underline underline-offset-4',
+				]}
+				aria-current={locale === 'en' ? 'true' : undefined}
+			>
+				EN
+			</a>
+		</div>
+	</div>
+</header>
+
+<script>
+	import { initNavigation } from '../scripts/navigation';
+
+	document.querySelectorAll<HTMLElement>('[data-navigation]').forEach((root) => {
+		initNavigation(root);
+	});
+</script>

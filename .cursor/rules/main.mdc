@@ -50,11 +50,17 @@ alwaysApply: true
 * **Props Typing:** Always define explicit TypeScript interfaces for Astro component props (`interface Props { ... }`).
 * **Tailwind Variants:** For components with multiple styles (like Primary vs Secondary buttons), use a clean JavaScript object map or template literal configuration inside the Astro component script frontmatter rather than long, messy inline ternary operations.
 
+## Localization
+
+* **Locales:** Hungarian (`hu`) is the default/primary language. Provide an English (`en`) version of all user-facing copy.
+* **Sanity:** Configure Studio and content schemas for both `hu` and `en` (localized fields / documents).
+* **Editable vs hardcoded:** Marketing/page content editors should change in Sanity (localized). Structural/chrome UI copy that should stay code-owned stays hardcoded — in both languages in the codebase. When unclear, ask which texts are Sanity-editable vs hardcoded.
+
 ## Sanity CMS Editability
 
-* **Every page section must be Sanity-editable.** Not only dynamic/list content — also section copy (headlines, body text, CTAs, labels) and images (including alt text).
+* **Sanity-editable content:** Page section copy (headlines, body, CTAs, labels), images (including alt text), and reorderable section blocks — all localized `hu`/`en` where applicable.
+* **Hardcoded content:** Skip Sanity for chrome and other code-owned UI (e.g. main navigation labels when kept in code). Hardcode both language variants in the codebase.
 * **Section reordering:** Page sections must be modeled so editors can reorder them in Sanity (e.g. an ordered array of section blocks).
-* **Do not expose chrome that should stay code-owned.** Skip Sanity fields where editing does not make sense — e.g. main navigation, site-wide layout chrome, and similar structural UI. Prefer hardcoding those in the codebase.
 
 ## JavaScript Organization & Formatting
 
