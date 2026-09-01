@@ -4,13 +4,35 @@ export type Locale = 'hu' | 'en';
 export const defaultLocale: Locale = 'hu';
 export const locales: Locale[] = ['hu', 'en'];
 
+/** Astro/Vite base URL (e.g. `/Luminosafilm/` on GitHub Pages). Always ends with `/`. */
+export const baseUrl = import.meta.env.BASE_URL;
+
 export function isLocale(value: string): value is Locale {
 	return locales.includes(value as Locale);
 }
 
-/** Home path for a locale (`/` for hu, `/en/` for en). */
+/** Prepends the configured base URL to a site path. */
+export function withBase(path: string): string {
+	const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+	if (!path || path === '/') return base;
+	const normalized = path.startsWith('/') ? path.slice(1) : path;
+	return `${base}${normalized}`;
+}
+
+/** Removes the configured base URL from a pathname (e.g. from `Astro.url.pathname`). */
+export function stripBase(pathname: string): string {
+	const base = baseUrl.replace(/\/$/, '');
+	if (base && pathname.startsWith(base)) {
+		const rest = pathname.slice(base.length);
+		if (!rest || rest === '/') return '/';
+		return rest.startsWith('/') ? rest : `/${rest}`;
+	}
+	return pathname || '/';
+}
+
+/** Home path for a locale (`/` for hu, `/en/` for en), including base URL. */
 export function localeHomePath(locale: Locale): string {
-	return locale === defaultLocale ? '/' : `/${locale}/`;
+	return withBase(locale === defaultLocale ? '/' : `/${locale}/`);
 }
 
 /**
@@ -18,15 +40,17 @@ export function localeHomePath(locale: Locale): string {
  * Hungarian lives at `/…`; English under `/en/…`.
  */
 export function switchLocalePath(pathname: string, target: Locale): string {
-	const normalized = pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, -1) : pathname;
+	const sitePath = stripBase(pathname);
+	const normalized =
+		sitePath.endsWith('/') && sitePath !== '/' ? sitePath.slice(0, -1) : sitePath;
 	const withoutEn = normalized.replace(/^\/en(?=\/|$)/, '') || '/';
 
 	if (target === 'en') {
-		if (withoutEn === '/') return '/en/';
-		return `/en${withoutEn}${pathname.endsWith('/') ? '/' : ''}`;
+		if (withoutEn === '/') return withBase('/en/');
+		return withBase(`/en${withoutEn}${sitePath.endsWith('/') ? '/' : ''}`);
 	}
 
-	return withoutEn === '/' ? '/' : `${withoutEn}${pathname.endsWith('/') ? '/' : ''}`;
+	return withBase(withoutEn === '/' ? '/' : `${withoutEn}${sitePath.endsWith('/') ? '/' : ''}`);
 }
 
 export interface NavItem {
@@ -47,6 +71,12 @@ export const navItems: Record<Locale, NavItem[]> = {
 		{ href: '#about', label: 'About' },
 		{ href: '#contact', label: 'Contact' },
 	],
+};
+
+/** Hardcoded hero CTA targets per locale (not Sanity-editable). */
+export const heroButtonHref: Record<Locale, string> = {
+	hu: '#kapcsolat',
+	en: '#contact',
 };
 
 export const navUi = {

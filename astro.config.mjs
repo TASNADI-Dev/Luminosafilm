@@ -12,8 +12,14 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
 	'',
 );
 
+// GitHub Pages project site: https://tasnadi-dev.github.io/Luminosafilm/
+const site = process.env.ASTRO_SITE;
+const base = process.env.ASTRO_BASE ?? '/Luminosafilm';
+
 // https://astro.build/config
 export default defineConfig({
+	...(site ? { site } : {}),
+	base,
 	vite: {
 		plugins: [tailwindcss()],
 	},

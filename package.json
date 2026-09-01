@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:pages": "ASTRO_SITE=https://tasnadi-dev.github.io ASTRO_BASE=/Luminosafilm astro build",
     "preview": "astro preview",
+    "preview:pages": "npm run build:pages && astro preview",
     "astro": "astro"
   },
   "dependencies": {
