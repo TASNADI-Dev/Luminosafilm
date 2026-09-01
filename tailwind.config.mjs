@@ -48,7 +48,7 @@ export default {
 			},
 			fontFamily: {
 				sans: ['Poppins', 'sans-serif'],
-				heading: ['Poppins', 'sans-serif'],
+				heading: ['Cabinet Grotesk', 'sans-serif'],
 			},
 			maxWidth: {
 				container: '90rem', // 1440px
