@@ -1,0 +1,27 @@
+---
+import Navigation from '../components/Navigation.astro';
+import { asset } from '../lib/assets';
+import type { Locale } from '../lib/i18n';
+import '../styles/global.css';
+
+interface Props {
+	locale: Locale;
+	title?: string;
+}
+
+const { locale, title = 'Luminosa Film' } = Astro.props;
+---
+
+<html lang={locale} class="scheme-dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/png" href={asset('/global/favicon.png')} />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="min-h-screen bg-woodsmoke font-sans text-woodsmoke-50">
+		<Navigation locale={locale} />
+		<slot />
+	</body>
+</html>

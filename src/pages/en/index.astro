@@ -1,109 +1,98 @@
 ---
-import Navigation from '../../components/Navigation.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
+import { asset } from '../../lib/assets';
 import { heroButtonHref } from '../../lib/i18n';
 import { getHomePageHero, getHomePageLogos } from '../../lib/sanity/homePage';
 import { urlFor } from '../../lib/sanity/image';
-import { asset } from '../../lib/assets';
-import '../../styles/global.css';
 
 const hero = await getHomePageHero('en');
 const logosSection = await getHomePageLogos('en');
+const heroVideoSrc = asset('/home/Showreel.mp4');
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/png" href={asset('/global/favicon.png')} />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Luminosa Film</title>
-	</head>
-	<body class="font-sans">
-		<Navigation locale="en" />
+<BaseLayout locale="en">
+	<section class="relative isolate overflow-hidden pt-6 lg:pt-[20rem]" data-hero-section>
+		<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+			<video
+				class="h-full w-full scale-110 object-cover blur-[5rem]"
+				src={heroVideoSrc}
+				autoplay
+				muted
+				playsinline
+				loop
+				preload="auto"
+				tabindex="-1"
+				data-hero-video-bg
+			>
+			</video>
+		</div>
 
-		<section class="relative isolate overflow-hidden pt-6 lg:pt-[20rem]" data-hero-section>
-			<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+		<div
+			class="relative z-10 mx-auto grid max-w-container items-end gap-10 px-6 pb-16 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:pb-24"
+		>
+			<div class="order-2 flex flex-col gap-6 lg:order-1">
+				<h1 class="text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
+					{hero.heading}
+				</h1>
+				<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+					{hero.paragraph}
+				</p>
+				<div>
+					<Button href={heroButtonHref.en}>{hero.buttonText}</Button>
+				</div>
+			</div>
+
+			<div class="order-1 lg:order-2">
 				<video
-					class="h-full w-full scale-110 object-cover blur-[5rem]"
-					src={hero.videoUrl}
+					class="aspect-video w-full rounded-[12px] bg-woodsmoke-900 object-cover"
+					src={heroVideoSrc}
 					autoplay
 					muted
 					playsinline
 					loop
 					preload="auto"
-					tabindex="-1"
-					data-hero-video-bg
+					controls
+					controlslist="nodownload nofullscreen noremoteplayback noplaybackrate"
+					disablepictureinpicture
+					data-hero-video-main
 				>
 				</video>
 			</div>
+		</div>
+	</section>
 
-			<div
-				class="relative z-10 mx-auto grid max-w-container items-end gap-10 px-6 pb-16 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:pb-24"
-			>
-				<div class="order-2 flex flex-col gap-6 lg:order-1">
-					<h1 class="text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
-						{hero.heading}
-					</h1>
-					<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-300">
-						{hero.paragraph}
-					</p>
-					<div>
-						<Button href={heroButtonHref.en}>{hero.buttonText}</Button>
-					</div>
+	{
+		logosSection && (
+			<section class="py-12 lg:py-16">
+				<div class="mx-auto max-w-container px-6 lg:px-10">
+					<ul class="flex flex-wrap items-center justify-center gap-x-10 gap-y-8 lg:gap-x-14 lg:gap-y-10">
+						{logosSection.logos.map((logo) => (
+							<li class="flex h-16 w-36 items-center justify-center lg:h-20 lg:w-44">
+								<img
+									class="max-h-full max-w-full object-contain"
+									src={urlFor({ asset: { _ref: logo.asset!._id } })
+										.height(80)
+										.fit('max')
+										.auto('format')
+										.url()}
+									alt={logo.alt ?? ''}
+									loading="lazy"
+									decoding="async"
+								/>
+							</li>
+						))}
+					</ul>
 				</div>
+			</section>
+		)
+	}
 
-				<div class="order-1 lg:order-2">
-					<video
-						class="aspect-video w-full rounded-[12px] bg-woodsmoke-900 object-cover"
-						src={hero.videoUrl}
-						autoplay
-						muted
-						playsinline
-						loop
-						preload="auto"
-						controls
-						controlslist="nodownload nofullscreen noremoteplayback noplaybackrate"
-						disablepictureinpicture
-						data-hero-video-main
-					>
-					</video>
-				</div>
-			</div>
-		</section>
+	<script>
+		import { initHeroVideoSync } from '../../scripts/hero-video-sync';
 
-		{
-			logosSection && (
-				<section class="py-12 lg:py-16">
-					<div class="mx-auto max-w-container px-6 lg:px-10">
-						<ul class="flex flex-wrap items-center justify-center gap-x-10 gap-y-8 lg:gap-x-14 lg:gap-y-10">
-							{logosSection.logos.map((logo) => (
-								<li class="flex h-16 w-36 items-center justify-center lg:h-20 lg:w-44">
-									<img
-										class="max-h-full max-w-full object-contain"
-										src={urlFor({ asset: { _ref: logo.asset!._id } })
-											.height(80)
-											.fit('max')
-											.auto('format')
-											.url()}
-										alt={logo.alt ?? ''}
-										loading="lazy"
-										decoding="async"
-									/>
-								</li>
-							))}
-						</ul>
-					</div>
-				</section>
-			)
-		}
-
-		<script>
-			import { initHeroVideoSync } from '../../scripts/hero-video-sync';
-
-			document.querySelectorAll<HTMLElement>('[data-hero-section]').forEach((section) => {
-				initHeroVideoSync(section);
-			});
-		</script>
-	</body>
-</html>
+		document.querySelectorAll<HTMLElement>('[data-hero-section]').forEach((section) => {
+			initHeroVideoSync(section);
+		});
+	</script>
+</BaseLayout>

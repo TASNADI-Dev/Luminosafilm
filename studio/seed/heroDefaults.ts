@@ -11,7 +11,7 @@ export const heroDefaults = {
       'We craft distinctive visual stories that create memorable experiences for your audience.',
     buttonText: 'Get in touch',
   },
-  videoUrl: 'https://lorem.video/1280x720',
+  videoUrl: 'https://pub-7201b9d69f714980aff6db704be9de2d.r2.dev/home/Showreel.mp4',
 } as const
 
 export function createDefaultHeroSection() {

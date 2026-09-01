@@ -1,7 +1,10 @@
 // Fetches and normalizes localized home page content from Sanity.
 import {sanityClient} from 'sanity:client'
+import {asset} from '../assets'
 import type {Locale} from '../i18n'
 import {HOME_PAGE_DOCUMENT_ID, HOME_PAGE_QUERY} from './queries'
+
+const defaultHeroVideoUrl = asset('/home/Showreel.mp4')
 
 export interface HeroSection {
   _type: 'heroSection'
@@ -42,14 +45,14 @@ const defaultHeroByLocale: Record<Locale, Omit<HeroSection, '_type' | '_key'>> =
     heading: 'Professzionális filmkészítés',
     paragraph:
       'Egyedi vizuális történeteket alkotunk, amelyek emlékezetes élményt nyújtanak a közönségnek.',
-    videoUrl: 'https://lorem.video/1280x720',
+    videoUrl: defaultHeroVideoUrl,
     buttonText: 'Kapcsolatfelvétel',
   },
   en: {
     heading: 'Professional filmmaking',
     paragraph:
       'We craft distinctive visual stories that create memorable experiences for your audience.',
-    videoUrl: 'https://lorem.video/1280x720',
+    videoUrl: defaultHeroVideoUrl,
     buttonText: 'Get in touch',
   },
 }
