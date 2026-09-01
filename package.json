@@ -10,13 +10,14 @@
     "build": "astro build",
     "build:pages": "ASTRO_SITE=https://tasnadi-dev.github.io ASTRO_BASE=/Luminosafilm astro build",
     "preview": "astro preview",
-    "preview:pages": "npm run build:pages && astro preview",
+    "seed:home": "npm run schema:deploy --prefix studio && npm run seed:home --prefix studio",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.4",
     "@sanity/astro": "^3.5.1",
     "@sanity/client": "^8.4.0",
+    "@sanity/vision": "^6.11.0",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",

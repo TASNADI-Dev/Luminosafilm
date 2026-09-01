@@ -34,4 +34,32 @@
 	h6 {
 		@apply font-heading font-medium;
 	}
+
+	[data-hero-video-main]::-webkit-media-controls-panel,
+	[data-hero-video-main]::-webkit-media-controls-enclosure {
+		background: transparent;
+		background-image: none;
+		opacity: 1 !important;
+		visibility: visible !important;
+		transform: none !important;
+	}
+
+	[data-hero-video-main]::-webkit-media-controls-play-button {
+		opacity: 1 !important;
+		visibility: visible !important;
+		background-color: rgb(28 34 82 / 0.85);
+		border-radius: 9999px;
+		filter: none;
+	}
+
+	[data-hero-video-main]::-webkit-media-controls-timeline,
+	[data-hero-video-main]::-webkit-media-controls-current-time-display,
+	[data-hero-video-main]::-webkit-media-controls-time-remaining-display,
+	[data-hero-video-main]::-webkit-media-controls-volume-slider,
+	[data-hero-video-main]::-webkit-media-controls-mute-button,
+	[data-hero-video-main]::-webkit-media-controls-fullscreen-button,
+	[data-hero-video-main]::-webkit-media-controls-overflow-button,
+	[data-hero-video-main]::-webkit-media-controls-toggle-closed-captions-button {
+		display: none;
+	}
 }
