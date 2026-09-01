@@ -12,6 +12,20 @@ export const HOME_PAGE_QUERY = `coalesce(
     "heading": heading[$locale],
     "paragraph": paragraph[$locale],
     "buttonText": buttonText[$locale],
-    videoUrl
+    videoUrl,
+    logos[]{
+      _key,
+      "alt": alt[$locale],
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          }
+        }
+      }
+    }
   }
 }`

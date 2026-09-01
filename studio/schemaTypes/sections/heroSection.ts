@@ -1,4 +1,4 @@
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 export const heroSection = defineType({
   name: 'heroSection',
@@ -41,5 +41,3 @@ export const heroSection = defineType({
     },
   },
 })
-
-export const homePageSections = [defineArrayMember({type: 'heroSection'})]

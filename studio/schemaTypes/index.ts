@@ -1,5 +1,5 @@
 import {homePage} from './homePage'
 import {localizedString, localizedText} from './localized'
-import {heroSection} from './sections/heroSection'
+import {homePageSectionTypes} from './sections'
 
-export const schemaTypes = [localizedString, localizedText, heroSection, homePage]
+export const schemaTypes = [localizedString, localizedText, ...homePageSectionTypes, homePage]

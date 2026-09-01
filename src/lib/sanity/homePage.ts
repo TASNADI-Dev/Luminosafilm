@@ -12,8 +12,29 @@ export interface HeroSection {
   buttonText: string
 }
 
+export interface LogoItem {
+  _key: string
+  alt?: string
+  asset?: {
+    _id: string
+    url: string
+    metadata?: {
+      dimensions?: {
+        width: number
+        height: number
+      }
+    }
+  }
+}
+
+export interface LogosSection {
+  _type: 'logosSection'
+  _key: string
+  logos: LogoItem[]
+}
+
 interface HomePageQueryResult {
-  sections?: HeroSection[]
+  sections?: (HeroSection | LogosSection)[]
 }
 
 const defaultHeroByLocale: Record<Locale, Omit<HeroSection, '_type' | '_key'>> = {
@@ -58,7 +79,9 @@ export async function getHomePageHero(locale: Locale): Promise<HeroSection> {
       locale,
     })
 
-    const hero = result?.sections?.find((section) => section._type === 'heroSection')
+    const hero = result?.sections?.find(
+      (section): section is HeroSection => section._type === 'heroSection',
+    )
 
     if (!isCompleteHero(hero)) {
       return buildDefaultHero(locale)
@@ -67,5 +90,35 @@ export async function getHomePageHero(locale: Locale): Promise<HeroSection> {
     return hero
   } catch {
     return buildDefaultHero(locale)
+  }
+}
+
+function isCompleteLogos(section: LogosSection | undefined): section is LogosSection {
+  return Boolean(
+    section?._type === 'logosSection' &&
+      Array.isArray(section.logos) &&
+      section.logos.length > 0 &&
+      section.logos.every((logo) => logo.asset?.url),
+  )
+}
+
+export async function getHomePageLogos(locale: Locale): Promise<LogosSection | null> {
+  try {
+    const result = await sanityClient.fetch<HomePageQueryResult | null>(HOME_PAGE_QUERY, {
+      documentId: HOME_PAGE_DOCUMENT_ID,
+      locale,
+    })
+
+    const logos = result?.sections?.find(
+      (section): section is LogosSection => section._type === 'logosSection',
+    )
+
+    if (!isCompleteLogos(logos)) {
+      return null
+    }
+
+    return logos
+  } catch {
+    return null
   }
 }

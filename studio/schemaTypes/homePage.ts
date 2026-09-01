@@ -1,6 +1,6 @@
 import {HomeIcon} from '@sanity/icons/Home'
 import {defineField, defineType} from 'sanity'
-import {homePageSections} from './sections/heroSection'
+import {homePageSections} from './sections'
 
 export const homePage = defineType({
   name: 'homePage',
