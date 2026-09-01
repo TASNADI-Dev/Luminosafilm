@@ -26,6 +26,14 @@
 }
 
 @layer base {
+	html {
+		color-scheme: dark;
+	}
+
+	body {
+		@apply bg-woodsmoke text-woodsmoke-50;
+	}
+
 	h1,
 	h2,
 	h3,
