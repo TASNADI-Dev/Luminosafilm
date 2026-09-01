@@ -9,12 +9,6 @@ export const homePage = defineType({
   icon: HomeIcon,
   fields: [
     defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
-    defineField({
       name: 'sections',
       title: 'Sections',
       type: 'array',
@@ -23,11 +17,9 @@ export const homePage = defineType({
     }),
   ],
   preview: {
-    select: {language: 'language'},
-    prepare({language}) {
+    prepare() {
       return {
         title: 'Home Page',
-        subtitle: language?.toUpperCase() || 'No language',
       }
     },
   },

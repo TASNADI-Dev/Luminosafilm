@@ -8,14 +8,13 @@ export const heroSection = defineType({
     defineField({
       name: 'heading',
       title: 'Heading',
-      type: 'string',
+      type: 'localizedString',
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'paragraph',
       title: 'Paragraph',
-      type: 'text',
-      rows: 4,
+      type: 'localizedText',
       validation: (rule) => rule.required(),
     }),
     defineField({
@@ -28,15 +27,15 @@ export const heroSection = defineType({
     defineField({
       name: 'buttonText',
       title: 'Button Text',
-      type: 'string',
+      type: 'localizedString',
       validation: (rule) => rule.required(),
     }),
   ],
   preview: {
-    select: {title: 'heading'},
-    prepare({title}) {
+    select: {headingHu: 'heading.hu'},
+    prepare({headingHu}) {
       return {
-        title: title || 'Hero Section',
+        title: headingHu || 'Hero Section',
         subtitle: 'Hero',
       }
     },

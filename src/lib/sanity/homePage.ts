@@ -1,7 +1,7 @@
 // Fetches and normalizes localized home page content from Sanity.
 import {sanityClient} from 'sanity:client'
 import type {Locale} from '../i18n'
-import {HOME_PAGE_QUERY, homePageDocumentId} from './queries'
+import {HOME_PAGE_DOCUMENT_ID, HOME_PAGE_QUERY} from './queries'
 
 export interface HeroSection {
   _type: 'heroSection'
@@ -36,7 +36,7 @@ const defaultHeroByLocale: Record<Locale, Omit<HeroSection, '_type' | '_key'>> =
 function buildDefaultHero(locale: Locale): HeroSection {
   return {
     _type: 'heroSection',
-    _key: `hero-${locale}`,
+    _key: 'hero',
     ...defaultHeroByLocale[locale],
   }
 }
@@ -54,7 +54,8 @@ function isCompleteHero(section: HeroSection | undefined): section is HeroSectio
 export async function getHomePageHero(locale: Locale): Promise<HeroSection> {
   try {
     const result = await sanityClient.fetch<HomePageQueryResult | null>(HOME_PAGE_QUERY, {
-      documentId: homePageDocumentId(locale),
+      documentId: HOME_PAGE_DOCUMENT_ID,
+      locale,
     })
 
     const hero = result?.sections?.find((section) => section._type === 'heroSection')

@@ -3,24 +3,33 @@ export const heroDefaults = {
     heading: 'Professzionális filmkészítés',
     paragraph:
       'Egyedi vizuális történeteket alkotunk, amelyek emlékezetes élményt nyújtanak a közönségnek.',
-    videoUrl: 'https://lorem.video/1280x720',
     buttonText: 'Kapcsolatfelvétel',
   },
   en: {
     heading: 'Professional filmmaking',
     paragraph:
       'We craft distinctive visual stories that create memorable experiences for your audience.',
-    videoUrl: 'https://lorem.video/1280x720',
     buttonText: 'Get in touch',
   },
+  videoUrl: 'https://lorem.video/1280x720',
 } as const
 
-export type HomePageLocale = keyof typeof heroDefaults
-
-export function createHeroSection(locale: HomePageLocale) {
+export function createDefaultHeroSection() {
   return {
     _type: 'heroSection',
-    _key: `hero-${locale}`,
-    ...heroDefaults[locale],
+    _key: 'hero',
+    heading: {
+      hu: heroDefaults.hu.heading,
+      en: heroDefaults.en.heading,
+    },
+    paragraph: {
+      hu: heroDefaults.hu.paragraph,
+      en: heroDefaults.en.paragraph,
+    },
+    buttonText: {
+      hu: heroDefaults.hu.buttonText,
+      en: heroDefaults.en.buttonText,
+    },
+    videoUrl: heroDefaults.videoUrl,
   }
 }

@@ -1,5 +1,6 @@
 // GROQ queries for fetching localized Sanity content in Astro pages.
-import type {Locale} from '../i18n'
+
+export const HOME_PAGE_DOCUMENT_ID = 'homePage'
 
 export const HOME_PAGE_QUERY = `coalesce(
   *[_id == $documentId][0],
@@ -8,13 +9,9 @@ export const HOME_PAGE_QUERY = `coalesce(
   sections[]{
     _type,
     _key,
-    heading,
-    paragraph,
-    videoUrl,
-    buttonText
+    "heading": heading[$locale],
+    "paragraph": paragraph[$locale],
+    "buttonText": buttonText[$locale],
+    videoUrl
   }
 }`
-
-export function homePageDocumentId(locale: Locale): string {
-  return `homePage-${locale}`
-}

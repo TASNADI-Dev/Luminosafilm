@@ -53,12 +53,12 @@ alwaysApply: true
 ## Localization
 
 * **Locales:** Hungarian (`hu`) is the default/primary language. Provide an English (`en`) version of all user-facing copy.
-* **Sanity:** Configure Studio and content schemas for both `hu` and `en` (localized fields / documents).
+* **Sanity (field-level):** Use **one document per page** (e.g. a single `homePage` singleton with fixed ID `homePage`). Do **not** split pages into separate per-locale documents (e.g. `homePage-hu` / `homePage-en`). Localize user-facing text with `localizedString` / `localizedText` object types (`studio/schemaTypes/localized.ts`) — each has `hu` and `en` sub-fields stacked in Studio so editors see both languages in one place. Shared non-text fields (video URLs, images) stay as single fields on the section. In GROQ, project the active locale: `heading[$locale]`.
 * **Editable vs hardcoded:** Marketing/page content editors should change in Sanity (localized). Structural/chrome UI copy that should stay code-owned stays hardcoded — in both languages in the codebase. When unclear, ask which texts are Sanity-editable vs hardcoded.
 
 ## Sanity CMS Editability
 
-* **Sanity-editable content:** Page section copy (headlines, body, CTAs, labels), images (including alt text), and reorderable section blocks — all localized `hu`/`en` where applicable.
+* **Sanity-editable content:** Page section copy (headlines, body, CTAs, labels), images (including alt text), and reorderable section blocks — all via field-level `hu`/`en` sub-fields where applicable.
 * **Hardcoded content:** Skip Sanity for chrome and other code-owned UI (e.g. main navigation labels when kept in code). Hardcode both language variants in the codebase.
 * **Section reordering:** Page sections must be modeled so editors can reorder them in Sanity (e.g. an ordered array of section blocks).
 
