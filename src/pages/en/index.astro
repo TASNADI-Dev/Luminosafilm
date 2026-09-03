@@ -1,14 +1,17 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
+import WhyChooseUsItem from '../../components/WhyChooseUsItem.astro';
 import { asset } from '../../lib/assets';
-import { heroButtonHref } from '../../lib/i18n';
-import { getHomePageHero, getHomePageLogos } from '../../lib/sanity/homePage';
+import { heroButtonHref, whyChooseUsButton } from '../../lib/i18n';
+import { getHomePageHero, getHomePageLogos, getHomePageWhyChooseUs } from '../../lib/sanity/homePage';
 import { urlFor } from '../../lib/sanity/image';
 
 const hero = await getHomePageHero('en');
 const logosSection = await getHomePageLogos('en');
+const whyChooseUs = await getHomePageWhyChooseUs('en');
 const heroVideoSrc = asset('/home/Showreel.mp4');
+const whyChooseUsCta = whyChooseUsButton.en;
 ---
 
 <BaseLayout locale="en">
@@ -33,7 +36,7 @@ const heroVideoSrc = asset('/home/Showreel.mp4');
 			class="relative z-10 mx-auto grid max-w-container items-end gap-10 px-6 pb-16 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:pb-24"
 		>
 			<div class="order-2 flex flex-col gap-6 lg:order-1">
-				<h1 class="text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
+				<h1 class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
 					{hero.heading}
 				</h1>
 				<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
@@ -88,6 +91,34 @@ const heroVideoSrc = asset('/home/Showreel.mp4');
 			</section>
 		)
 	}
+
+	<section id="services" class="py-16 lg:py-24">
+		<div class="mx-auto max-w-container px-6 lg:px-10">
+			<div class="mb-10 lg:mb-14">
+				<h2 class="font-heading max-w-3xl text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
+					{whyChooseUs.heading}
+				</h2>
+			</div>
+
+			<ol class="list-none divide-y divide-woodsmoke-900 border-b border-woodsmoke-900 p-0">
+				{
+					whyChooseUs.items.map((item, index) => (
+						<WhyChooseUsItem
+							index={index}
+							title={item.title}
+							body={item.body}
+							imageUrl={item.imageUrl}
+							imageAlt={item.imageAlt}
+						/>
+					))
+				}
+			</ol>
+
+			<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
+				<Button href={whyChooseUsCta.href}>{whyChooseUsCta.label}</Button>
+			</div>
+		</div>
+	</section>
 
 	<script>
 		import { initHeroVideoSync } from '../../scripts/hero-video-sync';

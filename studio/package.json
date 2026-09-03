@@ -11,6 +11,7 @@
     "dev": "sanity dev",
     "schema:deploy": "sanity schema deploy",
     "seed:home": "sanity dataset import seed/home-pages.ndjson --dataset production --replace",
+    "seed:services": "sanity dataset import seed/service-pages.ndjson --dataset production --replace",
     "seed:logos": "node seed/upload-logos.mjs",
     "start": "sanity start"
   },

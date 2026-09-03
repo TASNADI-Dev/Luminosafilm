@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { localeHomePath } from '../../lib/i18n';
+import { getServicePageBySlug, getServicePageSlugs } from '../../lib/sanity/servicePage';
+
+export async function getStaticPaths() {
+	const slugs = await getServicePageSlugs('hu');
+	return slugs.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+if (!slug) {
+	return Astro.redirect(localeHomePath('hu'));
+}
+
+const page = await getServicePageBySlug('hu', slug);
+if (!page) {
+	return Astro.redirect(localeHomePath('hu'));
+}
+---
+
+<BaseLayout locale="hu" title={`${page.title} | Luminosa Film`}>
+</BaseLayout>

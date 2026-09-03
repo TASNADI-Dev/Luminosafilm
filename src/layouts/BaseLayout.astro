@@ -1,7 +1,7 @@
 ---
 import Navigation from '../components/Navigation.astro';
 import { asset } from '../lib/assets';
-import type { Locale } from '../lib/i18n';
+import { type Locale, withBase } from '../lib/i18n';
 import '../styles/global.css';
 
 interface Props {
@@ -19,6 +19,7 @@ const { locale, title = 'Luminosa Film' } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<link rel="stylesheet" href={withBase('/fonts/fonts.css')} />
 	</head>
 	<body class="min-h-screen bg-woodsmoke font-sans text-woodsmoke-50">
 		<Navigation locale={locale} />

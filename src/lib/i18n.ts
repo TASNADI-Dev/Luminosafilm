@@ -38,8 +38,14 @@ export function localeHomePath(locale: Locale): string {
 /**
  * Maps the current path to the equivalent path in another locale.
  * Hungarian lives at `/…`; English under `/en/…`.
+ * Service pages use different slug segments per locale.
  */
 export function switchLocalePath(pathname: string, target: Locale): string {
+	const matchedService = matchServicePath(pathname);
+	if (matchedService) {
+		return servicePath(target, matchedService.id);
+	}
+
 	const sitePath = stripBase(pathname);
 	const normalized =
 		sitePath.endsWith('/') && sitePath !== '/' ? sitePath.slice(0, -1) : sitePath;
@@ -62,38 +68,106 @@ export interface NavItem extends NavLink {
 	children?: NavLink[];
 }
 
-const servicesChildrenHu: NavLink[] = [
-	{ href: '#dokumentumfilmek', label: 'Dokumentumfilmek' },
-	{ href: '#oral-history', label: 'Oral history' },
-	{ href: '#promocios-filmek', label: 'Promóciós filmek' },
-	{ href: '#civil-szervezetek-bemutatasa', label: 'Civil szervezetek bemutatása' },
-	{ href: '#oktatas', label: 'Oktatás' },
-	{ href: '#palyazatiras-es-megvalositas', label: 'Pályázatírás és megvalósítás' },
-	{ href: '#eszkozberles', label: 'Eszközbérlés' },
-];
+/** Shared catalog for the seven service pages (nav, routes, locale switching). */
+export const services = [
+	{
+		id: 'documentaries',
+		slugs: { hu: 'dokumentumfilmek', en: 'documentaries' },
+		labels: { hu: 'Dokumentumfilmek', en: 'Documentaries' },
+	},
+	{
+		id: 'oral-history',
+		slugs: { hu: 'oral-history', en: 'oral-history' },
+		labels: { hu: 'Oral history', en: 'Oral history' },
+	},
+	{
+		id: 'promotional-films',
+		slugs: { hu: 'promocios-filmek', en: 'promotional-films' },
+		labels: { hu: 'Promóciós filmek', en: 'Promotional films' },
+	},
+	{
+		id: 'ngo-presentations',
+		slugs: { hu: 'civil-szervezetek-bemutatasa', en: 'ngo-presentations' },
+		labels: { hu: 'Civil szervezetek bemutatása', en: 'NGO presentations' },
+	},
+	{
+		id: 'education',
+		slugs: { hu: 'oktatas', en: 'education' },
+		labels: { hu: 'Oktatás', en: 'Education' },
+	},
+	{
+		id: 'grant-writing',
+		slugs: { hu: 'palyazatiras-es-megvalositas', en: 'grant-writing-and-implementation' },
+		labels: { hu: 'Pályázatírás és megvalósítás', en: 'Grant writing and implementation' },
+	},
+	{
+		id: 'equipment-rental',
+		slugs: { hu: 'eszkozberles', en: 'equipment-rental' },
+		labels: { hu: 'Eszközbérlés', en: 'Equipment rental' },
+	},
+] as const;
 
-const servicesChildrenEn: NavLink[] = [
-	{ href: '#documentaries', label: 'Documentaries' },
-	{ href: '#oral-history', label: 'Oral history' },
-	{ href: '#promotional-films', label: 'Promotional films' },
-	{ href: '#ngo-presentations', label: 'NGO presentations' },
-	{ href: '#education', label: 'Education' },
-	{ href: '#grant-writing-and-implementation', label: 'Grant writing and implementation' },
-	{ href: '#equipment-rental', label: 'Equipment rental' },
-];
+export type ServiceId = (typeof services)[number]['id'];
+
+export function isServiceId(value: string): value is ServiceId {
+	return services.some((service) => service.id === value);
+}
+
+/** Absolute site path for a service page in the given locale. */
+export function servicePath(locale: Locale, id: ServiceId): string {
+	const service = services.find((entry) => entry.id === id);
+	if (!service) {
+		return localeHomePath(locale);
+	}
+
+	if (locale === 'hu') {
+		return withBase(`/szolgaltatasok/${service.slugs.hu}`);
+	}
+
+	return withBase(`/en/services/${service.slugs.en}`);
+}
+
+/** Resolves a site path to a service catalog entry, if it is a service page URL. */
+export function matchServicePath(pathname: string): (typeof services)[number] | undefined {
+	const sitePath = stripBase(pathname);
+	const normalized =
+		sitePath.endsWith('/') && sitePath !== '/' ? sitePath.slice(0, -1) : sitePath;
+
+	const huMatch = normalized.match(/^\/szolgaltatasok\/([^/]+)$/);
+	if (huMatch) {
+		return services.find((service) => service.slugs.hu === huMatch[1]);
+	}
+
+	const enMatch = normalized.match(/^\/en\/services\/([^/]+)$/);
+	if (enMatch) {
+		return services.find((service) => service.slugs.en === enMatch[1]);
+	}
+
+	return undefined;
+}
+
+const servicesChildrenHu: NavLink[] = services.map((service) => ({
+	href: servicePath('hu', service.id),
+	label: service.labels.hu,
+}));
+
+const servicesChildrenEn: NavLink[] = services.map((service) => ({
+	href: servicePath('en', service.id),
+	label: service.labels.en,
+}));
 
 export const navItems: Record<Locale, NavItem[]> = {
 	hu: [
-		{ href: '#szolgaltatasok', label: 'Szolgáltatások', children: servicesChildrenHu },
-		{ href: '#referenciak', label: 'Referenciák' },
-		{ href: '#rolunk', label: 'Rólunk' },
-		{ href: '#kapcsolat', label: 'Kapcsolat' },
+		{ href: withBase('/#szolgaltatasok'), label: 'Szolgáltatások', children: servicesChildrenHu },
+		{ href: withBase('/#referenciak'), label: 'Referenciák' },
+		{ href: withBase('/#rolunk'), label: 'Rólunk' },
+		{ href: withBase('/#kapcsolat'), label: 'Kapcsolat' },
 	],
 	en: [
-		{ href: '#services', label: 'Services', children: servicesChildrenEn },
-		{ href: '#references', label: 'References' },
-		{ href: '#about', label: 'About' },
-		{ href: '#contact', label: 'Contact' },
+		{ href: withBase('/en/#services'), label: 'Services', children: servicesChildrenEn },
+		{ href: withBase('/en/#references'), label: 'References' },
+		{ href: withBase('/en/#about'), label: 'About' },
+		{ href: withBase('/en/#contact'), label: 'Contact' },
 	],
 };
 
@@ -103,10 +177,10 @@ export const heroButtonHref: Record<Locale, string> = {
 	en: '#contact',
 };
 
-/** Hardcoded why-choose-us CTA targets per locale (not Sanity-editable). */
-export const whyChooseUsButtonHref: Record<Locale, { primary: string; secondary: string }> = {
-	hu: { primary: '#kapcsolat', secondary: '#referenciak' },
-	en: { primary: '#contact', secondary: '#references' },
+/** Hardcoded why-choose-us CTA per locale (not Sanity-editable). */
+export const whyChooseUsButton: Record<Locale, { href: string; label: string }> = {
+	hu: { href: '#kapcsolat', label: 'Primary' },
+	en: { href: '#contact', label: 'Primary' },
 };
 
 export const navUi = {

@@ -22,6 +22,9 @@ export default defineConfig({
 	base,
 	vite: {
 		plugins: [tailwindcss()],
+		optimizeDeps: {
+			include: ['react-compiler-runtime', 'react-is'],
+		},
 	},
 	integrations: [
 		sanity({

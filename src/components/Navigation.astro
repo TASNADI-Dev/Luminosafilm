@@ -45,7 +45,7 @@ const dropdownLinkClass =
 		<div class="flex items-center gap-6 lg:gap-10">
 			<ul class="hidden items-center gap-8 lg:flex">
 				{
-					items.map((item) =>
+					items.map((item, index) =>
 						item.children?.length ? (
 							<li class="relative" data-nav-dropdown>
 								<button
@@ -54,7 +54,7 @@ const dropdownLinkClass =
 									data-nav-dropdown-toggle
 									aria-expanded="false"
 									aria-haspopup="true"
-									aria-controls={`nav-dropdown-${item.href.slice(1)}`}
+									aria-controls={`nav-dropdown-${index}`}
 								>
 									{item.label}
 									<svg
@@ -70,7 +70,7 @@ const dropdownLinkClass =
 									</svg>
 								</button>
 								<ul
-									id={`nav-dropdown-${item.href.slice(1)}`}
+									id={`nav-dropdown-${index}`}
 									class="absolute left-0 top-full z-50 mt-3 min-w-[16rem] border border-woodsmoke-800 bg-woodsmoke py-2 shadow-lg"
 									data-nav-dropdown-panel
 									hidden
@@ -168,7 +168,7 @@ const dropdownLinkClass =
 	>
 		<ul class="flex flex-col gap-1">
 			{
-				items.map((item) =>
+				items.map((item, index) =>
 					item.children?.length ? (
 						<li data-nav-dropdown>
 							<button
@@ -181,7 +181,7 @@ const dropdownLinkClass =
 								data-label-open={ui.submenuOpen}
 								data-label-close={ui.submenuClose}
 								aria-expanded="false"
-								aria-controls={`mobile-nav-dropdown-${item.href.slice(1)}`}
+								aria-controls={`mobile-nav-dropdown-${index}`}
 								aria-label={`${item.label}: ${ui.submenuOpen}`}
 							>
 								<span aria-hidden="true">{item.label}</span>
@@ -198,7 +198,7 @@ const dropdownLinkClass =
 								</svg>
 							</button>
 							<ul
-								id={`mobile-nav-dropdown-${item.href.slice(1)}`}
+								id={`mobile-nav-dropdown-${index}`}
 								class="mb-2 ml-3 flex flex-col gap-1 border-l border-woodsmoke-800 pl-4"
 								data-nav-dropdown-panel
 								hidden

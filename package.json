@@ -11,6 +11,7 @@
     "build:pages": "ASTRO_SITE=https://tasnadi-dev.github.io ASTRO_BASE=/Luminosafilm astro build",
     "preview": "astro preview",
     "seed:home": "npm run schema:deploy --prefix studio && npm run seed:home --prefix studio",
+    "seed:services": "npm run schema:deploy --prefix studio && npm run seed:services --prefix studio",
     "astro": "astro"
   },
   "dependencies": {

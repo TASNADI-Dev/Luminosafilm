@@ -1,0 +1,48 @@
+---
+interface Props {
+	index: number;
+	title: string;
+	body: string;
+	imageUrl?: string;
+	imageAlt?: string;
+}
+
+const { index, title, body, imageUrl, imageAlt = '' } = Astro.props;
+const numberLabel = String(index + 1).padStart(2, '0');
+---
+
+<li
+	class="grid grid-cols-[1fr_auto] items-start gap-x-6 gap-y-4 py-8 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)_auto] lg:items-center lg:gap-x-16 lg:py-10"
+>
+	<div class="flex items-start gap-2">
+		<span
+			class="mt-0.5 shrink-0 font-sans text-[0.75rem] leading-none text-woodsmoke-400"
+			aria-hidden="true"
+		>
+			{numberLabel}
+		</span>
+		<h3 class="font-heading text-[1.25rem] leading-snug tracking-tight lg:text-[1.5rem]">{title}</h3>
+	</div>
+	<p
+		class="col-span-2 max-w-xl text-[0.9375rem] leading-relaxed text-woodsmoke-300 lg:col-span-1 lg:col-start-2 lg:row-start-1"
+	>
+		{body}
+	</p>
+	<div class="col-start-2 row-start-1 lg:col-start-3">
+		{
+			imageUrl ? (
+				<img
+					src={imageUrl}
+					alt={imageAlt}
+					width="96"
+					height="96"
+					class="size-[6rem] object-cover"
+					loading="lazy"
+					decoding="async"
+				/>
+			) : (
+				<div class="size-[6rem] bg-woodsmoke-800" aria-hidden="true" />
+			)
+		}
+	</div>
+</li>

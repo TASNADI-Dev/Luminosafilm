@@ -2,27 +2,24 @@
 interface Props {
 	href?: string;
 	type?: 'button' | 'submit';
-	variant?: 'primary';
 	class?: string;
 }
 
-const { href, type = 'button', variant = 'primary', class: className } = Astro.props;
-
-const variants = {
-	primary: {
-		wrapper:
-			'inline-flex rounded-full bg-gradient-to-br from-bunting-950 to-bunting-500 p-px transition-[filter] duration-200 hover:brightness-110',
-		inner:
-			'inline-flex items-center justify-center rounded-full bg-gradient-to-b from-bunting-700 to-bunting-950 px-[1.5rem] py-[0.75rem] font-sans text-[0.9375rem] font-medium text-woodsmoke-50',
-	},
-} as const;
-
-const styles = variants[variant];
+const { href, type = 'button', class: className } = Astro.props;
 const Tag = href ? 'a' : 'button';
 ---
 
-<span class:list={[styles.wrapper, className]}>
-	<Tag href={href} type={href ? undefined : type} class={styles.inner}>
+<span
+	class:list={[
+		'inline-flex rounded-full bg-gradient-to-br from-bunting-950 to-bunting-500 p-px transition-[filter] duration-200 hover:brightness-110',
+		className,
+	]}
+>
+	<Tag
+		href={href}
+		type={href ? undefined : type}
+		class="inline-flex items-center justify-center rounded-full bg-gradient-to-b from-bunting-700 to-bunting-950 px-[1.5rem] py-[0.75rem] font-sans text-[0.9375rem] font-medium text-woodsmoke-50"
+	>
 		<slot />
 	</Tag>
 </span>
