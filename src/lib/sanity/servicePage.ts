@@ -17,11 +17,25 @@ export interface ServiceHero {
 	images: ServiceHeroImage[]
 }
 
+export interface ServiceFeatureRow {
+	_key: string
+	title: string
+	body: string
+	imageUrl?: string
+	imageAlt?: string
+}
+
+export interface ServiceFeatureRows {
+	heading: string
+	rows: ServiceFeatureRow[]
+}
+
 export interface ServicePageContent {
 	serviceId: ServiceId
 	title: string
 	slug: string
 	hero: ServiceHero
+	featureRows?: ServiceFeatureRows
 }
 
 interface ServiceHeroImageQuery {
@@ -35,10 +49,21 @@ interface ServiceHeroImageQuery {
 	}
 }
 
+interface ServiceFeatureRowQuery {
+	_key?: string
+	title?: string
+	body?: string
+	image?: ServiceHeroImageQuery
+}
+
 interface ServicePageQueryResult {
 	heading?: string
 	paragraph?: string
 	images?: ServiceHeroImageQuery[]
+	featureRows?: {
+		heading?: string
+		rows?: ServiceFeatureRowQuery[]
+	}
 }
 
 const defaultHeroParagraphByLocale: Record<Locale, string> = {
@@ -59,7 +84,11 @@ function buildDefaultHero(locale: Locale, title: string): ServiceHero {
 	}
 }
 
-function resolveHeroImageUrl(image: ServiceHeroImageQuery): string | undefined {
+function resolveImageUrl(
+	image: ServiceHeroImageQuery,
+	width: number,
+	height: number,
+): string | undefined {
 	if (!image.asset?._id) {
 		return undefined
 	}
@@ -69,8 +98,8 @@ function resolveHeroImageUrl(image: ServiceHeroImageQuery): string | undefined {
 		hotspot: image.hotspot,
 		crop: image.crop,
 	} as SanityImageSource)
-		.width(468)
-		.height(342)
+		.width(width)
+		.height(height)
 		.fit('crop')
 		.auto('format')
 		.url()
@@ -87,7 +116,7 @@ function normalizeHero(
 
 	const images = (result.images ?? [])
 		.map((image, index) => {
-			const url = resolveHeroImageUrl(image)
+			const url = resolveImageUrl(image, 468, 342)
 			if (!url) {
 				return null
 			}
@@ -107,7 +136,48 @@ function normalizeHero(
 	}
 }
 
-function buildPage(locale: Locale, serviceId: ServiceId, hero: ServiceHero): ServicePageContent {
+function normalizeFeatureRows(
+	result: ServicePageQueryResult | null,
+): ServiceFeatureRows | undefined {
+	const section = result?.featureRows
+	if (!section?.heading || !section.rows?.length) {
+		return undefined
+	}
+
+	const rows = section.rows
+		.map((row, index) => {
+			if (!row.title || !row.body) {
+				return null
+			}
+
+			const imageUrl = row.image ? resolveImageUrl(row.image, 468, 342) : undefined
+
+			return {
+				_key: row._key || `row-${index + 1}`,
+				title: row.title,
+				body: row.body,
+				imageUrl,
+				imageAlt: row.image?.alt,
+			}
+		})
+		.filter((row): row is ServiceFeatureRow => row !== null)
+
+	if (rows.length === 0) {
+		return undefined
+	}
+
+	return {
+		heading: section.heading,
+		rows,
+	}
+}
+
+function buildPage(
+	locale: Locale,
+	serviceId: ServiceId,
+	hero: ServiceHero,
+	featureRows?: ServiceFeatureRows,
+): ServicePageContent {
 	const service = services.find((entry) => entry.id === serviceId)!
 
 	return {
@@ -115,6 +185,7 @@ function buildPage(locale: Locale, serviceId: ServiceId, hero: ServiceHero): Ser
 		title: service.labels[locale],
 		slug: service.slugs[locale],
 		hero,
+		featureRows,
 	}
 }
 
@@ -142,7 +213,12 @@ export async function getServicePageBySlug(
 			},
 		)
 
-		return buildPage(locale, catalogEntry.id, normalizeHero(result, locale, title))
+		return buildPage(
+			locale,
+			catalogEntry.id,
+			normalizeHero(result, locale, title),
+			normalizeFeatureRows(result),
+		)
 	} catch {
 		return buildPage(locale, catalogEntry.id, buildDefaultHero(locale, title))
 	}

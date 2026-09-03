@@ -71,5 +71,28 @@ export const SERVICE_PAGE_BY_ID_QUERY = `coalesce(
         }
       }
     }
+  },
+  featureRows{
+    "heading": heading[$locale],
+    rows[]{
+      _key,
+      "title": title[$locale],
+      "body": body[$locale],
+      image{
+        hotspot,
+        crop,
+        "alt": alt[$locale],
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height
+            }
+          }
+        }
+      }
+    }
   }
 }`

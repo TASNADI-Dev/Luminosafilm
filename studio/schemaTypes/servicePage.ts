@@ -43,6 +43,11 @@ export const servicePage = defineType({
       validation: (rule) =>
         rule.min(1).warning('Add at least one image for the scrolling strip.'),
     }),
+    defineField({
+      name: 'featureRows',
+      title: 'Feature Rows',
+      type: 'featureRowsSection',
+    }),
   ],
   preview: {
     select: {headingHu: 'heading.hu'},
