@@ -53,20 +53,44 @@ export function switchLocalePath(pathname: string, target: Locale): string {
 	return withBase(withoutEn === '/' ? '/' : `${withoutEn}${sitePath.endsWith('/') ? '/' : ''}`);
 }
 
-export interface NavItem {
+export interface NavLink {
 	href: string;
 	label: string;
 }
 
+export interface NavItem extends NavLink {
+	children?: NavLink[];
+}
+
+const servicesChildrenHu: NavLink[] = [
+	{ href: '#dokumentumfilmek', label: 'Dokumentumfilmek' },
+	{ href: '#oral-history', label: 'Oral history' },
+	{ href: '#promocios-filmek', label: 'Promóciós filmek' },
+	{ href: '#civil-szervezetek-bemutatasa', label: 'Civil szervezetek bemutatása' },
+	{ href: '#oktatas', label: 'Oktatás' },
+	{ href: '#palyazatiras-es-megvalositas', label: 'Pályázatírás és megvalósítás' },
+	{ href: '#eszkozberles', label: 'Eszközbérlés' },
+];
+
+const servicesChildrenEn: NavLink[] = [
+	{ href: '#documentaries', label: 'Documentaries' },
+	{ href: '#oral-history', label: 'Oral history' },
+	{ href: '#promotional-films', label: 'Promotional films' },
+	{ href: '#ngo-presentations', label: 'NGO presentations' },
+	{ href: '#education', label: 'Education' },
+	{ href: '#grant-writing-and-implementation', label: 'Grant writing and implementation' },
+	{ href: '#equipment-rental', label: 'Equipment rental' },
+];
+
 export const navItems: Record<Locale, NavItem[]> = {
 	hu: [
-		{ href: '#szolgaltatasok', label: 'Szolgáltatások' },
+		{ href: '#szolgaltatasok', label: 'Szolgáltatások', children: servicesChildrenHu },
 		{ href: '#referenciak', label: 'Referenciák' },
 		{ href: '#rolunk', label: 'Rólunk' },
 		{ href: '#kapcsolat', label: 'Kapcsolat' },
 	],
 	en: [
-		{ href: '#services', label: 'Services' },
+		{ href: '#services', label: 'Services', children: servicesChildrenEn },
 		{ href: '#references', label: 'References' },
 		{ href: '#about', label: 'About' },
 		{ href: '#contact', label: 'Contact' },
@@ -79,15 +103,25 @@ export const heroButtonHref: Record<Locale, string> = {
 	en: '#contact',
 };
 
+/** Hardcoded why-choose-us CTA targets per locale (not Sanity-editable). */
+export const whyChooseUsButtonHref: Record<Locale, { primary: string; secondary: string }> = {
+	hu: { primary: '#kapcsolat', secondary: '#referenciak' },
+	en: { primary: '#contact', secondary: '#references' },
+};
+
 export const navUi = {
 	hu: {
 		homeAria: 'Luminosa Film kezdőlap',
 		menuOpen: 'Menü megnyitása',
 		menuClose: 'Menü bezárása',
+		submenuOpen: 'Almenü megnyitása',
+		submenuClose: 'Almenü bezárása',
 	},
 	en: {
 		homeAria: 'Luminosa Film home',
 		menuOpen: 'Open menu',
 		menuClose: 'Close menu',
+		submenuOpen: 'Open submenu',
+		submenuClose: 'Close submenu',
 	},
 } as const satisfies Record<Locale, Record<string, string>>;

@@ -20,6 +20,11 @@ const huHref = switchLocalePath(pathname, 'hu');
 const enHref = switchLocalePath(pathname, 'en');
 const navLabel = locale === 'hu' ? 'Főnavigáció' : 'Main navigation';
 const langLabel = locale === 'hu' ? 'Nyelvválasztó' : 'Language switcher';
+
+const linkClass =
+	'cursor-pointer font-sans text-[0.9375rem] font-medium tracking-wide text-woodsmoke-50 transition-colors hover:text-azure-300';
+const dropdownLinkClass =
+	'block cursor-pointer px-4 py-2.5 font-sans text-[0.875rem] font-medium tracking-wide text-woodsmoke-50 transition-colors hover:bg-woodsmoke-900 hover:text-azure-300';
 ---
 
 <header class="sticky top-0 z-50 bg-woodsmoke text-woodsmoke-50" data-navigation>
@@ -40,16 +45,53 @@ const langLabel = locale === 'hu' ? 'Nyelvválasztó' : 'Language switcher';
 		<div class="flex items-center gap-6 lg:gap-10">
 			<ul class="hidden items-center gap-8 lg:flex">
 				{
-					items.map((item) => (
-						<li>
-							<a
-								href={item.href}
-								class="font-sans text-[0.9375rem] font-medium tracking-wide text-woodsmoke-50 transition-colors hover:text-azure-300"
-							>
-								{item.label}
-							</a>
-						</li>
-					))
+					items.map((item) =>
+						item.children?.length ? (
+							<li class="relative" data-nav-dropdown>
+								<button
+									type="button"
+									class:list={[linkClass, 'inline-flex items-center gap-1.5']}
+									data-nav-dropdown-toggle
+									aria-expanded="false"
+									aria-haspopup="true"
+									aria-controls={`nav-dropdown-${item.href.slice(1)}`}
+								>
+									{item.label}
+									<svg
+										class="h-3.5 w-3.5 transition-transform duration-200"
+										data-nav-dropdown-chevron
+										viewBox="0 0 16 16"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="1.5"
+										aria-hidden="true"
+									>
+										<path stroke-linecap="round" stroke-linejoin="round" d="M4 6l4 4 4-4" />
+									</svg>
+								</button>
+								<ul
+									id={`nav-dropdown-${item.href.slice(1)}`}
+									class="absolute left-0 top-full z-50 mt-3 min-w-[16rem] border border-woodsmoke-800 bg-woodsmoke py-2 shadow-lg"
+									data-nav-dropdown-panel
+									hidden
+								>
+									{item.children.map((child) => (
+										<li>
+											<a href={child.href} class={dropdownLinkClass}>
+												{child.label}
+											</a>
+										</li>
+									))}
+								</ul>
+							</li>
+						) : (
+							<li>
+								<a href={item.href} class={linkClass}>
+									{item.label}
+								</a>
+							</li>
+						),
+					)
 				}
 			</ul>
 
@@ -84,7 +126,7 @@ const langLabel = locale === 'hu' ? 'Nyelvválasztó' : 'Language switcher';
 
 			<button
 				type="button"
-				class="inline-flex h-10 w-10 items-center justify-center lg:hidden"
+				class="inline-flex h-10 w-10 cursor-pointer items-center justify-center lg:hidden"
 				data-nav-toggle
 				data-label-open={ui.menuOpen}
 				data-label-close={ui.menuClose}
@@ -120,22 +162,67 @@ const langLabel = locale === 'hu' ? 'Nyelvválasztó' : 'Language switcher';
 
 	<div
 		id="mobile-nav-panel"
-		class="border-t border-woodsmoke-800 bg-woodsmoke px-6 pb-6 pt-4 lg:hidden"
+		class="absolute inset-x-0 top-full border-t border-woodsmoke-800 bg-woodsmoke px-6 pb-6 pt-4 lg:hidden"
 		data-nav-panel
 		hidden
 	>
-		<ul class="flex flex-col gap-4">
+		<ul class="flex flex-col gap-1">
 			{
-				items.map((item) => (
-					<li>
-						<a
-							href={item.href}
-							class="block font-sans text-[0.9375rem] font-medium text-woodsmoke-50 transition-colors hover:text-azure-300"
-						>
-							{item.label}
-						</a>
-					</li>
-				))
+				items.map((item) =>
+					item.children?.length ? (
+						<li data-nav-dropdown>
+							<button
+								type="button"
+								class:list={[
+									linkClass,
+									'flex w-full items-center justify-between gap-3 py-2 text-left',
+								]}
+								data-nav-dropdown-toggle
+								data-label-open={ui.submenuOpen}
+								data-label-close={ui.submenuClose}
+								aria-expanded="false"
+								aria-controls={`mobile-nav-dropdown-${item.href.slice(1)}`}
+								aria-label={`${item.label}: ${ui.submenuOpen}`}
+							>
+								<span aria-hidden="true">{item.label}</span>
+								<svg
+									class="h-3.5 w-3.5 shrink-0 transition-transform duration-200"
+									data-nav-dropdown-chevron
+									viewBox="0 0 16 16"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.5"
+									aria-hidden="true"
+								>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M4 6l4 4 4-4" />
+								</svg>
+							</button>
+							<ul
+								id={`mobile-nav-dropdown-${item.href.slice(1)}`}
+								class="mb-2 ml-3 flex flex-col gap-1 border-l border-woodsmoke-800 pl-4"
+								data-nav-dropdown-panel
+								hidden
+							>
+								{item.children.map((child) => (
+									<li>
+										<a
+											href={child.href}
+											class="block cursor-pointer py-2 font-sans text-[0.875rem] font-medium text-woodsmoke-200 transition-colors hover:text-azure-300"
+										>
+											{child.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						</li>
+					) : (
+						<li>
+							<a href={item.href} class:list={[linkClass, 'block py-2']}>
+								{item.label}
+							</a>
+						</li>
+					),
+				)
 			}
 		</ul>
 		<div
