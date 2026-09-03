@@ -61,30 +61,4 @@
 	[data-hero-video-main]::-webkit-media-controls-toggle-closed-captions-button {
 		display: none;
 	}
-
-	[data-related-references] {
-		--plyr-color-main: var(--color-bunting);
-	}
-
-	[data-related-references] .plyr {
-		border-radius: 0;
-		background: #383941;
-		overflow: hidden;
-	}
-
-	[data-related-references] .plyr--video {
-		background: #383941;
-	}
-
-	[data-related-references] .plyr__control--overlaid {
-		background: var(--color-bunting);
-	}
-
-	[data-related-references] .plyr--video .plyr__control.plyr__tab-focus,
-	[data-related-references] .plyr--video .plyr__control:hover,
-	[data-related-references] .plyr--video .plyr__control[aria-expanded='true'],
-	[data-related-references] .plyr__control--overlaid:focus,
-	[data-related-references] .plyr__control--overlaid:hover {
-		background: var(--color-bunting-800);
-	}
 }

@@ -2,11 +2,24 @@
 interface Props {
 	href?: string;
 	type?: 'button' | 'submit';
+	variant?: 'primary' | 'secondary';
+	target?: '_blank' | '_self';
 	class?: string;
 }
 
-const { href, type = 'button', class: className } = Astro.props;
+const {
+	href,
+	type = 'button',
+	variant = 'primary',
+	target,
+	class: className,
+} = Astro.props;
 const Tag = href ? 'a' : 'button';
+
+const innerVariants = {
+	primary: 'bg-gradient-to-b from-bunting-700 to-bunting-950',
+	secondary: 'bg-woodsmoke-950',
+} as const;
 ---
 
 <span
@@ -18,7 +31,12 @@ const Tag = href ? 'a' : 'button';
 	<Tag
 		href={href}
 		type={href ? undefined : type}
-		class="inline-flex items-center justify-center rounded-full bg-gradient-to-b from-bunting-700 to-bunting-950 px-[1.5rem] py-[0.75rem] font-sans text-[0.9375rem] font-medium text-woodsmoke-50"
+		target={href ? target : undefined}
+		rel={href && target === '_blank' ? 'noopener noreferrer' : undefined}
+		class:list={[
+			'inline-flex items-center justify-center rounded-full px-[1.5rem] py-[0.75rem] font-sans text-[0.9375rem] font-medium text-woodsmoke-50',
+			innerVariants[variant],
+		]}
 	>
 		<slot />
 	</Tag>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Button from '../../components/Button.astro';
+import GlobalCtaSection from '../../components/GlobalCtaSection.astro';
+import { globalCtaSectionButtonHref, referencesMoreButton } from '../../lib/i18n';
+import { getGlobalCtaSection } from '../../lib/sanity/globalCtaSection';
+import { getReferencesPage } from '../../lib/sanity/referencesPage';
+
+const { hero, references } = await getReferencesPage('en');
+const cta = await getGlobalCtaSection('en');
+const moreButton = referencesMoreButton.en;
+const ctaButtonHref = globalCtaSectionButtonHref.en;
+---
+
+<BaseLayout locale="en" title={`${hero.heading} | Luminosa Film`}>
+	<section class="relative overflow-hidden pt-6 lg:pt-[10rem]">
+		<div class="mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:px-10">
+			<h1 class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
+				{hero.heading}
+			</h1>
+			<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+				{hero.paragraph}
+			</p>
+		</div>
+	</section>
+
+	{
+		references && (
+			<section class="py-16 lg:py-24">
+				<div class="mx-auto flex max-w-container flex-col gap-8 px-6 lg:gap-10 lg:px-10">
+					<ul class="grid list-none grid-cols-1 gap-8 p-0 lg:grid-cols-3 lg:gap-8">
+						{references.map((reference) => (
+							<li class="flex min-w-0 flex-col gap-4">
+								<iframe
+									class="aspect-video w-full bg-woodsmoke-900"
+									src={`https://www.youtube-nocookie.com/embed/${reference.youtubeId}`}
+									title={reference.title}
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen
+									loading="lazy"
+									referrerpolicy="strict-origin-when-cross-origin"
+								/>
+								<h3 class="font-heading text-[1.25rem] leading-snug tracking-tight lg:text-[1.5rem]">
+									{reference.title}
+								</h3>
+							</li>
+						))}
+					</ul>
+					<div class="flex justify-center">
+						<Button href={moreButton.href} variant="secondary" target="_blank">
+							{moreButton.label}
+						</Button>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	<GlobalCtaSection
+		heading={cta.heading}
+		paragraph={cta.paragraph}
+		buttonText={cta.buttonText}
+		buttonHref={ctaButtonHref}
+	/>
+</BaseLayout>

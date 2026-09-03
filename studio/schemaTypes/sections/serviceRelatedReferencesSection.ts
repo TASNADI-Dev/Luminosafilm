@@ -42,7 +42,7 @@ export const serviceRelatedReferencesSection = defineType({
           },
         }),
       ],
-      validation: (rule) => rule.min(1).max(6),
+      validation: (rule) => rule.min(1),
     }),
   ],
   preview: {

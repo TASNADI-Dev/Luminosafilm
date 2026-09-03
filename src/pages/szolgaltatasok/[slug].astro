@@ -181,7 +181,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 
 	{
 		relatedReferences && (
-			<section class="py-16 lg:py-24" data-related-references>
+			<section class="py-16 lg:py-24">
 				<div class="mx-auto flex max-w-container flex-col gap-8 px-6 lg:gap-10 lg:px-10">
 					<h2 class="text-left font-heading text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
 						{relatedReferencesHeading}
@@ -196,13 +196,15 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 					>
 						{relatedReferences.map((reference) => (
 							<li class="flex min-w-0 flex-1 flex-col gap-4">
-								<div
-									class="aspect-video w-full overflow-hidden bg-woodsmoke-900"
-									data-plyr-provider="youtube"
-									data-plyr-embed-id={reference.youtubeId}
-									data-plyr-youtube
-								>
-								</div>
+								<iframe
+									class="aspect-video w-full bg-woodsmoke-900"
+									src={`https://www.youtube-nocookie.com/embed/${reference.youtubeId}`}
+									title={reference.title}
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen
+									loading="lazy"
+									referrerpolicy="strict-origin-when-cross-origin"
+								/>
 								<h3 class="font-heading text-[1.25rem] leading-snug tracking-tight lg:text-[1.5rem]">
 									{reference.title}
 								</h3>
@@ -221,13 +223,3 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 		buttonHref={ctaButtonHref}
 	/>
 </BaseLayout>
-
-{
-	relatedReferences && (
-		<script>
-			import { initRelatedReferencePlayers } from '../../scripts/related-reference-players';
-
-			void initRelatedReferencePlayers();
-		</script>
-	)
-}

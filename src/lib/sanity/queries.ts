@@ -129,6 +129,23 @@ export const SERVICE_PAGE_BY_ID_QUERY = `coalesce(
   }
 }`
 
+export const REFERENCES_PAGE_DOCUMENT_ID = 'referencesPage'
+
+export const REFERENCES_PAGE_QUERY = `coalesce(
+  *[_id == $documentId][0],
+  *[_id == "drafts." + $documentId][0]
+){
+  "heading": heading[$locale],
+  "paragraph": paragraph[$locale],
+  references{
+    items[]{
+      _key,
+      "title": title[$locale],
+      videoUrl
+    }
+  }
+}`
+
 export const GLOBAL_CTA_SECTION_DOCUMENT_ID = 'globalCtaSection'
 
 export const GLOBAL_CTA_SECTION_QUERY = `coalesce(

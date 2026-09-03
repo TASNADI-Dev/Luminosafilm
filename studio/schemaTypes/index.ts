@@ -2,6 +2,7 @@ import {homePage} from './homePage'
 import {localizedString, localizedText} from './localized'
 import {servicePage} from './servicePage'
 import {globalCtaSection} from './globalCtaSection'
+import {referencesPage} from './referencesPage'
 import {homePageSectionTypes, servicePageSectionTypes} from './sections'
 
 export const schemaTypes = [
@@ -12,4 +13,5 @@ export const schemaTypes = [
   homePage,
   servicePage,
   globalCtaSection,
+  referencesPage,
 ]

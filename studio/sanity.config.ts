@@ -4,7 +4,12 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {structure} from './structure'
 
-const singletonTypes = new Set(['homePage', 'servicePage', 'globalCtaSection'])
+const singletonTypes = new Set([
+  'homePage',
+  'servicePage',
+  'referencesPage',
+  'globalCtaSection',
+])
 
 export default defineConfig({
   name: 'default',

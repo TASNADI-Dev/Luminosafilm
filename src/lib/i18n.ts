@@ -159,13 +159,13 @@ const servicesChildrenEn: NavLink[] = services.map((service) => ({
 export const navItems: Record<Locale, NavItem[]> = {
 	hu: [
 		{ href: withBase('/#szolgaltatasok'), label: 'Szolgáltatások', children: servicesChildrenHu },
-		{ href: withBase('/#referenciak'), label: 'Referenciák' },
+		{ href: withBase('/referenciak'), label: 'Referenciák' },
 		{ href: withBase('/#rolunk'), label: 'Rólunk' },
 		{ href: withBase('/#kapcsolat'), label: 'Kapcsolat' },
 	],
 	en: [
 		{ href: withBase('/en/#services'), label: 'Services', children: servicesChildrenEn },
-		{ href: withBase('/en/#references'), label: 'References' },
+		{ href: withBase('/en/references'), label: 'References' },
 		{ href: withBase('/en/#about'), label: 'About' },
 		{ href: withBase('/en/#contact'), label: 'Contact' },
 	],
@@ -199,6 +199,12 @@ export const globalCtaSectionButtonHref: Record<Locale, string> = {
 export const serviceRelatedReferencesHeading: Record<Locale, string> = {
 	hu: 'Kapcsolódó referenciák',
 	en: 'Related references',
+};
+
+/** Hardcoded references-page “more” CTA label (href is code-owned). */
+export const referencesMoreButton: Record<Locale, { href: string; label: string }> = {
+	hu: { href: 'https://www.youtube.com/@luminosafilm5112', label: 'További referenciák' },
+	en: { href: 'https://www.youtube.com/@luminosafilm5112', label: 'More references' },
 };
 
 export const navUi = {
