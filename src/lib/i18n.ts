@@ -160,13 +160,13 @@ export const navItems: Record<Locale, NavItem[]> = {
 	hu: [
 		{ href: withBase('/#szolgaltatasok'), label: 'Szolgáltatások', children: servicesChildrenHu },
 		{ href: withBase('/referenciak'), label: 'Referenciák' },
-		{ href: withBase('/#rolunk'), label: 'Rólunk' },
+		{ href: withBase('/rolunk'), label: 'Rólunk' },
 		{ href: withBase('/#kapcsolat'), label: 'Kapcsolat' },
 	],
 	en: [
 		{ href: withBase('/en/#services'), label: 'Services', children: servicesChildrenEn },
 		{ href: withBase('/en/references'), label: 'References' },
-		{ href: withBase('/en/#about'), label: 'About' },
+		{ href: withBase('/en/about'), label: 'About' },
 		{ href: withBase('/en/#contact'), label: 'Contact' },
 	],
 };

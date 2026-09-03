@@ -2,6 +2,7 @@ import {HomeIcon} from '@sanity/icons/Home'
 import {DocumentsIcon} from '@sanity/icons/Documents'
 import {DocumentIcon} from '@sanity/icons/Document'
 import {ImagesIcon} from '@sanity/icons/Images'
+import {UsersIcon} from '@sanity/icons/Users'
 import {SparklesIcon} from '@sanity/icons/Sparkles'
 import type {StructureResolver} from 'sanity/structure'
 
@@ -57,6 +58,12 @@ export const structure: StructureResolver = (S) =>
             .title('References Page'),
         ),
       S.listItem()
+        .title('About Page')
+        .icon(UsersIcon)
+        .child(
+          S.document().schemaType('aboutPage').documentId('aboutPage').title('About Page'),
+        ),
+      S.listItem()
         .title('Global CTA Section')
         .icon(SparklesIcon)
         .child(
@@ -71,6 +78,7 @@ export const structure: StructureResolver = (S) =>
           item.getId() !== 'homePage' &&
           item.getId() !== 'servicePage' &&
           item.getId() !== 'referencesPage' &&
+          item.getId() !== 'aboutPage' &&
           item.getId() !== 'globalCtaSection',
       ),
     ])

@@ -168,6 +168,31 @@ export const REFERENCES_PAGE_QUERY = `coalesce(
   }
 }`
 
+export const ABOUT_PAGE_DOCUMENT_ID = 'aboutPage'
+
+export const ABOUT_PAGE_QUERY = `coalesce(
+  *[_id == $documentId][0],
+  *[_id == "drafts." + $documentId][0]
+){
+  "heading": heading[$locale],
+  "paragraph": paragraph[$locale],
+  image{
+    hotspot,
+    crop,
+    "alt": alt[$locale],
+    asset->{
+      _id,
+      url,
+      metadata {
+        dimensions {
+          width,
+          height
+        }
+      }
+    }
+  }
+}`
+
 export const GLOBAL_CTA_SECTION_DOCUMENT_ID = 'globalCtaSection'
 
 export const GLOBAL_CTA_SECTION_QUERY = `coalesce(
