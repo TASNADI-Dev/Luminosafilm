@@ -53,6 +53,11 @@ export const servicePage = defineType({
       title: 'Why Choose Us',
       type: 'serviceWhyChooseUsSection',
     }),
+    defineField({
+      name: 'relatedReferences',
+      title: 'Related References',
+      type: 'serviceRelatedReferencesSection',
+    }),
   ],
   preview: {
     select: {headingHu: 'heading.hu'},

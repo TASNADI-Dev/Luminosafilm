@@ -45,6 +45,13 @@ export interface ServiceWhyChooseUs {
 	rows: ServiceWhyChooseUsRow[]
 }
 
+export interface ServiceRelatedReference {
+	_key: string
+	title: string
+	videoUrl: string
+	youtubeId: string
+}
+
 export interface ServicePageContent {
 	serviceId: ServiceId
 	title: string
@@ -52,6 +59,7 @@ export interface ServicePageContent {
 	hero: ServiceHero
 	featureRows?: ServiceFeatureRows
 	whyChooseUs?: ServiceWhyChooseUs
+	relatedReferences?: ServiceRelatedReference[]
 }
 
 interface ServiceHeroImageQuery {
@@ -78,6 +86,12 @@ interface ServiceWhyChooseUsRowQuery {
 	body?: string
 }
 
+interface ServiceRelatedReferenceQuery {
+	_key?: string
+	title?: string
+	videoUrl?: string
+}
+
 interface ServicePageQueryResult {
 	heading?: string
 	paragraph?: string
@@ -92,6 +106,9 @@ interface ServicePageQueryResult {
 		buttonText?: string
 		image?: ServiceHeroImageQuery
 		rows?: ServiceWhyChooseUsRowQuery[]
+	}
+	relatedReferences?: {
+		items?: ServiceRelatedReferenceQuery[]
 	}
 }
 
@@ -244,12 +261,76 @@ function normalizeWhyChooseUs(
 	}
 }
 
+/** Extracts a YouTube video ID from common watch, short, embed, and youtu.be URLs. */
+function extractYoutubeId(url: string): string | undefined {
+	try {
+		const parsed = new URL(url)
+		const host = parsed.hostname.replace(/^www\./, '')
+
+		if (host === 'youtu.be') {
+			const id = parsed.pathname.split('/').filter(Boolean)[0]
+			return id || undefined
+		}
+
+		if (host === 'youtube.com' || host === 'm.youtube.com' || host === 'youtube-nocookie.com') {
+			const watchId = parsed.searchParams.get('v')
+			if (watchId) {
+				return watchId
+			}
+
+			const parts = parsed.pathname.split('/').filter(Boolean)
+			if (
+				(parts[0] === 'embed' || parts[0] === 'shorts' || parts[0] === 'live') &&
+				parts[1]
+			) {
+				return parts[1]
+			}
+		}
+	} catch {
+		return undefined
+	}
+
+	return undefined
+}
+
+function normalizeRelatedReferences(
+	result: ServicePageQueryResult | null,
+): ServiceRelatedReference[] | undefined {
+	const items = result?.relatedReferences?.items
+	if (!items?.length) {
+		return undefined
+	}
+
+	const normalized = items
+		.map((item, index) => {
+			if (!item.title || !item.videoUrl) {
+				return null
+			}
+
+			const youtubeId = extractYoutubeId(item.videoUrl)
+			if (!youtubeId) {
+				return null
+			}
+
+			return {
+				_key: item._key || `reference-${index + 1}`,
+				title: item.title,
+				videoUrl: item.videoUrl,
+				youtubeId,
+			}
+		})
+		.filter((item): item is ServiceRelatedReference => item !== null)
+
+	return normalized.length > 0 ? normalized : undefined
+}
+
 function buildPage(
 	locale: Locale,
 	serviceId: ServiceId,
 	hero: ServiceHero,
 	featureRows?: ServiceFeatureRows,
 	whyChooseUs?: ServiceWhyChooseUs,
+	relatedReferences?: ServiceRelatedReference[],
 ): ServicePageContent {
 	const service = services.find((entry) => entry.id === serviceId)!
 
@@ -260,6 +341,7 @@ function buildPage(
 		hero,
 		featureRows,
 		whyChooseUs,
+		relatedReferences,
 	}
 }
 
@@ -293,6 +375,7 @@ export async function getServicePageBySlug(
 			normalizeHero(result, locale, title),
 			normalizeFeatureRows(result),
 			normalizeWhyChooseUs(result),
+			normalizeRelatedReferences(result),
 		)
 	} catch {
 		return buildPage(locale, catalogEntry.id, buildDefaultHero(locale, title))

@@ -119,5 +119,12 @@ export const SERVICE_PAGE_BY_ID_QUERY = `coalesce(
       "title": title[$locale],
       "body": body[$locale]
     }
+  },
+  relatedReferences{
+    items[]{
+      _key,
+      "title": title[$locale],
+      videoUrl
+    }
   }
 }`

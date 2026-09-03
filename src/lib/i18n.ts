@@ -189,6 +189,12 @@ export const serviceWhyChooseUsButtonHref: Record<Locale, string> = {
 	en: '#contact',
 };
 
+/** Hardcoded service-page related references section heading (items are Sanity-editable). */
+export const serviceRelatedReferencesHeading: Record<Locale, string> = {
+	hu: 'Kapcsolódó referenciák',
+	en: 'Related references',
+};
+
 export const navUi = {
 	hu: {
 		homeAria: 'Luminosa Film kezdőlap',
