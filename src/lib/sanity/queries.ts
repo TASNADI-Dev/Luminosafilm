@@ -177,6 +177,10 @@ export const ABOUT_PAGE_QUERY = `coalesce(
   "heading": heading[$locale],
   "paragraph": paragraph[$locale],
   "closingParagraph": closingParagraph[$locale],
+  experienceStats[]{
+    value,
+    "label": label[$locale]
+  },
   image{
     hotspot,
     crop,

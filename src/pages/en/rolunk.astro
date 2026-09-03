@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExperienceStatsSection from '../../components/ExperienceStatsSection.astro';
 import { getAboutPage } from '../../lib/sanity/aboutPage';
 
-const { hero, image, closingParagraph } = await getAboutPage('en');
+const { hero, image, closingParagraph, experienceStats } = await getAboutPage('en');
 ---
 
 <BaseLayout locale="en" title={`${hero.heading} | Luminosa Film`}>
@@ -45,4 +46,6 @@ const { hero, image, closingParagraph } = await getAboutPage('en');
 			</section>
 		)
 	}
+
+	{experienceStats && <ExperienceStatsSection items={experienceStats} />}
 </BaseLayout>

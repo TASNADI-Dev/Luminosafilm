@@ -15,10 +15,16 @@ export interface AboutPageImage {
 	alt?: string
 }
 
+export interface ExperienceStat {
+	value: string
+	label: string
+}
+
 export interface AboutPageContent {
 	hero: AboutPageHero
 	image?: AboutPageImage
 	closingParagraph?: string
+	experienceStats?: ExperienceStat[]
 }
 
 interface AboutPageImageQuery {
@@ -35,6 +41,10 @@ interface AboutPageQueryResult {
 	heading?: string
 	paragraph?: string
 	closingParagraph?: string
+	experienceStats?: Array<{
+		value?: string
+		label?: string
+	}>
 	image?: AboutPageImageQuery
 }
 
@@ -68,6 +78,21 @@ function resolveImageUrl(image: AboutPageImageQuery): string | undefined {
 		.url()
 }
 
+function normalizeExperienceStats(
+	stats: AboutPageQueryResult['experienceStats'],
+): ExperienceStat[] | undefined {
+	if (!stats?.length) {
+		return undefined
+	}
+
+	const items = stats.filter(
+		(item): item is ExperienceStat =>
+			Boolean(item?.value?.trim()) && Boolean(item?.label?.trim()),
+	)
+
+	return items.length > 0 ? items : undefined
+}
+
 function normalizeImage(image: AboutPageImageQuery | undefined): AboutPageImage | undefined {
 	if (!image) {
 		return undefined
@@ -95,11 +120,14 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageContent> {
 			locale,
 		})
 
+		const experienceStats = normalizeExperienceStats(result?.experienceStats)
+
 		if (!result?.heading || !result.paragraph) {
 			return {
 				...fallback,
 				image: normalizeImage(result?.image),
 				closingParagraph: result?.closingParagraph,
+				experienceStats,
 			}
 		}
 
@@ -110,6 +138,7 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageContent> {
 			},
 			image: normalizeImage(result.image),
 			closingParagraph: result.closingParagraph,
+			experienceStats,
 		}
 	} catch {
 		return fallback

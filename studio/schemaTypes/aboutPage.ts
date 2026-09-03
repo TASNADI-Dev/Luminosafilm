@@ -1,6 +1,6 @@
 // About page singleton: localized hero copy + shared hero image.
 import {UsersIcon} from '@sanity/icons/Users'
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const aboutPage = defineType({
   name: 'aboutPage',
@@ -42,6 +42,43 @@ export const aboutPage = defineType({
       title: 'Closing paragraph',
       type: 'localizedText',
       description: 'Centered paragraph shown below the hero image.',
+    }),
+    defineField({
+      name: 'experienceStats',
+      title: 'Experience stats',
+      description:
+        'Three statistics showcasing company experience (e.g. years of experience, projects completed).',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'experienceStat',
+          fields: [
+            defineField({
+              name: 'value',
+              title: 'Number',
+              type: 'string',
+              description: 'Large stat value (e.g. "10", "500+").',
+            }),
+            defineField({
+              name: 'label',
+              title: 'Label',
+              type: 'localizedString',
+              description: 'Short description shown below the number.',
+            }),
+          ],
+          preview: {
+            select: {value: 'value', labelHu: 'label.hu'},
+            prepare({value, labelHu}) {
+              return {
+                title: value || 'Stat',
+                subtitle: labelHu,
+              }
+            },
+          },
+        }),
+      ],
+      validation: (rule) => rule.length(3),
     }),
   ],
   preview: {

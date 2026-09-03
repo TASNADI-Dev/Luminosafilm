@@ -166,7 +166,7 @@ export const navItems: Record<Locale, NavItem[]> = {
 	en: [
 		{ href: withBase('/en/#services'), label: 'Services', children: servicesChildrenEn },
 		{ href: withBase('/en/references'), label: 'References' },
-		{ href: withBase('/en/about'), label: 'About' },
+		{ href: withBase('/en/rolunk'), label: 'About' },
 		{ href: withBase('/en/#contact'), label: 'Contact' },
 	],
 };

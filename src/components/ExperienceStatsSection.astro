@@ -1,0 +1,38 @@
+---
+interface ExperienceStat {
+	value: string;
+	label: string;
+}
+
+interface Props {
+	items: ExperienceStat[];
+}
+
+const { items } = Astro.props;
+
+const valueColorClasses = ['text-azure-400', 'text-bunting-400', 'text-azure-300'] as const;
+---
+
+<section class="py-16 lg:py-24">
+	<div class="mx-auto max-w-container px-6 lg:px-10">
+		<ul class="grid list-none grid-cols-1 gap-10 p-0 sm:grid-cols-3 sm:gap-8">
+			{
+				items.map((item, index) => (
+					<li class="flex flex-col items-center gap-2 text-center">
+						<span
+							class:list={[
+								'font-heading text-[4rem] leading-none tracking-tight lg:text-[5rem]',
+								valueColorClasses[index % valueColorClasses.length],
+							]}
+						>
+							{item.value}
+						</span>
+						<p class="max-w-[12rem] text-[0.9375rem] leading-relaxed text-woodsmoke-300">
+							{item.label}
+						</p>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
