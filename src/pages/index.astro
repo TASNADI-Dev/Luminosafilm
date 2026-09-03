@@ -4,9 +4,16 @@ import Button from '../components/Button.astro';
 import ServicesOverviewBlock from '../components/ServicesOverviewBlock.astro';
 import WhyChooseUsItem from '../components/WhyChooseUsItem.astro';
 import { asset } from '../lib/assets';
-import { heroButtonHref, servicesOverviewButtonLabel, whyChooseUsButton } from '../lib/i18n';
+import {
+	heroButtonHref,
+	homeHighlightedReferencesButton,
+	homeReferencesHeading,
+	servicesOverviewButtonLabel,
+	whyChooseUsButton,
+} from '../lib/i18n';
 import {
 	getHomePageHero,
+	getHomePageHighlightedReferences,
 	getHomePageLogos,
 	getHomePageServicesOverview,
 	getHomePageWhyChooseUs,
@@ -17,9 +24,12 @@ const hero = await getHomePageHero('hu');
 const logosSection = await getHomePageLogos('hu');
 const servicesOverview = await getHomePageServicesOverview('hu');
 const whyChooseUs = await getHomePageWhyChooseUs('hu');
+const highlightedReferences = await getHomePageHighlightedReferences('hu');
 const heroVideoSrc = asset('/home/Showreel.mp4');
 const whyChooseUsCta = whyChooseUsButton.hu;
 const servicesOverviewCtaLabel = servicesOverviewButtonLabel.hu;
+const highlightedReferencesHeading = homeReferencesHeading.hu;
+const highlightedReferencesCta = homeHighlightedReferencesButton.hu;
 ---
 
 <BaseLayout locale="hu">
@@ -147,6 +157,48 @@ const servicesOverviewCtaLabel = servicesOverviewButtonLabel.hu;
 			</ul>
 		</div>
 	</section>
+
+	{
+		highlightedReferences && (
+			<section class="py-16 lg:py-24">
+				<div class="mx-auto flex max-w-container flex-col gap-8 px-6 lg:gap-10 lg:px-10">
+					<h2 class="text-left font-heading text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
+						{highlightedReferencesHeading}
+					</h2>
+					<ul
+						class:list={[
+							'flex list-none flex-col gap-8 p-0 lg:gap-8',
+							highlightedReferences.items.length >= 2
+								? 'lg:flex-row'
+								: 'lg:max-w-[calc((100%-2rem)/2)]',
+						]}
+					>
+						{highlightedReferences.items.map((reference) => (
+							<li class="flex min-w-0 flex-1 flex-col gap-4">
+								<iframe
+									class="aspect-video w-full bg-woodsmoke-900"
+									src={`https://www.youtube-nocookie.com/embed/${reference.youtubeId}`}
+									title={reference.title}
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									allowfullscreen
+									loading="lazy"
+									referrerpolicy="strict-origin-when-cross-origin"
+								/>
+								<h3 class="font-heading text-[1.25rem] leading-snug tracking-tight lg:text-[1.5rem]">
+									{reference.title}
+								</h3>
+							</li>
+						))}
+					</ul>
+					<div class="flex justify-center">
+						<Button href={highlightedReferencesCta.href} variant="secondary">
+							{highlightedReferencesCta.label}
+						</Button>
+					</div>
+				</div>
+			</section>
+		)
+	}
 
 	<script>
 		import { initHeroVideoSync } from '../scripts/hero-video-sync';

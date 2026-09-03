@@ -207,6 +207,18 @@ export const serviceRelatedReferencesHeading: Record<Locale, string> = {
 	en: 'Related references',
 };
 
+/** Hardcoded home-page highlighted references section heading (items are Sanity-editable). */
+export const homeReferencesHeading: Record<Locale, string> = {
+	hu: 'Kiemelt referenciák',
+	en: 'Highlighted references',
+};
+
+/** Hardcoded home-page highlighted references “more” CTA (href is code-owned). */
+export const homeHighlightedReferencesButton: Record<Locale, { href: string; label: string }> = {
+	hu: { href: withBase('/referenciak'), label: 'További referenciák' },
+	en: { href: withBase('/en/references'), label: 'More references' },
+};
+
 /** Hardcoded references-page “more” CTA label (href is code-owned). */
 export const referencesMoreButton: Record<Locale, { href: string; label: string }> = {
 	hu: { href: 'https://www.youtube.com/@luminosafilm5112', label: 'További referenciák' },

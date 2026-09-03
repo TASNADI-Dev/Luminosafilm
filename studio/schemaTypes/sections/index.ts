@@ -1,6 +1,7 @@
 import {defineArrayMember} from 'sanity'
 import {featureRowsSection} from './featureRowsSection'
 import {heroSection} from './heroSection'
+import {highlightedReferencesSection} from './highlightedReferencesSection'
 import {logosSection} from './logosSection'
 import {serviceRelatedReferencesSection} from './serviceRelatedReferencesSection'
 import {serviceWhyChooseUsSection} from './serviceWhyChooseUsSection'
@@ -12,6 +13,7 @@ export const homePageSectionTypes = [
   logosSection,
   servicesOverviewSection,
   whyChooseUsSection,
+  highlightedReferencesSection,
 ]
 
 export const homePageSections = homePageSectionTypes.map((section) =>

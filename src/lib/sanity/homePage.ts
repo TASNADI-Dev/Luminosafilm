@@ -5,6 +5,7 @@ import {asset} from '../assets'
 import {type Locale, type ServiceId, isServiceId, services, servicePath} from '../i18n'
 import {urlFor} from './image'
 import {HOME_PAGE_DOCUMENT_ID, HOME_PAGE_QUERY} from './queries'
+import {extractYoutubeId} from './youtube'
 
 const defaultHeroVideoUrl = asset('/home/Showreel.mp4')
 
@@ -68,6 +69,19 @@ export interface ServicesOverviewSection {
   blocks: ServicesOverviewBlock[]
 }
 
+export interface HomeHighlightedReference {
+  _key: string
+  title: string
+  videoUrl: string
+  youtubeId: string
+}
+
+export interface HomeHighlightedReferencesSection {
+  _type: 'highlightedReferencesSection'
+  _key: string
+  items: HomeHighlightedReference[]
+}
+
 interface WhyChooseUsQueryItem {
   _key: string
   title?: string
@@ -112,8 +126,26 @@ interface ServicesOverviewQuerySection {
   blocks?: ServicesOverviewQueryBlock[]
 }
 
+interface HomeHighlightedReferenceQueryItem {
+  _key?: string
+  title?: string
+  videoUrl?: string
+}
+
+interface HomeHighlightedReferencesQuerySection {
+  _type: 'highlightedReferencesSection'
+  _key: string
+  items?: HomeHighlightedReferenceQueryItem[]
+}
+
 interface HomePageQueryResult {
-  sections?: (HeroSection | LogosSection | WhyChooseUsQuerySection | ServicesOverviewQuerySection)[]
+  sections?: (
+    | HeroSection
+    | LogosSection
+    | WhyChooseUsQuerySection
+    | ServicesOverviewQuerySection
+    | HomeHighlightedReferencesQuerySection
+  )[]
 }
 
 const defaultHeroByLocale: Record<Locale, Omit<HeroSection, '_type' | '_key'>> = {
@@ -400,5 +432,63 @@ export async function getHomePageServicesOverview(
     }
   } catch {
     return buildDefaultServicesOverview(locale)
+  }
+}
+
+function normalizeHomeHighlightedReferences(
+  section: HomeHighlightedReferencesQuerySection | undefined,
+): HomeHighlightedReferencesSection | null {
+  if (section?._type !== 'highlightedReferencesSection' || !section.items?.length) {
+    return null
+  }
+
+  const items = section.items
+    .map((item, index) => {
+      if (!item.title || !item.videoUrl) {
+        return null
+      }
+
+      const youtubeId = extractYoutubeId(item.videoUrl)
+      if (!youtubeId) {
+        return null
+      }
+
+      return {
+        _key: item._key || `reference-${index + 1}`,
+        title: item.title,
+        videoUrl: item.videoUrl,
+        youtubeId,
+      }
+    })
+    .filter((item): item is HomeHighlightedReference => item !== null)
+
+  if (!items.length) {
+    return null
+  }
+
+  return {
+    _type: 'highlightedReferencesSection',
+    _key: section._key,
+    items,
+  }
+}
+
+export async function getHomePageHighlightedReferences(
+  locale: Locale,
+): Promise<HomeHighlightedReferencesSection | null> {
+  try {
+    const result = await sanityClient.fetch<HomePageQueryResult | null>(HOME_PAGE_QUERY, {
+      documentId: HOME_PAGE_DOCUMENT_ID,
+      locale,
+    })
+
+    const section = result?.sections?.find(
+      (entry): entry is HomeHighlightedReferencesQuerySection =>
+        entry._type === 'highlightedReferencesSection',
+    )
+
+    return normalizeHomeHighlightedReferences(section)
+  } catch {
+    return null
   }
 }

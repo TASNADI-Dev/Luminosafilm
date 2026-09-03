@@ -17,6 +17,7 @@ export const HOME_PAGE_QUERY = `coalesce(
       _key,
       "title": title[$locale],
       "body": body[$locale],
+      videoUrl,
       image{
         hotspot,
         crop,
