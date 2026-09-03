@@ -94,5 +94,30 @@ export const SERVICE_PAGE_BY_ID_QUERY = `coalesce(
         }
       }
     }
+  },
+  whyChooseUs{
+    "heading": heading[$locale],
+    "paragraph": paragraph[$locale],
+    "buttonText": buttonText[$locale],
+    image{
+      hotspot,
+      crop,
+      "alt": alt[$locale],
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          }
+        }
+      }
+    },
+    rows[]{
+      _key,
+      "title": title[$locale],
+      "body": body[$locale]
+    }
   }
 }`

@@ -48,6 +48,11 @@ export const servicePage = defineType({
       title: 'Feature Rows',
       type: 'featureRowsSection',
     }),
+    defineField({
+      name: 'whyChooseUs',
+      title: 'Why Choose Us',
+      type: 'serviceWhyChooseUsSection',
+    }),
   ],
   preview: {
     select: {headingHu: 'heading.hu'},

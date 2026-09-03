@@ -183,6 +183,12 @@ export const whyChooseUsButton: Record<Locale, { href: string; label: string }> 
 	en: { href: '#contact', label: 'Primary' },
 };
 
+/** Hardcoded service-page why-choose-us CTA href per locale (label is Sanity-editable). */
+export const serviceWhyChooseUsButtonHref: Record<Locale, string> = {
+	hu: '#kapcsolat',
+	en: '#contact',
+};
+
 export const navUi = {
 	hu: {
 		homeAria: 'Luminosa Film kezdőlap',

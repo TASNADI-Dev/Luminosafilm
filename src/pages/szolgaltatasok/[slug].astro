@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { localeHomePath } from '../../lib/i18n';
+import Button from '../../components/Button.astro';
+import { localeHomePath, serviceWhyChooseUsButtonHref } from '../../lib/i18n';
 import { getServicePageBySlug, getServicePageSlugs } from '../../lib/sanity/servicePage';
 
 export async function getStaticPaths() {
@@ -18,8 +19,9 @@ if (!page) {
 	return Astro.redirect(localeHomePath('hu'));
 }
 
-const { hero, featureRows } = page;
+const { hero, featureRows, whyChooseUs } = page;
 const marqueeImages = hero.images.length > 0 ? [...hero.images, ...hero.images] : [];
+const whyChooseUsButtonHref = serviceWhyChooseUsButtonHref.hu;
 ---
 
 <BaseLayout locale="hu" title={`${page.title} | Luminosa Film`}>
@@ -108,6 +110,60 @@ const marqueeImages = hero.images.length > 0 ? [...hero.images, ...hero.images] 
 							</li>
 						))}
 					</ul>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		whyChooseUs && (
+			<section class="py-16 lg:py-24">
+				<div class="mx-auto grid max-w-container grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:items-stretch lg:gap-12 lg:px-10">
+					<div class="lg:col-span-5">
+						{whyChooseUs.imageUrl ? (
+							<img
+								class="aspect-video w-full object-cover lg:aspect-auto lg:h-full"
+								src={whyChooseUs.imageUrl}
+								alt={whyChooseUs.imageAlt || ''}
+								width={480}
+								height={270}
+								loading="lazy"
+								decoding="async"
+							/>
+						) : (
+							<div
+								class="aspect-video w-full bg-woodsmoke-800 lg:aspect-auto lg:h-full"
+								aria-hidden="true"
+							/>
+						)}
+					</div>
+					<div class="flex min-w-0 flex-col gap-6 lg:col-span-7 lg:gap-8">
+						<div class="flex flex-col gap-4">
+							<h2 class="font-heading text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
+								{whyChooseUs.heading}
+							</h2>
+							<p class="text-[1.125rem] leading-relaxed text-woodsmoke-50">
+								{whyChooseUs.paragraph}
+							</p>
+						</div>
+						<div class="rounded-[0.5rem] bg-gradient-to-br from-bunting-400/60 via-bunting-600/40 to-bunting-950 p-px">
+							<ul class="flex list-none flex-col gap-6 rounded-[calc(0.5rem-1px)] bg-bunting-950/90 p-6 lg:gap-8 lg:p-8">
+								{whyChooseUs.rows.map((row) => (
+									<li class="flex flex-col gap-2">
+										<h3 class="font-heading text-[1.25rem] leading-snug tracking-tight lg:text-[1.5rem]">
+											{row.title}
+										</h3>
+										<p class="text-[0.9375rem] leading-relaxed text-woodsmoke-300">
+											{row.body}
+										</p>
+									</li>
+								))}
+							</ul>
+						</div>
+						<div>
+							<Button href={whyChooseUsButtonHref}>{whyChooseUs.buttonText}</Button>
+						</div>
+					</div>
 				</div>
 			</section>
 		)

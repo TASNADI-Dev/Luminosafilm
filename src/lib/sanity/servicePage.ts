@@ -30,12 +30,28 @@ export interface ServiceFeatureRows {
 	rows: ServiceFeatureRow[]
 }
 
+export interface ServiceWhyChooseUsRow {
+	_key: string
+	title: string
+	body: string
+}
+
+export interface ServiceWhyChooseUs {
+	heading: string
+	paragraph: string
+	buttonText: string
+	imageUrl?: string
+	imageAlt?: string
+	rows: ServiceWhyChooseUsRow[]
+}
+
 export interface ServicePageContent {
 	serviceId: ServiceId
 	title: string
 	slug: string
 	hero: ServiceHero
 	featureRows?: ServiceFeatureRows
+	whyChooseUs?: ServiceWhyChooseUs
 }
 
 interface ServiceHeroImageQuery {
@@ -56,6 +72,12 @@ interface ServiceFeatureRowQuery {
 	image?: ServiceHeroImageQuery
 }
 
+interface ServiceWhyChooseUsRowQuery {
+	_key?: string
+	title?: string
+	body?: string
+}
+
 interface ServicePageQueryResult {
 	heading?: string
 	paragraph?: string
@@ -63,6 +85,13 @@ interface ServicePageQueryResult {
 	featureRows?: {
 		heading?: string
 		rows?: ServiceFeatureRowQuery[]
+	}
+	whyChooseUs?: {
+		heading?: string
+		paragraph?: string
+		buttonText?: string
+		image?: ServiceHeroImageQuery
+		rows?: ServiceWhyChooseUsRowQuery[]
 	}
 }
 
@@ -172,11 +201,55 @@ function normalizeFeatureRows(
 	}
 }
 
+function normalizeWhyChooseUs(
+	result: ServicePageQueryResult | null,
+): ServiceWhyChooseUs | undefined {
+	const section = result?.whyChooseUs
+	if (
+		!section?.heading ||
+		!section.paragraph ||
+		!section.buttonText ||
+		!section.rows?.length
+	) {
+		return undefined
+	}
+
+	const rows = section.rows
+		.map((row, index) => {
+			if (!row.title || !row.body) {
+				return null
+			}
+
+			return {
+				_key: row._key || `row-${index + 1}`,
+				title: row.title,
+				body: row.body,
+			}
+		})
+		.filter((row): row is ServiceWhyChooseUsRow => row !== null)
+
+	if (rows.length === 0) {
+		return undefined
+	}
+
+	const imageUrl = section.image ? resolveImageUrl(section.image, 960, 960) : undefined
+
+	return {
+		heading: section.heading,
+		paragraph: section.paragraph,
+		buttonText: section.buttonText,
+		imageUrl,
+		imageAlt: section.image?.alt,
+		rows,
+	}
+}
+
 function buildPage(
 	locale: Locale,
 	serviceId: ServiceId,
 	hero: ServiceHero,
 	featureRows?: ServiceFeatureRows,
+	whyChooseUs?: ServiceWhyChooseUs,
 ): ServicePageContent {
 	const service = services.find((entry) => entry.id === serviceId)!
 
@@ -186,6 +259,7 @@ function buildPage(
 		slug: service.slugs[locale],
 		hero,
 		featureRows,
+		whyChooseUs,
 	}
 }
 
@@ -218,6 +292,7 @@ export async function getServicePageBySlug(
 			catalogEntry.id,
 			normalizeHero(result, locale, title),
 			normalizeFeatureRows(result),
+			normalizeWhyChooseUs(result),
 		)
 	} catch {
 		return buildPage(locale, catalogEntry.id, buildDefaultHero(locale, title))
