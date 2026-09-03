@@ -50,13 +50,26 @@ export const HOME_PAGE_QUERY = `coalesce(
   }
 }`
 
-export const SERVICE_PAGES_SLUGS_QUERY = `*[_type == "servicePage" && defined(slug[$locale].current)]{
-  "slug": slug[$locale].current,
-  serviceId
-}`
-
-export const SERVICE_PAGE_BY_SLUG_QUERY = `*[_type == "servicePage" && slug[$locale].current == $slug][0]{
-  serviceId,
-  "title": title[$locale],
-  "slug": slug[$locale].current
+export const SERVICE_PAGE_BY_ID_QUERY = `coalesce(
+  *[_id == $documentId][0],
+  *[_id == "drafts." + $documentId][0]
+){
+  "heading": heading[$locale],
+  "paragraph": paragraph[$locale],
+  images[]{
+    _key,
+    hotspot,
+    crop,
+    "alt": alt[$locale],
+    asset->{
+      _id,
+      url,
+      metadata {
+        dimensions {
+          width,
+          height
+        }
+      }
+    }
+  }
 }`

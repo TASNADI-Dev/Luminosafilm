@@ -17,7 +17,55 @@ const page = await getServicePageBySlug('en', slug);
 if (!page) {
 	return Astro.redirect(localeHomePath('en'));
 }
+
+const { hero } = page;
+const marqueeImages = hero.images.length > 0 ? [...hero.images, ...hero.images] : [];
 ---
 
 <BaseLayout locale="en" title={`${page.title} | Luminosa Film`}>
+	<section class="relative overflow-hidden pt-6 lg:pt-[10rem]">
+		<div class="mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:px-10">
+			<h1 class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
+				{hero.heading}
+			</h1>
+			<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+				{hero.paragraph}
+			</p>
+		</div>
+
+		{
+			marqueeImages.length > 0 && (
+				<div class="relative mt-16 overflow-hidden lg:mt-24">
+					<ul
+						class="service-hero-marquee-track flex w-max"
+						aria-label={hero.heading}
+					>
+						{marqueeImages.map((image, index) => {
+							const isDuplicate = index >= hero.images.length;
+							return (
+								<li
+									class="mr-[0.5rem] h-[10.6875rem] w-[14.625rem] shrink-0"
+									aria-hidden={isDuplicate ? 'true' : undefined}
+								>
+									<img
+										class="h-full w-full object-cover"
+										src={image.url}
+										alt={isDuplicate ? '' : image.alt || ''}
+										width={234}
+										height={171}
+										loading={index < 4 ? 'eager' : 'lazy'}
+										decoding="async"
+									/>
+								</li>
+							);
+						})}
+					</ul>
+					<div
+						class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-bunting-950/90 to-transparent"
+						aria-hidden="true"
+					/>
+				</div>
+			)
+		}
+	</section>
 </BaseLayout>

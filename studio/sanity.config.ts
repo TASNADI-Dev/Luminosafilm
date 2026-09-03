@@ -4,6 +4,8 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {structure} from './structure'
 
+const singletonTypes = new Set(['homePage', 'servicePage'])
+
 export default defineConfig({
   name: 'default',
   title: 'Luminosafilm',
@@ -15,5 +17,17 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+  },
+
+  document: {
+    newDocumentOptions: (prev) =>
+      prev.filter((item) => !singletonTypes.has(item.templateId)),
+    actions: (prev, {schemaType}) => {
+      if (!singletonTypes.has(schemaType)) {
+        return prev
+      }
+
+      return prev.filter(({action}) => action !== 'duplicate' && action !== 'delete')
+    },
   },
 })

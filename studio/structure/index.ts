@@ -1,6 +1,18 @@
 import {HomeIcon} from '@sanity/icons/Home'
 import {DocumentsIcon} from '@sanity/icons/Documents'
+import {DocumentIcon} from '@sanity/icons/Document'
 import type {StructureResolver} from 'sanity/structure'
+
+/** Fixed service page documents — IDs must match `servicePageDocumentId()` in the site catalog. */
+const servicePages = [
+  {documentId: 'servicePage-documentaries', title: 'Dokumentumfilmek'},
+  {documentId: 'servicePage-oral-history', title: 'Oral history'},
+  {documentId: 'servicePage-promotional-films', title: 'Promóciós filmek'},
+  {documentId: 'servicePage-ngo-presentations', title: 'Civil szervezetek bemutatása'},
+  {documentId: 'servicePage-education', title: 'Oktatás'},
+  {documentId: 'servicePage-grant-writing', title: 'Pályázatírás és megvalósítás'},
+  {documentId: 'servicePage-equipment-rental', title: 'Eszközbérlés'},
+] as const
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -16,9 +28,22 @@ export const structure: StructureResolver = (S) =>
         .title('Service Pages')
         .icon(DocumentsIcon)
         .child(
-          S.documentTypeList('servicePage').title('Service Pages').defaultOrdering([
-            {field: 'title.hu', direction: 'asc'},
-          ]),
+          S.list()
+            .title('Service Pages')
+            .items(
+              servicePages.map((page) =>
+                S.listItem()
+                  .title(page.title)
+                  .icon(DocumentIcon)
+                  .id(page.documentId)
+                  .child(
+                    S.document()
+                      .schemaType('servicePage')
+                      .documentId(page.documentId)
+                      .title(page.title),
+                  ),
+              ),
+            ),
         ),
       S.divider(),
       ...S.documentTypeListItems().filter(
