@@ -38,12 +38,17 @@ export function localeHomePath(locale: Locale): string {
 /**
  * Maps the current path to the equivalent path in another locale.
  * Hungarian lives at `/…`; English under `/en/…`.
- * Service pages use different slug segments per locale.
+ * Static pages and service pages use locale-specific slug segments.
  */
 export function switchLocalePath(pathname: string, target: Locale): string {
 	const matchedService = matchServicePath(pathname);
 	if (matchedService) {
 		return servicePath(target, matchedService.id);
+	}
+
+	const matchedPage = matchPagePath(pathname);
+	if (matchedPage) {
+		return pagePath(target, matchedPage);
 	}
 
 	const sitePath = stripBase(pathname);
@@ -146,6 +151,51 @@ export function matchServicePath(pathname: string): (typeof services)[number] | 
 	return undefined;
 }
 
+/** Shared catalog for static top-level pages (about, references). */
+export const pages = {
+	about: {
+		slugs: { hu: 'rolunk', en: 'about' },
+	},
+	references: {
+		slugs: { hu: 'referenciak', en: 'references' },
+	},
+} as const;
+
+export type PageId = keyof typeof pages;
+
+/** Absolute site path for a static page in the given locale. */
+export function pagePath(locale: Locale, id: PageId): string {
+	const page = pages[id];
+	const slug = page.slugs[locale];
+	const path = locale === 'hu' ? `/${slug}` : `/en/${slug}`;
+	return withBase(path);
+}
+
+/** Resolves a site path to a static page catalog entry, if matched. */
+export function matchPagePath(pathname: string): PageId | undefined {
+	const sitePath = stripBase(pathname);
+	const normalized =
+		sitePath.endsWith('/') && sitePath !== '/' ? sitePath.slice(0, -1) : sitePath;
+
+	const huMatch = normalized.match(/^\/([^/]+)$/);
+	if (huMatch) {
+		const entry = (Object.entries(pages) as [PageId, (typeof pages)[PageId]][]).find(
+			([, page]) => page.slugs.hu === huMatch[1],
+		);
+		return entry?.[0];
+	}
+
+	const enMatch = normalized.match(/^\/en\/([^/]+)$/);
+	if (enMatch) {
+		const entry = (Object.entries(pages) as [PageId, (typeof pages)[PageId]][]).find(
+			([, page]) => page.slugs.en === enMatch[1],
+		);
+		return entry?.[0];
+	}
+
+	return undefined;
+}
+
 const servicesChildrenHu: NavLink[] = services.map((service) => ({
 	href: servicePath('hu', service.id),
 	label: service.labels.hu,
@@ -159,14 +209,14 @@ const servicesChildrenEn: NavLink[] = services.map((service) => ({
 export const navItems: Record<Locale, NavItem[]> = {
 	hu: [
 		{ href: withBase('/#szolgaltatasok'), label: 'Szolgáltatások', children: servicesChildrenHu },
-		{ href: withBase('/referenciak'), label: 'Referenciák' },
-		{ href: withBase('/rolunk'), label: 'Rólunk' },
+		{ href: pagePath('hu', 'references'), label: 'Referenciák' },
+		{ href: pagePath('hu', 'about'), label: 'Rólunk' },
 		{ href: withBase('/#kapcsolat'), label: 'Kapcsolat' },
 	],
 	en: [
 		{ href: withBase('/en/#services'), label: 'Services', children: servicesChildrenEn },
-		{ href: withBase('/en/references'), label: 'References' },
-		{ href: withBase('/en/rolunk'), label: 'About' },
+		{ href: pagePath('en', 'references'), label: 'References' },
+		{ href: pagePath('en', 'about'), label: 'About' },
 		{ href: withBase('/en/#contact'), label: 'Contact' },
 	],
 };
@@ -215,8 +265,8 @@ export const homeReferencesHeading: Record<Locale, string> = {
 
 /** Hardcoded home-page highlighted references “more” CTA (href is code-owned). */
 export const homeHighlightedReferencesButton: Record<Locale, { href: string; label: string }> = {
-	hu: { href: withBase('/referenciak'), label: 'További referenciák' },
-	en: { href: withBase('/en/references'), label: 'More references' },
+	hu: { href: pagePath('hu', 'references'), label: 'További referenciák' },
+	en: { href: pagePath('en', 'references'), label: 'More references' },
 };
 
 /** Hardcoded references-page “more” CTA label (href is code-owned). */
