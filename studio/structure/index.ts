@@ -1,6 +1,7 @@
 import {HomeIcon} from '@sanity/icons/Home'
 import {DocumentsIcon} from '@sanity/icons/Documents'
 import {DocumentIcon} from '@sanity/icons/Document'
+import {SparklesIcon} from '@sanity/icons/Sparkles'
 import type {StructureResolver} from 'sanity/structure'
 
 /** Fixed service page documents — IDs must match `servicePageDocumentId()` in the site catalog. */
@@ -45,8 +46,20 @@ export const structure: StructureResolver = (S) =>
               ),
             ),
         ),
+      S.listItem()
+        .title('Global CTA Section')
+        .icon(SparklesIcon)
+        .child(
+          S.document()
+            .schemaType('globalCtaSection')
+            .documentId('globalCtaSection')
+            .title('Global CTA Section'),
+        ),
       S.divider(),
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() !== 'homePage' && item.getId() !== 'servicePage',
+        (item) =>
+          item.getId() !== 'homePage' &&
+          item.getId() !== 'servicePage' &&
+          item.getId() !== 'globalCtaSection',
       ),
     ])

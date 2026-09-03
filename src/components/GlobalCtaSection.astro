@@ -1,0 +1,41 @@
+---
+import Button from './Button.astro';
+import { asset } from '../lib/assets';
+
+interface Props {
+	heading: string;
+	paragraph: string;
+	buttonText: string;
+	buttonHref: string;
+}
+
+const { heading, paragraph, buttonText, buttonHref } = Astro.props;
+const backgroundSrc = asset('/global/cta-bg.webp');
+---
+
+<section class="relative isolate overflow-hidden py-16 lg:py-24">
+	<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+		<img
+			class="h-full w-full object-cover"
+			src={backgroundSrc}
+			alt=""
+			width={1920}
+			height={800}
+			loading="lazy"
+			decoding="async"
+		/>
+		<div class="absolute inset-0 bg-woodsmoke-950/80"></div>
+	</div>
+
+	<div class="relative z-10 mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:gap-8 lg:px-10">
+		<h2 class="font-heading text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
+			{heading}
+		</h2>
+		<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+			{paragraph}
+		</p>
+		<div>
+			<Button href={buttonHref}>{buttonText}</Button>
+		</div>
+	</div>
+</section>

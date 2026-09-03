@@ -128,3 +128,14 @@ export const SERVICE_PAGE_BY_ID_QUERY = `coalesce(
     }
   }
 }`
+
+export const GLOBAL_CTA_SECTION_DOCUMENT_ID = 'globalCtaSection'
+
+export const GLOBAL_CTA_SECTION_QUERY = `coalesce(
+  *[_id == $documentId][0],
+  *[_id == "drafts." + $documentId][0]
+){
+  "heading": heading[$locale],
+  "paragraph": paragraph[$locale],
+  "buttonText": buttonText[$locale]
+}`

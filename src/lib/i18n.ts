@@ -189,6 +189,12 @@ export const serviceWhyChooseUsButtonHref: Record<Locale, string> = {
 	en: '#contact',
 };
 
+/** Hardcoded global CTA section href per locale (label is Sanity-editable). */
+export const globalCtaSectionButtonHref: Record<Locale, string> = {
+	hu: withBase('/#kapcsolat'),
+	en: withBase('/en/#contact'),
+};
+
 /** Hardcoded service-page related references section heading (items are Sanity-editable). */
 export const serviceRelatedReferencesHeading: Record<Locale, string> = {
 	hu: 'Kapcsolódó referenciák',

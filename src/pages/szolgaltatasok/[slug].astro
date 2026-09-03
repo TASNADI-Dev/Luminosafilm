@@ -1,11 +1,14 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
+import GlobalCtaSection from '../../components/GlobalCtaSection.astro';
 import {
+	globalCtaSectionButtonHref,
 	localeHomePath,
 	serviceRelatedReferencesHeading,
 	serviceWhyChooseUsButtonHref,
 } from '../../lib/i18n';
+import { getGlobalCtaSection } from '../../lib/sanity/globalCtaSection';
 import { getServicePageBySlug, getServicePageSlugs } from '../../lib/sanity/servicePage';
 
 export async function getStaticPaths() {
@@ -23,10 +26,12 @@ if (!page) {
 	return Astro.redirect(localeHomePath('hu'));
 }
 
+const cta = await getGlobalCtaSection('hu');
 const { hero, featureRows, whyChooseUs, relatedReferences } = page;
 const marqueeImages = hero.images.length > 0 ? [...hero.images, ...hero.images] : [];
 const whyChooseUsButtonHref = serviceWhyChooseUsButtonHref.hu;
 const relatedReferencesHeading = serviceRelatedReferencesHeading.hu;
+const ctaButtonHref = globalCtaSectionButtonHref.hu;
 ---
 
 <BaseLayout locale="hu" title={`${page.title} | Luminosa Film`}>
@@ -208,6 +213,13 @@ const relatedReferencesHeading = serviceRelatedReferencesHeading.hu;
 			</section>
 		)
 	}
+
+	<GlobalCtaSection
+		heading={cta.heading}
+		paragraph={cta.paragraph}
+		buttonText={cta.buttonText}
+		buttonHref={ctaButtonHref}
+	/>
 </BaseLayout>
 
 {
