@@ -183,6 +183,12 @@ export const whyChooseUsButton: Record<Locale, { href: string; label: string }> 
 	en: { href: '#contact', label: 'Primary' },
 };
 
+/** Hardcoded home services-overview block CTA label (href comes from the service catalog). */
+export const servicesOverviewButtonLabel: Record<Locale, string> = {
+	hu: 'Bővebben',
+	en: 'Learn more',
+};
+
 /** Hardcoded service-page why-choose-us CTA href per locale (label is Sanity-editable). */
 export const serviceWhyChooseUsButtonHref: Record<Locale, string> = {
 	hu: '#kapcsolat',

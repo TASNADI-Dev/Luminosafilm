@@ -1,0 +1,54 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+	index: number;
+	heading: string;
+	paragraph: string;
+	href: string;
+	buttonLabel: string;
+	imageUrl?: string;
+	imageAlt?: string;
+}
+
+const { index, heading, paragraph, href, buttonLabel, imageUrl, imageAlt = '' } = Astro.props;
+/** Odd blocks (1-based): image left; even blocks: image right. */
+const imageOnRight = index % 2 === 1;
+---
+
+<li
+	class:list={[
+		'flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-16',
+		imageOnRight && 'lg:flex-row-reverse',
+	]}
+>
+	<div class="w-full shrink-0 lg:w-1/2">
+		{
+			imageUrl ? (
+				<img
+					class="aspect-[4/3] w-full object-cover"
+					src={imageUrl}
+					alt={imageAlt}
+					width="960"
+					height="720"
+					loading="lazy"
+					decoding="async"
+				/>
+			) : (
+				<div class="aspect-[4/3] w-full bg-woodsmoke-800" aria-hidden="true" />
+			)
+		}
+	</div>
+
+	<div class="flex min-w-0 flex-col gap-5 lg:w-1/2 lg:gap-6">
+		<h2 class="font-heading text-[2rem] leading-[1.15] tracking-tight lg:text-[2.5rem]">
+			{heading}
+		</h2>
+		<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-300">
+			{paragraph}
+		</p>
+		<div>
+			<Button href={href} variant="secondary">{buttonLabel}</Button>
+		</div>
+	</div>
+</li>

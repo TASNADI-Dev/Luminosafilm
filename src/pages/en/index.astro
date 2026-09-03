@@ -1,17 +1,25 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
+import ServicesOverviewBlock from '../../components/ServicesOverviewBlock.astro';
 import WhyChooseUsItem from '../../components/WhyChooseUsItem.astro';
 import { asset } from '../../lib/assets';
-import { heroButtonHref, whyChooseUsButton } from '../../lib/i18n';
-import { getHomePageHero, getHomePageLogos, getHomePageWhyChooseUs } from '../../lib/sanity/homePage';
+import { heroButtonHref, servicesOverviewButtonLabel, whyChooseUsButton } from '../../lib/i18n';
+import {
+	getHomePageHero,
+	getHomePageLogos,
+	getHomePageServicesOverview,
+	getHomePageWhyChooseUs,
+} from '../../lib/sanity/homePage';
 import { urlFor } from '../../lib/sanity/image';
 
 const hero = await getHomePageHero('en');
 const logosSection = await getHomePageLogos('en');
+const servicesOverview = await getHomePageServicesOverview('en');
 const whyChooseUs = await getHomePageWhyChooseUs('en');
 const heroVideoSrc = asset('/home/Showreel.mp4');
 const whyChooseUsCta = whyChooseUsButton.en;
+const servicesOverviewCtaLabel = servicesOverviewButtonLabel.en;
 ---
 
 <BaseLayout locale="en">
@@ -49,7 +57,7 @@ const whyChooseUsCta = whyChooseUsButton.en;
 
 			<div class="order-1 lg:order-2">
 				<video
-					class="aspect-video w-full rounded-[12px] bg-woodsmoke-900 object-cover"
+					class="aspect-video w-full bg-woodsmoke-900 object-cover"
 					src={heroVideoSrc}
 					autoplay
 					muted
@@ -117,6 +125,26 @@ const whyChooseUsCta = whyChooseUsButton.en;
 			<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
 				<Button href={whyChooseUsCta.href}>{whyChooseUsCta.label}</Button>
 			</div>
+		</div>
+	</section>
+
+	<section class="py-16 lg:py-24">
+		<div class="mx-auto max-w-container px-6 lg:px-10">
+			<ul class="flex list-none flex-col gap-16 p-0 lg:gap-24">
+				{
+					servicesOverview.blocks.map((block, index) => (
+						<ServicesOverviewBlock
+							index={index}
+							heading={block.heading}
+							paragraph={block.paragraph}
+							href={block.href}
+							buttonLabel={servicesOverviewCtaLabel}
+							imageUrl={block.imageUrl}
+							imageAlt={block.imageAlt}
+						/>
+					))
+				}
+			</ul>
 		</div>
 	</section>
 

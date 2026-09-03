@@ -46,6 +46,27 @@ export const HOME_PAGE_QUERY = `coalesce(
           }
         }
       }
+    },
+    blocks[]{
+      _key,
+      "heading": heading[$locale],
+      "paragraph": paragraph[$locale],
+      image{
+        hotspot,
+        crop,
+        "alt": alt[$locale],
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height
+            }
+          }
+        }
+      },
+      "serviceDocumentId": service._ref
     }
   }
 }`

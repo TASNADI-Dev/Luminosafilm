@@ -2,7 +2,7 @@
 import type {SanityImageSource} from '@sanity/image-url/lib/types/types'
 import {sanityClient} from 'sanity:client'
 import {asset} from '../assets'
-import type {Locale} from '../i18n'
+import {type Locale, type ServiceId, isServiceId, services, servicePath} from '../i18n'
 import {urlFor} from './image'
 import {HOME_PAGE_DOCUMENT_ID, HOME_PAGE_QUERY} from './queries'
 
@@ -53,6 +53,21 @@ export interface WhyChooseUsSection {
   items: WhyChooseUsItem[]
 }
 
+export interface ServicesOverviewBlock {
+  _key: string
+  heading: string
+  paragraph: string
+  href: string
+  imageUrl?: string
+  imageAlt?: string
+}
+
+export interface ServicesOverviewSection {
+  _type: 'servicesOverviewSection'
+  _key: string
+  blocks: ServicesOverviewBlock[]
+}
+
 interface WhyChooseUsQueryItem {
   _key: string
   title?: string
@@ -75,8 +90,30 @@ interface WhyChooseUsQuerySection {
   items?: WhyChooseUsQueryItem[]
 }
 
+interface ServicesOverviewQueryBlock {
+  _key: string
+  heading?: string
+  paragraph?: string
+  serviceDocumentId?: string
+  image?: {
+    alt?: string
+    hotspot?: unknown
+    crop?: unknown
+    asset?: {
+      _id: string
+      url: string
+    }
+  }
+}
+
+interface ServicesOverviewQuerySection {
+  _type: 'servicesOverviewSection'
+  _key: string
+  blocks?: ServicesOverviewQueryBlock[]
+}
+
 interface HomePageQueryResult {
-  sections?: (HeroSection | LogosSection | WhyChooseUsQuerySection)[]
+  sections?: (HeroSection | LogosSection | WhyChooseUsQuerySection | ServicesOverviewQuerySection)[]
 }
 
 const defaultHeroByLocale: Record<Locale, Omit<HeroSection, '_type' | '_key'>> = {
@@ -259,5 +296,109 @@ export async function getHomePageWhyChooseUs(locale: Locale): Promise<WhyChooseU
     }
   } catch {
     return buildDefaultWhyChooseUs(locale)
+  }
+}
+
+const loremServicesOverviewParagraph =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+
+function serviceIdFromDocumentId(documentId: string | undefined): ServiceId | undefined {
+  if (!documentId) {
+    return undefined
+  }
+
+  const normalized = documentId.replace(/^drafts\./, '')
+  const prefix = 'servicePage-'
+  if (!normalized.startsWith(prefix)) {
+    return undefined
+  }
+
+  const id = normalized.slice(prefix.length)
+  return isServiceId(id) ? id : undefined
+}
+
+function resolveServicesOverviewBlockImage(block: ServicesOverviewQueryBlock): string | undefined {
+  if (!block.image?.asset?._id) {
+    return undefined
+  }
+
+  return urlFor({
+    asset: {_ref: block.image.asset._id},
+    hotspot: block.image.hotspot,
+    crop: block.image.crop,
+  } as SanityImageSource)
+    .width(960)
+    .height(720)
+    .fit('crop')
+    .auto('format')
+    .url()
+}
+
+function buildDefaultServicesOverview(locale: Locale): ServicesOverviewSection {
+  return {
+    _type: 'servicesOverviewSection',
+    _key: 'services-overview',
+    blocks: services.map((service) => ({
+      _key: service.id,
+      heading: service.labels[locale],
+      paragraph: loremServicesOverviewParagraph,
+      href: servicePath(locale, service.id),
+    })),
+  }
+}
+
+function isCompleteServicesOverview(
+  section: ServicesOverviewQuerySection | undefined,
+): section is ServicesOverviewQuerySection & {
+  blocks: ServicesOverviewQueryBlock[]
+} {
+  return Boolean(
+    section?._type === 'servicesOverviewSection' &&
+      Array.isArray(section.blocks) &&
+      section.blocks.length === 7 &&
+      section.blocks.every(
+        (block) =>
+          block.heading &&
+          block.paragraph &&
+          serviceIdFromDocumentId(block.serviceDocumentId),
+      ),
+  )
+}
+
+export async function getHomePageServicesOverview(
+  locale: Locale,
+): Promise<ServicesOverviewSection> {
+  try {
+    const result = await sanityClient.fetch<HomePageQueryResult | null>(HOME_PAGE_QUERY, {
+      documentId: HOME_PAGE_DOCUMENT_ID,
+      locale,
+    })
+
+    const section = result?.sections?.find(
+      (entry): entry is ServicesOverviewQuerySection =>
+        entry._type === 'servicesOverviewSection',
+    )
+
+    if (!isCompleteServicesOverview(section)) {
+      return buildDefaultServicesOverview(locale)
+    }
+
+    return {
+      _type: 'servicesOverviewSection',
+      _key: section._key,
+      blocks: section.blocks.map((block) => {
+        const serviceId = serviceIdFromDocumentId(block.serviceDocumentId)!
+        return {
+          _key: block._key,
+          heading: block.heading!,
+          paragraph: block.paragraph!,
+          href: servicePath(locale, serviceId),
+          imageUrl: resolveServicesOverviewBlockImage(block),
+          imageAlt: block.image?.alt,
+        }
+      }),
+    }
+  } catch {
+    return buildDefaultServicesOverview(locale)
   }
 }
