@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getAboutPage } from '../lib/sanity/aboutPage';
 
-const { hero, image } = await getAboutPage('hu');
+const { hero, image, closingParagraph } = await getAboutPage('hu');
 ---
 
 <BaseLayout locale="hu" title={`${hero.heading} | Luminosa Film`}>
@@ -29,6 +29,18 @@ const { hero, image } = await getAboutPage('hu');
 						height={810}
 						loading="lazy"
 					/>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		closingParagraph && (
+			<section class="py-16 lg:py-24">
+				<div class="mx-auto max-w-container px-6 text-center lg:px-10">
+					<p class="mx-auto max-w-2xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+						{closingParagraph}
+					</p>
 				</div>
 			</section>
 		)

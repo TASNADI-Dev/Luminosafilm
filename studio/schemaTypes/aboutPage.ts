@@ -37,6 +37,12 @@ export const aboutPage = defineType({
       ],
       validation: (rule) => rule.required(),
     }),
+    defineField({
+      name: 'closingParagraph',
+      title: 'Closing paragraph',
+      type: 'localizedText',
+      description: 'Centered paragraph shown below the hero image.',
+    }),
   ],
   preview: {
     prepare() {

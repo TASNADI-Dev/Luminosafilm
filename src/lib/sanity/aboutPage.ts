@@ -18,6 +18,7 @@ export interface AboutPageImage {
 export interface AboutPageContent {
 	hero: AboutPageHero
 	image?: AboutPageImage
+	closingParagraph?: string
 }
 
 interface AboutPageImageQuery {
@@ -33,6 +34,7 @@ interface AboutPageImageQuery {
 interface AboutPageQueryResult {
 	heading?: string
 	paragraph?: string
+	closingParagraph?: string
 	image?: AboutPageImageQuery
 }
 
@@ -97,6 +99,7 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageContent> {
 			return {
 				...fallback,
 				image: normalizeImage(result?.image),
+				closingParagraph: result?.closingParagraph,
 			}
 		}
 
@@ -106,6 +109,7 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageContent> {
 				paragraph: result.paragraph,
 			},
 			image: normalizeImage(result.image),
+			closingParagraph: result.closingParagraph,
 		}
 	} catch {
 		return fallback
