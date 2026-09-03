@@ -1,0 +1,44 @@
+---
+import type { Achievement } from '../lib/sanity/aboutPage';
+
+interface Props {
+	heading: string;
+	items: Achievement[];
+}
+
+const { heading, items } = Astro.props;
+---
+
+<section class="border-t border-woodsmoke-900 py-16 lg:py-24">
+	<div class="mx-auto flex max-w-container flex-col gap-10 px-6 lg:gap-14 lg:px-10">
+		<h2
+			class="font-heading text-center text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]"
+		>
+			{heading}
+		</h2>
+
+		<ul class="mx-auto grid w-full list-none grid-cols-1 gap-10 p-0 sm:grid-cols-2 lg:gap-x-12 lg:gap-y-14">
+			{
+				items.map((item) => (
+					<li class="flex flex-col items-center gap-5 text-center">
+						{item.image && (
+							<img
+								class="h-auto w-full max-w-[13rem] object-contain sm:max-w-[14rem]"
+								src={item.image.url}
+								alt={item.image.alt || ''}
+								width={item.image.width}
+								height={item.image.height}
+								loading="lazy"
+								decoding="async"
+							/>
+						)}
+
+						<p class="max-w-[22rem] text-[0.9375rem] leading-relaxed text-woodsmoke-200 lg:text-[1rem]">
+							{item.paragraph}
+						</p>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>

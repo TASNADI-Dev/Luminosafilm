@@ -181,6 +181,25 @@ export const ABOUT_PAGE_QUERY = `coalesce(
     value,
     "label": label[$locale]
   },
+  achievements[]{
+    _key,
+    "paragraph": paragraph[$locale],
+    image{
+      hotspot,
+      crop,
+      "alt": alt[$locale],
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height
+          }
+        }
+      }
+    }
+  },
   image{
     hotspot,
     crop,

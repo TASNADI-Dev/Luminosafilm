@@ -257,6 +257,12 @@ export const serviceRelatedReferencesHeading: Record<Locale, string> = {
 	en: 'Related references',
 };
 
+/** Hardcoded about-page recognitions section heading (items are Sanity-editable). */
+export const recognitionsHeading: Record<Locale, string> = {
+	hu: 'Eredményeink',
+	en: 'Our recognitions',
+};
+
 /** Hardcoded home-page highlighted references section heading (items are Sanity-editable). */
 export const homeReferencesHeading: Record<Locale, string> = {
 	hu: 'Kiemelt referenciák',

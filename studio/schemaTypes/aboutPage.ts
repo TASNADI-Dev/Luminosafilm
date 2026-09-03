@@ -80,6 +80,52 @@ export const aboutPage = defineType({
       ],
       validation: (rule) => rule.length(3),
     }),
+    defineField({
+      name: 'achievements',
+      title: 'Recognitions',
+      description:
+        'Awards and recognitions listed under the "Eredményeink" / "Our recognitions" heading. Newest first.',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'achievement',
+          fields: [
+            defineField({
+              name: 'paragraph',
+              title: 'Paragraph',
+              type: 'localizedText',
+              description: 'Full award description for each language.',
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: 'image',
+              title: 'Laurel / award image',
+              description: 'Optional. Shared across languages; set Hungarian and English alt text.',
+              type: 'image',
+              options: {hotspot: true},
+              fields: [
+                defineField({
+                  name: 'alt',
+                  title: 'Alternative text',
+                  type: 'localizedString',
+                  description: 'Brief description for screen readers (localized).',
+                }),
+              ],
+            }),
+          ],
+          preview: {
+            select: {paragraphHu: 'paragraph.hu', media: 'image'},
+            prepare({paragraphHu, media}) {
+              return {
+                title: paragraphHu || 'Recognition',
+                media,
+              }
+            },
+          },
+        }),
+      ],
+    }),
   ],
   preview: {
     prepare() {

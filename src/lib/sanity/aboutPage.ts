@@ -13,6 +13,8 @@ export interface AboutPageHero {
 export interface AboutPageImage {
 	url: string
 	alt?: string
+	width?: number
+	height?: number
 }
 
 export interface ExperienceStat {
@@ -20,11 +22,18 @@ export interface ExperienceStat {
 	label: string
 }
 
+export interface Achievement {
+	_key: string
+	paragraph: string
+	image?: AboutPageImage
+}
+
 export interface AboutPageContent {
 	hero: AboutPageHero
 	image?: AboutPageImage
 	closingParagraph?: string
 	experienceStats?: ExperienceStat[]
+	achievements?: Achievement[]
 }
 
 interface AboutPageImageQuery {
@@ -34,7 +43,19 @@ interface AboutPageImageQuery {
 	asset?: {
 		_id: string
 		url: string
+		metadata?: {
+			dimensions?: {
+				width?: number
+				height?: number
+			}
+		}
 	}
+}
+
+interface AchievementQuery {
+	_key?: string
+	paragraph?: string
+	image?: AboutPageImageQuery
 }
 
 interface AboutPageQueryResult {
@@ -45,6 +66,7 @@ interface AboutPageQueryResult {
 		value?: string
 		label?: string
 	}>
+	achievements?: AchievementQuery[]
 	image?: AboutPageImageQuery
 }
 
@@ -61,7 +83,7 @@ const defaultHeroByLocale: Record<Locale, AboutPageHero> = {
 	},
 }
 
-function resolveImageUrl(image: AboutPageImageQuery): string | undefined {
+function imageBuilder(image: AboutPageImageQuery) {
 	if (!image.asset?._id) {
 		return undefined
 	}
@@ -71,11 +93,36 @@ function resolveImageUrl(image: AboutPageImageQuery): string | undefined {
 		hotspot: image.hotspot,
 		crop: image.crop,
 	} as SanityImageSource)
-		.width(1440)
-		.height(810)
-		.fit('crop')
-		.auto('format')
-		.url()
+}
+
+function resolveImageUrl(image: AboutPageImageQuery): string | undefined {
+	return imageBuilder(image)?.width(1440).height(810).fit('crop').auto('format').url()
+}
+
+const ACHIEVEMENT_IMAGE_WIDTH = 480
+
+function normalizeAchievementImage(
+	image: AboutPageImageQuery | undefined,
+): AboutPageImage | undefined {
+	if (!image) {
+		return undefined
+	}
+
+	const url = imageBuilder(image)?.width(ACHIEVEMENT_IMAGE_WIDTH).fit('max').auto('format').url()
+	if (!url) {
+		return undefined
+	}
+
+	const dimensions = image.asset?.metadata?.dimensions
+	const ratio =
+		dimensions?.width && dimensions.height ? dimensions.height / dimensions.width : undefined
+
+	return {
+		url,
+		alt: image.alt,
+		width: ACHIEVEMENT_IMAGE_WIDTH,
+		height: ratio ? Math.round(ACHIEVEMENT_IMAGE_WIDTH * ratio) : undefined,
+	}
 }
 
 function normalizeExperienceStats(
@@ -91,6 +138,28 @@ function normalizeExperienceStats(
 	)
 
 	return items.length > 0 ? items : undefined
+}
+
+function normalizeAchievements(items: AchievementQuery[] | undefined): Achievement[] | undefined {
+	if (!items?.length) {
+		return undefined
+	}
+
+	const achievements = items
+		.map((item, index) => {
+			if (!item.paragraph?.trim()) {
+				return null
+			}
+
+			return {
+				_key: item._key || `achievement-${index + 1}`,
+				paragraph: item.paragraph,
+				image: normalizeAchievementImage(item.image),
+			}
+		})
+		.filter((item): item is Achievement => item !== null)
+
+	return achievements.length > 0 ? achievements : undefined
 }
 
 function normalizeImage(image: AboutPageImageQuery | undefined): AboutPageImage | undefined {
@@ -121,6 +190,7 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageContent> {
 		})
 
 		const experienceStats = normalizeExperienceStats(result?.experienceStats)
+		const achievements = normalizeAchievements(result?.achievements)
 
 		if (!result?.heading || !result.paragraph) {
 			return {
@@ -128,6 +198,7 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageContent> {
 				image: normalizeImage(result?.image),
 				closingParagraph: result?.closingParagraph,
 				experienceStats,
+				achievements,
 			}
 		}
 
@@ -139,6 +210,7 @@ export async function getAboutPage(locale: Locale): Promise<AboutPageContent> {
 			image: normalizeImage(result.image),
 			closingParagraph: result.closingParagraph,
 			experienceStats,
+			achievements,
 		}
 	} catch {
 		return fallback

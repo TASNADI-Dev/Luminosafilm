@@ -1,9 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import AchievementsSection from '../../components/AchievementsSection.astro';
 import ExperienceStatsSection from '../../components/ExperienceStatsSection.astro';
+import { recognitionsHeading } from '../../lib/i18n';
 import { getAboutPage } from '../../lib/sanity/aboutPage';
 
-const { hero, image, closingParagraph, experienceStats } = await getAboutPage('en');
+const { hero, image, closingParagraph, experienceStats, achievements } = await getAboutPage('en');
 ---
 
 <BaseLayout locale="en" title={`${hero.heading} | Luminosa Film`}>
@@ -48,4 +50,10 @@ const { hero, image, closingParagraph, experienceStats } = await getAboutPage('e
 	}
 
 	{experienceStats && <ExperienceStatsSection items={experienceStats} />}
+
+	{
+		achievements && (
+			<AchievementsSection heading={recognitionsHeading.en} items={achievements} />
+		)
+	}
 </BaseLayout>
