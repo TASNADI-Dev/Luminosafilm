@@ -1,0 +1,67 @@
+---
+import { youtubeThumbnailUrl } from '../lib/sanity/youtube';
+
+interface Props {
+	youtubeId: string;
+	title: string;
+	eager?: boolean;
+}
+
+const { youtubeId, title, eager = false } = Astro.props;
+const thumbnailSrc = youtubeThumbnailUrl(youtubeId, 'maxresdefault');
+const thumbnailFallbackSrc = youtubeThumbnailUrl(youtubeId, 'hqdefault');
+const embedSrc = `https://www.youtube-nocookie.com/embed/${youtubeId}`;
+---
+
+<div
+	class="relative aspect-video w-full overflow-hidden bg-woodsmoke-900"
+	data-youtube-embed
+	data-youtube-eager={eager ? 'true' : undefined}
+	aria-busy="true"
+>
+	<div
+		class="pointer-events-none absolute inset-0 z-10 transition-opacity duration-500 motion-reduce:transition-none"
+		data-youtube-skeleton
+		aria-hidden="true"
+	>
+		<img
+			class="h-full w-full object-cover opacity-0 transition-opacity duration-300 motion-reduce:transition-none"
+			src={thumbnailSrc}
+			data-fallback-src={thumbnailFallbackSrc}
+			data-youtube-thumbnail
+			alt=""
+			width="1280"
+			height="720"
+			decoding="async"
+			loading={eager ? 'eager' : 'lazy'}
+			fetchpriority={eager ? 'high' : undefined}
+		/>
+		<div
+			class="pointer-events-none absolute inset-0 overflow-hidden bg-woodsmoke-900/40"
+			data-youtube-shimmer
+		>
+			<div
+				class="youtube-skeleton-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-woodsmoke-100/10 to-transparent"
+			>
+			</div>
+		</div>
+	</div>
+	<iframe
+		class="absolute inset-0 z-0 h-full w-full opacity-0 pointer-events-none transition-opacity duration-500 motion-reduce:transition-none"
+		data-src={embedSrc}
+		data-youtube-iframe
+		title={title}
+		allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+		allowfullscreen
+		referrerpolicy="strict-origin-when-cross-origin"
+	>
+	</iframe>
+</div>
+
+<script>
+	import { initYoutubeEmbed } from '../scripts/youtube-embed';
+
+	document.querySelectorAll<HTMLElement>('[data-youtube-embed]').forEach((root) => {
+		initYoutubeEmbed(root);
+	});
+</script>

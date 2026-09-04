@@ -1,4 +1,5 @@
-// Extracts a YouTube video ID from common watch, short, embed, and youtu.be URLs.
+// Extracts a YouTube video ID from common watch, short, embed, and youtu.be URLs,
+// and builds thumbnail URLs used as embed posters.
 export function extractYoutubeId(url: string): string | undefined {
 	try {
 		const parsed = new URL(url)
@@ -28,4 +29,11 @@ export function extractYoutubeId(url: string): string | undefined {
 	}
 
 	return undefined
+}
+
+export function youtubeThumbnailUrl(
+	youtubeId: string,
+	quality: 'maxresdefault' | 'hqdefault' = 'maxresdefault',
+): string {
+	return `https://i.ytimg.com/vi/${youtubeId}/${quality}.jpg`
 }

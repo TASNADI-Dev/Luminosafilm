@@ -10,15 +10,32 @@
 	}
 }
 
+@keyframes youtube-skeleton-shimmer {
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(100%);
+	}
+}
+
 @layer utilities {
 	.service-hero-marquee-track {
 		animation: service-hero-marquee 60s linear infinite;
+	}
+
+	.youtube-skeleton-shimmer {
+		animation: youtube-skeleton-shimmer 1.6s ease-in-out infinite;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
 		.service-hero-marquee-track {
 			animation: none;
 			transform: none;
+		}
+
+		.youtube-skeleton-shimmer {
+			animation: none;
 		}
 	}
 }

@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import GlobalCtaSection from '../../components/GlobalCtaSection.astro';
+import YoutubeEmbed from '../../components/YoutubeEmbed.astro';
 import { globalCtaSectionButtonHref, referencesMoreButton } from '../../lib/i18n';
 import { getGlobalCtaSection } from '../../lib/sanity/globalCtaSection';
 import { getReferencesPage } from '../../lib/sanity/referencesPage';
@@ -29,16 +30,12 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 			<section class="py-16 lg:py-24">
 				<div class="mx-auto flex max-w-container flex-col gap-8 px-6 lg:gap-10 lg:px-10">
 					<ul class="grid list-none grid-cols-1 gap-8 p-0 lg:grid-cols-3 lg:gap-8">
-						{references.map((reference) => (
+						{references.map((reference, index) => (
 							<li class="flex min-w-0 flex-col gap-4">
-								<iframe
-									class="aspect-video w-full bg-woodsmoke-900"
-									src={`https://www.youtube-nocookie.com/embed/${reference.youtubeId}`}
+								<YoutubeEmbed
+									youtubeId={reference.youtubeId}
 									title={reference.title}
-									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-									allowfullscreen
-									loading="lazy"
-									referrerpolicy="strict-origin-when-cross-origin"
+									eager={index < 3}
 								/>
 								<h3 class="font-heading text-[1.25rem] leading-snug tracking-tight lg:text-[1.5rem]">
 									{reference.title}
