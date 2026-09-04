@@ -217,6 +217,15 @@ export const ABOUT_PAGE_QUERY = `coalesce(
   }
 }`
 
+export const PRIVACY_PAGE_DOCUMENT_ID = 'privacyPage'
+
+export const PRIVACY_PAGE_QUERY = `coalesce(
+  *[_id == $documentId][0],
+  *[_id == "drafts." + $documentId][0]
+){
+  "body": body[$locale]
+}`
+
 export const GLOBAL_CTA_SECTION_DOCUMENT_ID = 'globalCtaSection'
 
 export const GLOBAL_CTA_SECTION_QUERY = `coalesce(

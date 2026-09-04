@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PortableText from '../components/PortableText.astro';
+import { privacyPageHeading } from '../lib/i18n';
+import { getPrivacyPage } from '../lib/sanity/privacyPage';
+
+const heading = privacyPageHeading.hu;
+const body = await getPrivacyPage('hu');
+---
+
+<BaseLayout locale="hu" title={`${heading} | Luminosa Film`}>
+	<section class="relative pt-6 pb-16 lg:pt-[10rem] lg:pb-24">
+		<div class="mx-auto max-w-container px-6 lg:px-10">
+			<div class="mx-auto max-w-3xl">
+				<h1 class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
+					{heading}
+				</h1>
+				<div class="mt-8">
+					<PortableText value={body} />
+				</div>
+			</div>
+		</div>
+	</section>
+</BaseLayout>

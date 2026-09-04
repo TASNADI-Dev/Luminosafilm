@@ -9,6 +9,7 @@ const singletonTypes = new Set([
   'servicePage',
   'referencesPage',
   'aboutPage',
+  'privacyPage',
   'globalCtaSection',
   'clientLogos',
 ])

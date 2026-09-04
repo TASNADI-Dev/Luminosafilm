@@ -64,6 +64,15 @@ export const structure: StructureResolver = (S) =>
           S.document().schemaType('aboutPage').documentId('aboutPage').title('About Page'),
         ),
       S.listItem()
+        .title('Privacy Page')
+        .icon(DocumentIcon)
+        .child(
+          S.document()
+            .schemaType('privacyPage')
+            .documentId('privacyPage')
+            .title('Privacy Page'),
+        ),
+      S.listItem()
         .title('Global CTA Section')
         .icon(SparklesIcon)
         .child(
@@ -85,6 +94,7 @@ export const structure: StructureResolver = (S) =>
           item.getId() !== 'servicePage' &&
           item.getId() !== 'referencesPage' &&
           item.getId() !== 'aboutPage' &&
+          item.getId() !== 'privacyPage' &&
           item.getId() !== 'globalCtaSection' &&
           item.getId() !== 'clientLogos',
       ),

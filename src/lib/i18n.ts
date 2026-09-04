@@ -151,7 +151,7 @@ export function matchServicePath(pathname: string): (typeof services)[number] | 
 	return undefined;
 }
 
-/** Shared catalog for static top-level pages (about, references, contact). */
+/** Shared catalog for static top-level pages (about, references, contact, privacy). */
 export const pages = {
 	about: {
 		slugs: { hu: 'rolunk', en: 'about' },
@@ -267,6 +267,12 @@ export const serviceRelatedReferencesHeading: Record<Locale, string> = {
 export const recognitionsHeading: Record<Locale, string> = {
 	hu: 'Eredményeink',
 	en: 'Our recognitions',
+};
+
+/** Hardcoded privacy page heading (body copy is Sanity-editable). */
+export const privacyPageHeading: Record<Locale, string> = {
+	hu: 'Adatvédelmi irányelvek',
+	en: 'Privacy Policy',
 };
 
 /** Hardcoded home-page highlighted references section heading (items are Sanity-editable). */
