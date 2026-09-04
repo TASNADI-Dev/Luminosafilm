@@ -227,3 +227,25 @@ export const GLOBAL_CTA_SECTION_QUERY = `coalesce(
   "paragraph": paragraph[$locale],
   "buttonText": buttonText[$locale]
 }`
+
+export const CLIENT_LOGOS_DOCUMENT_ID = 'clientLogos'
+
+export const CLIENT_LOGOS_QUERY = `coalesce(
+  *[_id == $documentId][0],
+  *[_id == "drafts." + $documentId][0]
+){
+  logos[]{
+    _key,
+    "alt": alt[$locale],
+    asset->{
+      _id,
+      url,
+      metadata {
+        dimensions {
+          width,
+          height
+        }
+      }
+    }
+  }
+}`

@@ -34,31 +34,16 @@
 		font-family: "Cabinet Grotesk", sans-serif;
 	}
 
-	[data-hero-video-main]::-webkit-media-controls-panel,
-	[data-hero-video-main]::-webkit-media-controls-enclosure {
-		background: transparent;
-		background-image: none;
-		opacity: 1 !important;
-		visibility: visible !important;
-		transform: none !important;
+	[data-hero-video-toggle] {
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 150ms ease-in-out;
 	}
 
-	[data-hero-video-main]::-webkit-media-controls-play-button {
-		opacity: 1 !important;
-		visibility: visible !important;
-		background-color: rgb(28 34 82 / 0.85);
-		border-radius: 9999px;
-		filter: none;
-	}
-
-	[data-hero-video-main]::-webkit-media-controls-timeline,
-	[data-hero-video-main]::-webkit-media-controls-current-time-display,
-	[data-hero-video-main]::-webkit-media-controls-time-remaining-display,
-	[data-hero-video-main]::-webkit-media-controls-volume-slider,
-	[data-hero-video-main]::-webkit-media-controls-mute-button,
-	[data-hero-video-main]::-webkit-media-controls-fullscreen-button,
-	[data-hero-video-main]::-webkit-media-controls-overflow-button,
-	[data-hero-video-main]::-webkit-media-controls-toggle-closed-captions-button {
-		display: none;
+	[data-hero-video-main]:hover ~ [data-hero-video-toggle],
+	[data-hero-video-toggle]:hover,
+	[data-hero-video-toggle]:focus-visible {
+		opacity: 1;
+		pointer-events: auto;
 	}
 }

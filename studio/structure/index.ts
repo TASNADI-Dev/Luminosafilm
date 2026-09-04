@@ -72,6 +72,12 @@ export const structure: StructureResolver = (S) =>
             .documentId('globalCtaSection')
             .title('Global CTA Section'),
         ),
+      S.listItem()
+        .title('Client Logos')
+        .icon(ImagesIcon)
+        .child(
+          S.document().schemaType('clientLogos').documentId('clientLogos').title('Client Logos'),
+        ),
       S.divider(),
       ...S.documentTypeListItems().filter(
         (item) =>
@@ -79,6 +85,7 @@ export const structure: StructureResolver = (S) =>
           item.getId() !== 'servicePage' &&
           item.getId() !== 'referencesPage' &&
           item.getId() !== 'aboutPage' &&
-          item.getId() !== 'globalCtaSection',
+          item.getId() !== 'globalCtaSection' &&
+          item.getId() !== 'clientLogos',
       ),
     ])

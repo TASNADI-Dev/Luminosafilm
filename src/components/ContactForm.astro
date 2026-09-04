@@ -1,0 +1,89 @@
+---
+import Button from './Button.astro';
+import { contactFormUi, type Locale } from '../lib/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const ui = contactFormUi[locale];
+
+const inputClass =
+	'w-full rounded-lg border border-woodsmoke-700 bg-woodsmoke-950 px-4 py-3 font-sans text-[1rem] text-woodsmoke-50 placeholder:text-woodsmoke-400 transition-colors focus:border-azure-500 focus:outline-none';
+const labelClass = 'font-sans text-[0.875rem] font-medium text-woodsmoke-200';
+const errorClass = 'font-sans text-[0.8125rem] text-azure-300';
+---
+
+<form
+	class="flex flex-col gap-5"
+	data-contact-form
+	data-subject={ui.subject}
+	data-submitting-text={ui.submitting}
+	data-success-text={ui.success}
+	data-error-text={ui.error}
+	data-error-name-required={ui.nameRequired}
+	data-error-email-required={ui.emailRequired}
+	data-error-email-invalid={ui.emailInvalid}
+	data-error-message-required={ui.messageRequired}
+	novalidate
+>
+	<div class="flex flex-col gap-2" data-contact-field="name">
+		<label class={labelClass} for={`contact-name-${locale}`}>{ui.nameLabel}</label>
+		<input
+			class={inputClass}
+			type="text"
+			id={`contact-name-${locale}`}
+			name="name"
+			autocomplete="name"
+			required
+		/>
+		<p class={errorClass} data-contact-field-error hidden></p>
+	</div>
+
+	<div class="flex flex-col gap-2" data-contact-field="email">
+		<label class={labelClass} for={`contact-email-${locale}`}>{ui.emailLabel}</label>
+		<input
+			class={inputClass}
+			type="email"
+			id={`contact-email-${locale}`}
+			name="email"
+			autocomplete="email"
+			required
+		/>
+		<p class={errorClass} data-contact-field-error hidden></p>
+	</div>
+
+	<div class="flex flex-col gap-2" data-contact-field="message">
+		<label class={labelClass} for={`contact-message-${locale}`}>{ui.messageLabel}</label>
+		<textarea
+			class:list={[inputClass, 'min-h-[9rem] resize-y']}
+			id={`contact-message-${locale}`}
+			name="message"
+			required></textarea>
+		<p class={errorClass} data-contact-field-error hidden></p>
+	</div>
+
+	<div
+		class="rounded-lg border px-4 py-3 font-sans text-[0.9375rem] leading-relaxed data-[variant=error]:border-azure-400/40 data-[variant=error]:bg-azure-950/30 data-[variant=error]:text-azure-100 data-[variant=success]:border-bunting-400/40 data-[variant=success]:bg-bunting-950/40 data-[variant=success]:text-woodsmoke-50"
+		data-contact-form-status
+		role="status"
+		aria-live="polite"
+		hidden
+	>
+	</div>
+
+	<div>
+		<Button type="submit">
+			<span data-contact-form-submit-label>{ui.submit}</span>
+		</Button>
+	</div>
+</form>
+
+<script>
+	import { initContactForm } from '../scripts/contact-form';
+
+	document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+		initContactForm(form);
+	});
+</script>

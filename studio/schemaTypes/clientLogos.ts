@@ -1,9 +1,12 @@
+// Client logos singleton shared by the home and contact pages.
+import {ImagesIcon} from '@sanity/icons/Images'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
-export const logosSection = defineType({
-  name: 'logosSection',
-  title: 'Logos Section',
-  type: 'object',
+export const clientLogos = defineType({
+  name: 'clientLogos',
+  title: 'Client Logos',
+  type: 'document',
+  icon: ImagesIcon,
   fields: [
     defineField({
       name: 'logos',
@@ -31,7 +34,7 @@ export const logosSection = defineType({
     prepare({logos}) {
       const count = Array.isArray(logos) ? logos.length : 0
       return {
-        title: 'Logos Section',
+        title: 'Client Logos',
         subtitle: count === 1 ? '1 logo' : `${count} logos`,
       }
     },

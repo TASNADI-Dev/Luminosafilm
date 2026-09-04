@@ -10,6 +10,7 @@ const singletonTypes = new Set([
   'referencesPage',
   'aboutPage',
   'globalCtaSection',
+  'clientLogos',
 ])
 
 export default defineConfig({

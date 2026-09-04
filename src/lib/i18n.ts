@@ -151,13 +151,16 @@ export function matchServicePath(pathname: string): (typeof services)[number] | 
 	return undefined;
 }
 
-/** Shared catalog for static top-level pages (about, references). */
+/** Shared catalog for static top-level pages (about, references, contact). */
 export const pages = {
 	about: {
 		slugs: { hu: 'rolunk', en: 'about' },
 	},
 	references: {
 		slugs: { hu: 'referenciak', en: 'references' },
+	},
+	contact: {
+		slugs: { hu: 'kapcsolat', en: 'contact' },
 	},
 } as const;
 
@@ -211,13 +214,13 @@ export const navItems: Record<Locale, NavItem[]> = {
 		{ href: withBase('/#szolgaltatasok'), label: 'Szolgáltatások', children: servicesChildrenHu },
 		{ href: pagePath('hu', 'references'), label: 'Referenciák' },
 		{ href: pagePath('hu', 'about'), label: 'Rólunk' },
-		{ href: withBase('/#kapcsolat'), label: 'Kapcsolat' },
+		{ href: pagePath('hu', 'contact'), label: 'Kapcsolat' },
 	],
 	en: [
 		{ href: withBase('/en/#services'), label: 'Services', children: servicesChildrenEn },
 		{ href: pagePath('en', 'references'), label: 'References' },
 		{ href: pagePath('en', 'about'), label: 'About' },
-		{ href: withBase('/en/#contact'), label: 'Contact' },
+		{ href: pagePath('en', 'contact'), label: 'Contact' },
 	],
 };
 
@@ -225,6 +228,12 @@ export const navItems: Record<Locale, NavItem[]> = {
 export const heroButtonHref: Record<Locale, string> = {
 	hu: '#kapcsolat',
 	en: '#contact',
+};
+
+/** Hardcoded hero video play/pause toggle labels (not Sanity-editable). */
+export const heroVideoToggleLabels: Record<Locale, { play: string; pause: string }> = {
+	hu: { play: 'Videó lejátszása', pause: 'Videó szüneteltetése' },
+	en: { play: 'Play video', pause: 'Pause video' },
 };
 
 /** Hardcoded why-choose-us CTA per locale (not Sanity-editable). */
@@ -295,5 +304,36 @@ export const navUi = {
 		menuClose: 'Close menu',
 		submenuOpen: 'Open submenu',
 		submenuClose: 'Close submenu',
+	},
+} as const satisfies Record<Locale, Record<string, string>>;
+
+export const contactFormUi = {
+	hu: {
+		nameLabel: 'Név',
+		emailLabel: 'E-mail',
+		messageLabel: 'Üzenet',
+		submit: 'Küldés',
+		submitting: 'Küldés…',
+		success: 'Köszönjük! Üzenetét megkaptuk, hamarosan jelentkezünk.',
+		error: 'Hiba történt az üzenet küldésekor. Kérjük, próbálja újra később.',
+		nameRequired: 'Adja meg a nevét.',
+		emailRequired: 'Adja meg az e-mail címét.',
+		emailInvalid: 'Érvényes e-mail címet adjon meg.',
+		messageRequired: 'Írja meg üzenetét.',
+		subject: 'Új kapcsolatfelvétel – Luminosa Film',
+	},
+	en: {
+		nameLabel: 'Name',
+		emailLabel: 'Email',
+		messageLabel: 'Message',
+		submit: 'Send',
+		submitting: 'Sending…',
+		success: 'Thank you! We received your message and will get back to you soon.',
+		error: 'Something went wrong while sending your message. Please try again later.',
+		nameRequired: 'Please enter your name.',
+		emailRequired: 'Please enter your email address.',
+		emailInvalid: 'Please enter a valid email address.',
+		messageRequired: 'Please enter your message.',
+		subject: 'New contact request – Luminosa Film',
 	},
 } as const satisfies Record<Locale, Record<string, string>>;
