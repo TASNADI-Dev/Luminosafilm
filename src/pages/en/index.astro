@@ -11,7 +11,6 @@ import {
 	homeHighlightedReferencesButton,
 	homeReferencesHeading,
 	servicesOverviewButtonLabel,
-	whyChooseUsButton,
 } from '../../lib/i18n';
 import { getClientLogos } from '../../lib/sanity/clientLogos';
 import {
@@ -27,7 +26,6 @@ const servicesOverview = await getHomePageServicesOverview('en');
 const whyChooseUs = await getHomePageWhyChooseUs('en');
 const highlightedReferences = await getHomePageHighlightedReferences('en');
 const heroVideoSrc = asset('/home/Showreel.mp4');
-const whyChooseUsCta = whyChooseUsButton.en;
 const servicesOverviewCtaLabel = servicesOverviewButtonLabel.en;
 const highlightedReferencesHeading = homeReferencesHeading.en;
 const highlightedReferencesCta = homeHighlightedReferencesButton.en;
@@ -142,7 +140,7 @@ const heroVideoToggle = heroVideoToggleLabels.en;
 			</ol>
 
 			<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
-				<Button href={whyChooseUsCta.href}>{whyChooseUsCta.label}</Button>
+				<Button href={heroButtonHref.en}>{hero.buttonText}</Button>
 			</div>
 		</div>
 	</section>

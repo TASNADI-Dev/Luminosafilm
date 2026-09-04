@@ -226,20 +226,14 @@ export const navItems: Record<Locale, NavItem[]> = {
 
 /** Hardcoded hero CTA targets per locale (not Sanity-editable). */
 export const heroButtonHref: Record<Locale, string> = {
-	hu: '#kapcsolat',
-	en: '#contact',
+	hu: pagePath('hu', 'contact'),
+	en: pagePath('en', 'contact'),
 };
 
 /** Hardcoded hero video play/pause toggle labels (not Sanity-editable). */
 export const heroVideoToggleLabels: Record<Locale, { play: string; pause: string }> = {
 	hu: { play: 'Videó lejátszása', pause: 'Videó szüneteltetése' },
 	en: { play: 'Play video', pause: 'Pause video' },
-};
-
-/** Hardcoded why-choose-us CTA per locale (not Sanity-editable). */
-export const whyChooseUsButton: Record<Locale, { href: string; label: string }> = {
-	hu: { href: '#kapcsolat', label: 'Primary' },
-	en: { href: '#contact', label: 'Primary' },
 };
 
 /** Hardcoded home services-overview block CTA label (href comes from the service catalog). */
