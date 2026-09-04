@@ -13,33 +13,27 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 ---
 
 <BaseLayout locale="en" title={`${hero.heading} | Luminosa Film`}>
-	<section class="relative overflow-hidden pt-6 lg:pt-[10rem]">
-		<div class="mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:px-10">
+	<section class="relative overflow-hidden pt-6 pb-16 lg:pt-[10rem] lg:pb-24">
+		<div class="mx-auto flex max-w-container flex-col items-center px-6 text-center lg:px-10">
 			<h1 class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
 				{hero.heading}
 			</h1>
-			<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+			<p class="mt-6 max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
 				{hero.paragraph}
 			</p>
-		</div>
-	</section>
-
-	{
-		image && (
-			<section class="py-16 lg:py-24">
-				<div class="mx-auto max-w-container px-6 lg:px-10">
+			{
+				image && (
 					<img
-						class="aspect-video w-full object-cover"
+						class="mt-16 aspect-video w-full object-cover lg:mt-24"
 						src={image.url}
 						alt={image.alt || ''}
 						width={1440}
 						height={810}
-						loading="lazy"
 					/>
-				</div>
-			</section>
-		)
-	}
+				)
+			}
+		</div>
+	</section>
 
 	{
 		closingParagraph && (
