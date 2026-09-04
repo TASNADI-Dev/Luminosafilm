@@ -1,4 +1,4 @@
-// Page-load fade-up for hero copy (home left column, about heading/image).
+// Page-load fade-up for hero copy; keeps the viewport at the top while it runs.
 import gsap from 'gsap';
 
 const prefersReducedMotion = () =>
@@ -10,6 +10,12 @@ export function initHomeIntro(): void {
 	}
 
 	initHeroLoad();
+}
+
+function keepViewportAtTop(): void {
+	if (window.scrollY > 0 && window.scrollY < 80) {
+		window.scrollTo(0, 0);
+	}
 }
 
 function initHeroLoad(): void {
@@ -27,7 +33,11 @@ function initHeroLoad(): void {
 		return;
 	}
 
-	const timeline = gsap.timeline({ defaults: { ease: 'power3.out' } });
+	const startedAtTop = window.scrollY < 1;
+	const timeline = gsap.timeline({
+		defaults: { ease: 'power3.out' },
+		onUpdate: startedAtTop ? keepViewportAtTop : undefined,
+	});
 
 	if (copyItems.length > 0) {
 		timeline.fromTo(
