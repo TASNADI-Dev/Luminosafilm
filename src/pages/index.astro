@@ -38,7 +38,7 @@ const heroVideoToggle = heroVideoToggleLabels.hu;
 ---
 
 <BaseLayout locale="hu">
-	<section class="relative isolate overflow-hidden pt-6 lg:pt-[20rem]" data-hero-section>
+	<section class="relative isolate z-10 overflow-hidden pt-6 lg:pt-[20rem]" data-hero-section>
 		<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
 			<video
 				class="h-full w-full scale-110 object-cover blur-[5rem]"
@@ -112,23 +112,34 @@ const heroVideoToggle = heroVideoToggleLabels.hu;
 		</div>
 
 		<div
-			class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-8 bg-gradient-to-t from-woodsmoke to-transparent"
+			class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-12 bg-gradient-to-t from-woodsmoke to-transparent"
 			aria-hidden="true"
 		></div>
 	</section>
 
-	{
-		logos && (
-			<section class="py-12 lg:py-16" data-stagger>
-				<div class="mx-auto max-w-container px-6 lg:px-10">
-					<ClientLogos logos={logos} />
-				</div>
-			</section>
-		)
-	}
+	<div class="relative overflow-x-clip">
+		{
+			logos && (
+				<section class="relative z-10 py-12 lg:py-16" data-stagger>
+					<div class="mx-auto max-w-container px-6 lg:px-10">
+						<ClientLogos logos={logos} />
+					</div>
+				</section>
+			)
+		}
 
-	<section id="szolgaltatasok" class="py-16 lg:py-24">
-		<div class="mx-auto max-w-container px-6 lg:px-10">
+		<section id="szolgaltatasok" class="relative isolate z-0 py-16 lg:py-24">
+			<img
+				src={asset('/global/horizontal-blur-blob.svg')}
+				alt=""
+				width="1920"
+				height="469"
+				loading="lazy"
+				decoding="async"
+				aria-hidden="true"
+				class="pointer-events-none absolute left-1/2 top-[-10rem] -z-10 w-[180rem] max-w-none -translate-x-1/2"
+			/>
+		<div class="relative z-10 mx-auto max-w-container px-6 lg:px-10">
 			<div class="mb-10 lg:mb-14">
 				<h2 class="font-heading max-w-3xl text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
 					{whyChooseUs.heading}
@@ -153,7 +164,8 @@ const heroVideoToggle = heroVideoToggleLabels.hu;
 				<Button href={heroButtonHref.hu}>{hero.buttonText}</Button>
 			</div>
 		</div>
-	</section>
+		</section>
+	</div>
 
 	<section class="py-16 lg:py-24">
 		<div class="mx-auto max-w-container px-6 lg:px-10">
