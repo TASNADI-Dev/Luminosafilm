@@ -137,33 +137,33 @@ const heroVideoToggle = heroVideoToggleLabels.hu;
 				loading="lazy"
 				decoding="async"
 				aria-hidden="true"
-				class="pointer-events-none absolute left-1/2 top-[-10rem] -z-10 w-[180rem] max-w-none -translate-x-1/2"
+				class="pointer-events-none absolute left-1/2 top-0 -z-10 w-[180rem] max-w-none -translate-x-1/2 -translate-y-1/2"
 			/>
-		<div class="relative z-10 mx-auto max-w-container px-6 lg:px-10">
-			<div class="mb-10 lg:mb-14">
-				<h2 class="font-heading max-w-3xl text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
-					{whyChooseUs.heading}
-				</h2>
-			</div>
+			<div class="relative z-10 mx-auto max-w-container px-6 lg:px-10">
+				<div class="mb-10 lg:mb-14">
+					<h2 class="font-heading max-w-3xl text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
+						{whyChooseUs.heading}
+					</h2>
+				</div>
 
-			<ol class="list-none divide-y divide-woodsmoke-900 border-b border-woodsmoke-900 p-0" data-stagger>
-				{
-					whyChooseUs.items.map((item, index) => (
-						<WhyChooseUsItem
-							index={index}
-							title={item.title}
-							body={item.body}
-							imageUrl={item.imageUrl}
-							imageAlt={item.imageAlt}
-						/>
-					))
-				}
-			</ol>
+				<ol class="list-none divide-y divide-woodsmoke-900 border-b border-woodsmoke-900 p-0" data-stagger>
+					{
+						whyChooseUs.items.map((item, index) => (
+							<WhyChooseUsItem
+								index={index}
+								title={item.title}
+								body={item.body}
+								imageUrl={item.imageUrl}
+								imageAlt={item.imageAlt}
+							/>
+						))
+					}
+				</ol>
 
-			<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
-				<Button href={heroButtonHref.hu}>{hero.buttonText}</Button>
+				<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
+					<Button href={heroButtonHref.hu}>{hero.buttonText}</Button>
+				</div>
 			</div>
-		</div>
 		</section>
 	</div>
 

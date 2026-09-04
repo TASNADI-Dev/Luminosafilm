@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import GlobalCtaSection from '../components/GlobalCtaSection.astro';
 import YoutubeEmbed from '../components/YoutubeEmbed.astro';
+import { asset } from '../lib/assets';
 import { globalCtaSectionButtonHref, referencesMoreButton } from '../lib/i18n';
 import { getGlobalCtaSection } from '../lib/sanity/globalCtaSection';
 import { getReferencesPage } from '../lib/sanity/referencesPage';
@@ -14,44 +15,65 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 ---
 
 <BaseLayout locale="hu" title={`${hero.heading} | Luminosa Film`}>
-	<section class="relative overflow-hidden pt-6 lg:pt-[10rem]">
-		<div class="mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:px-10">
-			<h1 class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
-				{hero.heading}
-			</h1>
-			<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
-				{hero.paragraph}
-			</p>
-		</div>
-	</section>
+	<div class="relative overflow-x-clip">
+		<section class="relative pt-6 lg:pt-[10rem]" data-hero-section>
+			<div
+				class="relative isolate mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:px-10"
+			>
+				<h1
+					class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]"
+					data-hero-copy-item
+				>
+					{hero.heading}
+				</h1>
+				<p
+					class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50"
+					data-hero-copy-item
+				>
+					{hero.paragraph}
+				</p>
+				<img
+					src={asset('/global/horizontal-blur-blob.svg')}
+					alt=""
+					width="1920"
+					height="469"
+					loading="eager"
+					decoding="async"
+					aria-hidden="true"
+					data-hero-media
+					class="pointer-events-none absolute left-1/2 top-full -z-10 w-[180rem] max-w-none -translate-x-1/2 -translate-y-1/4"
+				/>
+			</div>
+		</section>
 
-	{
-		references && (
-			<section class="py-16 lg:py-24">
-				<div class="mx-auto flex max-w-container flex-col gap-8 px-6 lg:gap-10 lg:px-10">
-					<ul class="grid list-none grid-cols-1 gap-8 p-0 lg:grid-cols-3 lg:gap-8">
-						{references.map((reference, index) => (
-							<li class="flex min-w-0 flex-col gap-4">
-								<YoutubeEmbed
-									youtubeId={reference.youtubeId}
-									title={reference.title}
-									eager={index < 3}
-								/>
-								<h3 class="font-heading text-[1.25rem] leading-snug tracking-tight lg:text-[1.5rem]">
-									{reference.title}
-								</h3>
-							</li>
-						))}
-					</ul>
-					<div class="flex justify-center">
-						<Button href={moreButton.href} variant="secondary" target="_blank">
-							{moreButton.label}
-						</Button>
+		{
+			references && (
+				<section class="relative z-[1] py-16 lg:py-24">
+					<div class="mx-auto flex max-w-container flex-col gap-8 px-6 lg:gap-10 lg:px-10">
+						<ul class="grid list-none grid-cols-1 gap-8 p-0 lg:grid-cols-3 lg:gap-8">
+							{references.map((reference, index) => (
+								<li class="flex min-w-0 flex-col gap-4">
+									<YoutubeEmbed
+										youtubeId={reference.youtubeId}
+										title={reference.title}
+										eager={index < 3}
+									/>
+									<h3 class="font-heading text-[1.25rem] leading-snug tracking-tight lg:text-[1.5rem]">
+										{reference.title}
+									</h3>
+								</li>
+							))}
+						</ul>
+						<div class="flex justify-center">
+							<Button href={moreButton.href} variant="secondary" target="_blank">
+								{moreButton.label}
+							</Button>
+						</div>
 					</div>
-				</div>
-			</section>
-		)
-	}
+				</section>
+			)
+		}
+	</div>
 
 	<GlobalCtaSection
 		heading={cta.heading}
@@ -59,4 +81,10 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 		buttonText={cta.buttonText}
 		buttonHref={ctaButtonHref}
 	/>
+
+	<script>
+		import { initHomeIntro } from '../scripts/home-intro';
+
+		initHomeIntro();
+	</script>
 </BaseLayout>

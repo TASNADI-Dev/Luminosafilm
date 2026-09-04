@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Button from '../../../components/Button.astro';
 import GlobalCtaSection from '../../../components/GlobalCtaSection.astro';
+import { asset } from '../../../lib/assets';
 import {
 	globalCtaSectionButtonHref,
 	localeHomePath,
@@ -35,7 +36,8 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 ---
 
 <BaseLayout locale="en" title={`${page.title} | Luminosa Film`}>
-	<section class="relative overflow-hidden pt-6 lg:pt-[10rem]" data-hero-section>
+	<div class="relative overflow-x-clip">
+		<section class="relative z-10 overflow-hidden pt-6 lg:pt-[10rem]" data-hero-section>
 		<div class="mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:px-10">
 			<h1
 				class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]"
@@ -53,7 +55,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 
 		{
 			marqueeImages.length > 0 && (
-				<div class="relative mt-16 overflow-hidden lg:mt-24" data-hero-copy-item>
+				<div class="mt-16 overflow-hidden lg:mt-24" data-hero-copy-item>
 					<ul
 						class="service-hero-marquee-track flex w-max"
 						aria-label={hero.heading}
@@ -78,10 +80,6 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 							);
 						})}
 					</ul>
-					<div
-						class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-bunting-950/90 to-transparent"
-						aria-hidden="true"
-					/>
 				</div>
 			)
 		}
@@ -89,8 +87,19 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 
 	{
 		featureRows && (
-			<section class="py-16 lg:py-24">
-				<div class="mx-auto grid max-w-container grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-10">
+			<section class="relative isolate z-0 py-16 lg:py-24">
+				<img
+					src={asset('/global/horizontal-blur-blob.svg')}
+					alt=""
+					width="1920"
+					height="469"
+					loading="eager"
+					decoding="async"
+					aria-hidden="true"
+					data-intro-blob
+					class="pointer-events-none absolute left-1/2 top-[-12rem] -z-10 w-[180rem] max-w-none -translate-x-1/2"
+				/>
+				<div class="relative z-10 mx-auto grid max-w-container grid-cols-1 gap-10 px-6 lg:grid-cols-12 lg:gap-8 lg:px-10">
 					<div class="lg:col-span-5">
 						<h2 class="font-heading text-[2.5rem] leading-[1.15] tracking-tight lg:sticky lg:top-[6rem] lg:text-[3rem]">
 							{featureRows.heading}
@@ -130,6 +139,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 			</section>
 		)
 	}
+	</div>
 
 	{
 		whyChooseUs && (

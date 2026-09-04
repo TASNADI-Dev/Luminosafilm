@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AchievementsSection from '../components/AchievementsSection.astro';
 import ExperienceStatsSection from '../components/ExperienceStatsSection.astro';
 import GlobalCtaSection from '../components/GlobalCtaSection.astro';
+import { asset } from '../lib/assets';
 import { globalCtaSectionButtonHref, recognitionsHeading } from '../lib/i18n';
 import { getAboutPage } from '../lib/sanity/aboutPage';
 import { getGlobalCtaSection } from '../lib/sanity/globalCtaSection';
@@ -13,38 +14,51 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 ---
 
 <BaseLayout locale="hu" title={`${hero.heading} | Luminosa Film`}>
-	<section class="relative overflow-hidden pt-6 pb-16 lg:pt-[10rem] lg:pb-24" data-hero-section>
-		<div class="mx-auto flex max-w-container flex-col items-center px-6 text-center lg:px-10">
-			<h1
-				class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]"
-				data-hero-copy-item
-			>
-				{hero.heading}
-			</h1>
-			<p
-				class="mt-6 max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50"
-				data-hero-copy-item
-			>
-				{hero.paragraph}
-			</p>
-			{
-				image && (
-					<img
-						class="mt-16 aspect-video w-full object-cover lg:mt-24"
-						src={image.url}
-						alt={image.alt || ''}
-						width={1440}
-						height={810}
-						data-hero-media
-					/>
-				)
-			}
-		</div>
-	</section>
+	<div class="relative overflow-x-clip">
+		<section class="relative pt-6 pb-16 lg:pt-[10rem] lg:pb-24" data-hero-section>
+			<div class="mx-auto flex max-w-container flex-col items-center px-6 text-center lg:px-10">
+				<h1
+					class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]"
+					data-hero-copy-item
+				>
+					{hero.heading}
+				</h1>
+				<p
+					class="mt-6 max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50"
+					data-hero-copy-item
+				>
+					{hero.paragraph}
+				</p>
+				{
+					image && (
+						<div class="relative isolate mt-16 w-full lg:mt-24">
+							<img
+								class="relative z-10 aspect-video w-full object-cover"
+								src={image.url}
+								alt={image.alt || ''}
+								width={1440}
+								height={810}
+								data-hero-copy-item
+							/>
+							<img
+								src={asset('/global/horizontal-blur-blob.svg')}
+								alt=""
+								width="1920"
+								height="469"
+								loading="lazy"
+								decoding="async"
+								aria-hidden="true"
+								class="pointer-events-none absolute left-1/2 top-full -z-10 w-[180rem] max-w-none -translate-x-1/2 -translate-y-1/2"
+							/>
+						</div>
+					)
+				}
+			</div>
+		</section>
 
 	{
 		closingParagraph && (
-			<section class="py-16 lg:py-24">
+			<section class="relative z-[1] py-16 lg:py-24">
 				<div class="mx-auto max-w-container px-6 text-center lg:px-10">
 					<p class="mx-auto max-w-2xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
 						{closingParagraph}
@@ -61,6 +75,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 			<AchievementsSection heading={recognitionsHeading.hu} items={achievements} />
 		)
 	}
+	</div>
 
 	<GlobalCtaSection
 		heading={cta.heading}
