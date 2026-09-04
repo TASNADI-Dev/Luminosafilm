@@ -24,7 +24,7 @@ const innerVariants = {
 
 <span
 	class:list={[
-		'inline-flex rounded-full bg-gradient-to-br from-bunting-950 to-bunting-500 p-px transition-[filter] duration-200 hover:brightness-110',
+		'inline-flex cursor-pointer rounded-full bg-gradient-to-br from-bunting-950 to-bunting-500 p-px transition-[filter] duration-200 hover:brightness-110',
 		className,
 	]}
 >
@@ -34,7 +34,7 @@ const innerVariants = {
 		target={href ? target : undefined}
 		rel={href && target === '_blank' ? 'noopener noreferrer' : undefined}
 		class:list={[
-			'inline-flex items-center justify-center rounded-full px-[1.5rem] py-[0.75rem] font-sans text-[0.9375rem] font-medium text-woodsmoke-50',
+			'inline-flex cursor-pointer items-center justify-center rounded-full px-[1.5rem] py-[0.75rem] font-sans text-[0.9375rem] font-medium text-woodsmoke-50',
 			innerVariants[variant],
 		]}
 	>
