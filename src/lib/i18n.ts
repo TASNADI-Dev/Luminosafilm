@@ -162,6 +162,9 @@ export const pages = {
 	contact: {
 		slugs: { hu: 'kapcsolat', en: 'contact' },
 	},
+	privacy: {
+		slugs: { hu: 'adatvedelem', en: 'privacy-policy' },
+	},
 } as const;
 
 export type PageId = keyof typeof pages;
@@ -282,6 +285,32 @@ export const homeHighlightedReferencesButton: Record<Locale, { href: string; lab
 export const referencesMoreButton: Record<Locale, { href: string; label: string }> = {
 	hu: { href: 'https://www.youtube.com/@luminosafilm5112', label: 'További referenciák' },
 	en: { href: 'https://www.youtube.com/@luminosafilm5112', label: 'More references' },
+};
+
+export const footerUi = {
+	hu: {
+		navLabel: 'Lábléc navigáció',
+		copyright: 'Minden jog fenntartva. © Copyright {year} Luminosa Film',
+		privacy: 'Adatvédelmi irányelvek',
+		cookieSettings: 'Süti beállítások',
+		designBy: 'Design:',
+		designName: 'Tasnadi',
+		youtubeAria: 'Luminosa Film YouTube-csatorna',
+	},
+	en: {
+		navLabel: 'Footer navigation',
+		copyright: 'All rights reserved. © Copyright {year} Luminosa Film',
+		privacy: 'Privacy Policy',
+		cookieSettings: 'Cookie settings',
+		designBy: 'Design by',
+		designName: 'Tasnadi',
+		youtubeAria: 'Luminosa Film YouTube channel',
+	},
+} as const satisfies Record<Locale, Record<string, string>>;
+
+export const designerHref: Record<Locale, string> = {
+	hu: 'https://www.tasnadi.co/hu',
+	en: 'https://www.tasnadi.co/',
 };
 
 export const navUi = {
