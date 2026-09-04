@@ -43,6 +43,12 @@
 @layer base {
 	html {
 		overflow-anchor: none;
+		font-synthesis: style;
+	}
+
+	b,
+	strong {
+		font-weight: 700;
 	}
 
 	h1,

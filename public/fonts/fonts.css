@@ -16,6 +16,14 @@
 
 @font-face {
 	font-family: "Poppins";
+	src: url("Poppins-Bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: "Poppins";
 	src: url("Poppins-Black.woff2") format("woff2");
 	font-weight: 900;
 	font-style: normal;
