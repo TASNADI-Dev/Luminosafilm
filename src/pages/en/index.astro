@@ -2,10 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Button from '../../components/Button.astro';
 import ClientLogos from '../../components/ClientLogos.astro';
+import GlobalCtaSection from '../../components/GlobalCtaSection.astro';
 import ServicesOverviewBlock from '../../components/ServicesOverviewBlock.astro';
 import WhyChooseUsItem from '../../components/WhyChooseUsItem.astro';
 import { asset } from '../../lib/assets';
 import {
+	globalCtaSectionButtonHref,
 	heroButtonHref,
 	heroVideoToggleLabels,
 	homeHighlightedReferencesButton,
@@ -13,6 +15,7 @@ import {
 	servicesOverviewButtonLabel,
 } from '../../lib/i18n';
 import { getClientLogos } from '../../lib/sanity/clientLogos';
+import { getGlobalCtaSection } from '../../lib/sanity/globalCtaSection';
 import {
 	getHomePageHero,
 	getHomePageHighlightedReferences,
@@ -25,7 +28,9 @@ const logos = await getClientLogos('en');
 const servicesOverview = await getHomePageServicesOverview('en');
 const whyChooseUs = await getHomePageWhyChooseUs('en');
 const highlightedReferences = await getHomePageHighlightedReferences('en');
+const cta = await getGlobalCtaSection('en');
 const heroVideoSrc = asset('/home/Showreel.mp4');
+const ctaButtonHref = globalCtaSectionButtonHref.en;
 const servicesOverviewCtaLabel = servicesOverviewButtonLabel.en;
 const highlightedReferencesHeading = homeReferencesHeading.en;
 const highlightedReferencesCta = homeHighlightedReferencesButton.en;
@@ -206,6 +211,13 @@ const heroVideoToggle = heroVideoToggleLabels.en;
 			</section>
 		)
 	}
+
+	<GlobalCtaSection
+		heading={cta.heading}
+		paragraph={cta.paragraph}
+		buttonText={cta.buttonText}
+		buttonHref={ctaButtonHref}
+	/>
 
 	<script>
 		import { initHeroVideoSync } from '../../scripts/hero-video-sync';
