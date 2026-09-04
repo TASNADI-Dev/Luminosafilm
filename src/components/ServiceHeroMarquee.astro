@@ -1,0 +1,53 @@
+---
+import type { ServiceHeroImage } from '../lib/sanity/servicePage';
+
+interface Props {
+	images: ServiceHeroImage[];
+	label: string;
+}
+
+const { images, label } = Astro.props;
+---
+
+{
+	images.length > 0 && (
+		<div
+			class="mt-16 overflow-hidden lg:mt-24"
+			data-hero-copy-item
+			data-service-hero-marquee
+		>
+			<div class="service-hero-marquee-track flex w-max">
+				<ul class="flex" data-marquee-set aria-label={label}>
+					{images.map((image, index) => (
+						<li class="mr-[0.5rem] h-[10.6875rem] w-[14.625rem] shrink-0">
+							<img
+								class="h-full w-full object-cover"
+								src={image.url}
+								alt={image.alt || ''}
+								width={234}
+								height={171}
+								loading={index < 4 ? 'eager' : 'lazy'}
+								decoding="async"
+							/>
+						</li>
+					))}
+				</ul>
+				<ul class="flex" data-marquee-set aria-hidden="true">
+					{images.map((image) => (
+						<li class="mr-[0.5rem] h-[10.6875rem] w-[14.625rem] shrink-0">
+							<img
+								class="h-full w-full object-cover"
+								src={image.url}
+								alt=""
+								width={234}
+								height={171}
+								loading="lazy"
+								decoding="async"
+							/>
+						</li>
+					))}
+				</ul>
+			</div>
+		</div>
+	)
+}

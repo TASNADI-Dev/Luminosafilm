@@ -21,7 +21,7 @@
 
 @layer utilities {
 	.service-hero-marquee-track {
-		animation: service-hero-marquee 60s linear infinite;
+		animation: service-hero-marquee var(--marquee-duration, 60s) linear infinite;
 	}
 
 	.youtube-skeleton-shimmer {

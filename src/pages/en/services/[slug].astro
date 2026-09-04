@@ -2,6 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Button from '../../../components/Button.astro';
 import GlobalCtaSection from '../../../components/GlobalCtaSection.astro';
+import ServiceHeroMarquee from '../../../components/ServiceHeroMarquee.astro';
 import { asset } from '../../../lib/assets';
 import {
 	globalCtaSectionButtonHref,
@@ -29,7 +30,6 @@ if (!page) {
 
 const cta = await getGlobalCtaSection('en');
 const { hero, featureRows, whyChooseUs, relatedReferences } = page;
-const marqueeImages = hero.images.length > 0 ? [...hero.images, ...hero.images] : [];
 const whyChooseUsButtonHref = serviceWhyChooseUsButtonHref.en;
 const relatedReferencesHeading = serviceRelatedReferencesHeading.en;
 const ctaButtonHref = globalCtaSectionButtonHref.en;
@@ -53,36 +53,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 			</p>
 		</div>
 
-		{
-			marqueeImages.length > 0 && (
-				<div class="mt-16 overflow-hidden lg:mt-24" data-hero-copy-item>
-					<ul
-						class="service-hero-marquee-track flex w-max"
-						aria-label={hero.heading}
-					>
-						{marqueeImages.map((image, index) => {
-							const isDuplicate = index >= hero.images.length;
-							return (
-								<li
-									class="mr-[0.5rem] h-[10.6875rem] w-[14.625rem] shrink-0"
-									aria-hidden={isDuplicate ? 'true' : undefined}
-								>
-									<img
-										class="h-full w-full object-cover"
-										src={image.url}
-										alt={isDuplicate ? '' : image.alt || ''}
-										width={234}
-										height={171}
-										loading={index < 4 ? 'eager' : 'lazy'}
-										decoding="async"
-									/>
-								</li>
-							);
-						})}
-					</ul>
-				</div>
-			)
-		}
+		<ServiceHeroMarquee images={hero.images} label={hero.heading} />
 	</section>
 
 	{
@@ -241,7 +212,9 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 
 	<script>
 		import { initHomeIntro } from '../../../scripts/home-intro';
+		import { initServiceHeroMarquee } from '../../../scripts/service-hero-marquee';
 
+		initServiceHeroMarquee();
 		initHomeIntro();
 	</script>
 </BaseLayout>
