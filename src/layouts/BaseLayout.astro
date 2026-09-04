@@ -28,5 +28,10 @@ const { locale, title = 'Luminosa Film' } = Astro.props;
 			<slot />
 		</div>
 		<Footer locale={locale} />
+		<script>
+			import { initScrollStaggers } from '../scripts/scroll-stagger';
+
+			initScrollStaggers();
+		</script>
 	</body>
 </html>

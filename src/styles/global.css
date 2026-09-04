@@ -34,6 +34,35 @@
 		font-family: "Cabinet Grotesk", sans-serif;
 	}
 
+	[data-hero-copy],
+	[data-hero-copy-item] {
+		opacity: 0;
+		transform: translateY(2.5rem);
+	}
+
+	[data-hero-media],
+	[data-hero-video-bg] {
+		opacity: 0;
+	}
+
+	[data-stagger] [data-stagger-item],
+	[data-stagger]:not(:has([data-stagger-item])) {
+		opacity: 0;
+		transform: translateY(1.25rem);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		[data-hero-copy],
+		[data-hero-copy-item],
+		[data-hero-media],
+		[data-hero-video-bg],
+		[data-stagger] [data-stagger-item],
+		[data-stagger]:not(:has([data-stagger-item])) {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
 	[data-hero-video-toggle] {
 		opacity: 0;
 		pointer-events: none;

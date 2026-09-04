@@ -35,19 +35,25 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 ---
 
 <BaseLayout locale="hu" title={`${page.title} | Luminosa Film`}>
-	<section class="relative overflow-hidden pt-6 lg:pt-[10rem]">
+	<section class="relative overflow-hidden pt-6 lg:pt-[10rem]" data-hero-section>
 		<div class="mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:px-10">
-			<h1 class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
+			<h1
+				class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]"
+				data-hero-copy-item
+			>
 				{hero.heading}
 			</h1>
-			<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+			<p
+				class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50"
+				data-hero-copy-item
+			>
 				{hero.paragraph}
 			</p>
 		</div>
 
 		{
 			marqueeImages.length > 0 && (
-				<div class="relative mt-16 overflow-hidden lg:mt-24">
+				<div class="relative mt-16 overflow-hidden lg:mt-24" data-hero-copy-item>
 					<ul
 						class="service-hero-marquee-track flex w-max"
 						aria-label={hero.heading}
@@ -92,7 +98,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 					</div>
 					<ul class="flex list-none flex-col gap-10 p-0 lg:col-span-7 lg:gap-12">
 						{featureRows.rows.map((row) => (
-							<li class="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
+							<li class="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8" data-stagger>
 								{row.imageUrl ? (
 									<img
 										class="h-[10.6875rem] w-[14.625rem] shrink-0 object-cover"
@@ -222,4 +228,10 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 		buttonText={cta.buttonText}
 		buttonHref={ctaButtonHref}
 	/>
+
+	<script>
+		import { initHomeIntro } from '../../scripts/home-intro';
+
+		initHomeIntro();
+	</script>
 </BaseLayout>

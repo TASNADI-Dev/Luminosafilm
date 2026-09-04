@@ -13,12 +13,18 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 ---
 
 <BaseLayout locale="en" title={`${hero.heading} | Luminosa Film`}>
-	<section class="relative overflow-hidden pt-6 pb-16 lg:pt-[10rem] lg:pb-24">
+	<section class="relative overflow-hidden pt-6 pb-16 lg:pt-[10rem] lg:pb-24" data-hero-section>
 		<div class="mx-auto flex max-w-container flex-col items-center px-6 text-center lg:px-10">
-			<h1 class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]">
+			<h1
+				class="font-heading text-[3rem] leading-[1.1] tracking-tight lg:text-[4rem]"
+				data-hero-copy-item
+			>
 				{hero.heading}
 			</h1>
-			<p class="mt-6 max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+			<p
+				class="mt-6 max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50"
+				data-hero-copy-item
+			>
 				{hero.paragraph}
 			</p>
 			{
@@ -29,6 +35,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 						alt={image.alt || ''}
 						width={1440}
 						height={810}
+						data-hero-copy-item
 					/>
 				)
 			}
@@ -61,4 +68,10 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 		buttonText={cta.buttonText}
 		buttonHref={ctaButtonHref}
 	/>
+
+	<script>
+		import { initHomeIntro } from '../../scripts/home-intro';
+
+		initHomeIntro();
+	</script>
 </BaseLayout>

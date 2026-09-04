@@ -15,10 +15,10 @@ const valueColorClasses = ['text-azure-400', 'text-bunting-400', 'text-azure-300
 
 <section class="py-16 lg:py-24">
 	<div class="mx-auto max-w-container px-6 lg:px-10">
-		<ul class="grid list-none grid-cols-1 gap-10 p-0 sm:grid-cols-3 sm:gap-8">
+		<ul class="grid list-none grid-cols-1 gap-10 p-0 sm:grid-cols-3 sm:gap-8" data-stagger>
 			{
 				items.map((item, index) => (
-					<li class="flex flex-col items-center gap-2 text-center">
+					<li class="flex flex-col items-center gap-2 text-center" data-stagger-item>
 						<span
 							class:list={[
 								'font-heading text-[4rem] leading-none tracking-tight lg:text-[5rem]',

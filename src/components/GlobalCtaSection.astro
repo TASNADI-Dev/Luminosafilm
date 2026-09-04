@@ -27,14 +27,20 @@ const backgroundSrc = asset('/global/cta-bg.webp');
 		<div class="absolute inset-0 bg-woodsmoke-950/80"></div>
 	</div>
 
-	<div class="relative z-10 mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:gap-8 lg:px-10">
-		<h2 class="font-heading text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
+	<div
+		class="relative z-10 mx-auto flex max-w-container flex-col items-center gap-6 px-6 text-center lg:gap-8 lg:px-10"
+		data-stagger
+	>
+		<h2
+			class="font-heading text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]"
+			data-stagger-item
+		>
 			{heading}
 		</h2>
-		<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50">
+		<p class="max-w-xl text-[1.125rem] leading-relaxed text-woodsmoke-50" data-stagger-item>
 			{paragraph}
 		</p>
-		<div>
+		<div data-stagger-item>
 			<Button href={buttonHref}>{buttonText}</Button>
 		</div>
 	</div>

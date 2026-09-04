@@ -18,7 +18,7 @@ const listClass =
 <ul class={listClass}>
 	{
 		logos.map((logo) => (
-			<li class="flex h-16 w-36 items-center justify-center lg:h-20 lg:w-44">
+			<li class="flex h-16 w-36 items-center justify-center lg:h-20 lg:w-44" data-stagger-item>
 				<img
 					class="max-h-full max-w-full object-contain"
 					src={urlFor({ asset: { _ref: logo.asset!._id } })
