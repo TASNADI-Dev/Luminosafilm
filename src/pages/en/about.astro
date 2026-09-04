@@ -2,10 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AchievementsSection from '../../components/AchievementsSection.astro';
 import ExperienceStatsSection from '../../components/ExperienceStatsSection.astro';
-import { recognitionsHeading } from '../../lib/i18n';
+import GlobalCtaSection from '../../components/GlobalCtaSection.astro';
+import { globalCtaSectionButtonHref, recognitionsHeading } from '../../lib/i18n';
 import { getAboutPage } from '../../lib/sanity/aboutPage';
+import { getGlobalCtaSection } from '../../lib/sanity/globalCtaSection';
 
 const { hero, image, closingParagraph, experienceStats, achievements } = await getAboutPage('en');
+const cta = await getGlobalCtaSection('en');
+const ctaButtonHref = globalCtaSectionButtonHref.en;
 ---
 
 <BaseLayout locale="en" title={`${hero.heading} | Luminosa Film`}>
@@ -56,4 +60,11 @@ const { hero, image, closingParagraph, experienceStats, achievements } = await g
 			<AchievementsSection heading={recognitionsHeading.en} items={achievements} />
 		)
 	}
+
+	<GlobalCtaSection
+		heading={cta.heading}
+		paragraph={cta.paragraph}
+		buttonText={cta.buttonText}
+		buttonHref={ctaButtonHref}
+	/>
 </BaseLayout>
