@@ -1,43 +1,36 @@
-# Astro Starter Kit: Minimal
+# Luminosafilm
+
+Marketing site for Luminosafilm. Hungarian is the default locale; English lives under `/en/`.
+
+## Stack
+
+- **Astro 7** + TypeScript
+- **Tailwind CSS 4** (`tailwind.config.mjs` is the theme source of truth)
+- **React** (only for the embedded Sanity Studio)
+- **Sanity** CMS (field-level `hu` / `en` localization)
+- **FormSubmit** (contact form, AJAX)
+- **Cloudflare R2** (static images via `asset()` in `src/lib/assets.ts`)
+- **Cloudflare Pages** (hosting)
+
+Node `>= 22.12.0`.
+
+## Local setup
 
 ```sh
-npm create astro@latest -- --template minimal
+cp .env.example .env   # fill PUBLIC_SANITY_PROJECT_ID + PUBLIC_SANITY_DATASET
+npm install
+npm run dev            # http://localhost:4321/Luminosafilm/
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-## 🚀 Project Structure
+| Command                       | What it does                 |
+| ----------------------------- | ---------------------------- |
+| `npm run dev`                 | Local Astro server           |
+| `npm run build`               | Production build → `./dist/` |
+| `npm run preview`             | Preview the build            |
+| `cd studio && npm run dev`    | Standalone Sanity Studio     |
+| `cd studio && npm run deploy` | Deploy hosted Studio         |
 
-Inside of your Astro project, you'll see the following folders and files:
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Embedded Studio is at `/admin`.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
