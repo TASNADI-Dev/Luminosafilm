@@ -1,6 +1,6 @@
 ---
 import Button from './Button.astro';
-import { contactFormUi, type Locale } from '../lib/i18n';
+import { contactFormUi, pagePath, type Locale } from '../lib/i18n';
 
 interface Props {
 	locale: Locale;
@@ -8,6 +8,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const ui = contactFormUi[locale];
+const privacyHref = pagePath(locale, 'privacy');
 
 const inputClass =
 	'w-full rounded-lg border border-woodsmoke-700 bg-woodsmoke-950 px-4 py-3 font-sans text-[1rem] text-woodsmoke-50 placeholder:text-woodsmoke-400 transition-colors focus:border-azure-500 focus:outline-none';
@@ -26,6 +27,7 @@ const errorClass = 'font-sans text-[0.8125rem] text-azure-300';
 	data-error-email-required={ui.emailRequired}
 	data-error-email-invalid={ui.emailInvalid}
 	data-error-message-required={ui.messageRequired}
+	data-error-consent-required={ui.consentRequired}
 	novalidate
 >
 	<div class="flex flex-col gap-2" data-contact-field="name">
@@ -64,6 +66,27 @@ const errorClass = 'font-sans text-[0.8125rem] text-azure-300';
 		<p class={errorClass} data-contact-field-error hidden></p>
 	</div>
 
+	<div class="flex flex-col gap-2" data-contact-field="consent">
+		<div class="flex items-start gap-3">
+			<input
+				class="contact-consent-checkbox mt-1 size-4 shrink-0 cursor-pointer appearance-none rounded border border-woodsmoke-700 bg-woodsmoke-950 bg-center bg-no-repeat checked:border-azure-500 checked:bg-azure-500 focus:outline-none focus:ring-2 focus:ring-azure-500"
+				type="checkbox"
+				id={`contact-consent-${locale}`}
+				name="consent"
+				value="accepted"
+				required
+			/>
+			<label class:list={[labelClass, 'leading-relaxed']} for={`contact-consent-${locale}`}>
+				{ui.consentBefore}<a
+					href={privacyHref}
+					class="underline underline-offset-2 transition-colors hover:text-azure-300"
+					>{ui.consentLink}</a
+				>{ui.consentAfter}
+			</label>
+		</div>
+		<p class={errorClass} data-contact-field-error hidden></p>
+	</div>
+
 	<div
 		class="rounded-lg border px-4 py-3 font-sans text-[0.9375rem] leading-relaxed data-[variant=error]:border-azure-400/40 data-[variant=error]:bg-azure-950/30 data-[variant=error]:text-azure-100 data-[variant=success]:border-bunting-400/40 data-[variant=success]:bg-bunting-950/40 data-[variant=success]:text-woodsmoke-50"
 		data-contact-form-status
@@ -87,3 +110,9 @@ const errorClass = 'font-sans text-[0.8125rem] text-azure-300';
 		initContactForm(form);
 	});
 </script>
+
+<style>
+	.contact-consent-checkbox:checked {
+		background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m3.5 8.5 3 3 6-6'/%3E%3C/svg%3E");
+	}
+</style>

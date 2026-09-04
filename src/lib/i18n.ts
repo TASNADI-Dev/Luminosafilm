@@ -349,6 +349,10 @@ export const contactFormUi = {
 		emailRequired: 'Add meg az e-mail címed.',
 		emailInvalid: 'Érvénytelen e-mail cím.',
 		messageRequired: 'Írd meg üzeneted.',
+		consentBefore: 'Elolvastam és elfogadom az ',
+		consentLink: 'Adatvédelmi irányelveket',
+		consentAfter: ', és hozzájárulok személyes adataim tárolásához és feldolgozásához.*',
+		consentRequired: 'Fogadd el az adatvédelmi irányelveket.',
 		subject: 'Kapcsolatfelvétel – Luminosa Film',
 	},
 	en: {
@@ -363,6 +367,10 @@ export const contactFormUi = {
 		emailRequired: 'Please enter your email address.',
 		emailInvalid: 'Invalid email address.',
 		messageRequired: 'Please enter your message.',
+		consentBefore: 'I have read and agree to the ',
+		consentLink: 'Privacy Policy',
+		consentAfter: ', and I consent to the storage and processing of my personal data.*',
+		consentRequired: 'Please agree to the Privacy Policy.',
 		subject: 'Contact request – Luminosa Film',
 	},
 } as const satisfies Record<Locale, Record<string, string>>;

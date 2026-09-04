@@ -62,13 +62,19 @@ export function initContactForm(root: HTMLFormElement): void {
 		name: root.querySelector<HTMLElement>('[data-contact-field="name"]'),
 		email: root.querySelector<HTMLElement>('[data-contact-field="email"]'),
 		message: root.querySelector<HTMLElement>('[data-contact-field="message"]'),
+		consent: root.querySelector<HTMLElement>('[data-contact-field="consent"]'),
 	};
 
-	const getInputValue = (fieldName: keyof typeof fields): string => {
+	const getInputValue = (fieldName: 'name' | 'email' | 'message'): string => {
 		const input = fields[fieldName]?.querySelector<HTMLInputElement | HTMLTextAreaElement>(
 			'input, textarea',
 		);
 		return input?.value.trim() ?? '';
+	};
+
+	const isConsentChecked = (): boolean => {
+		const input = fields.consent?.querySelector<HTMLInputElement>('input[type="checkbox"]');
+		return input?.checked ?? false;
 	};
 
 	const validate = (): boolean => {
@@ -103,6 +109,13 @@ export function initContactForm(root: HTMLFormElement): void {
 			setFieldError(fields.message, null);
 		}
 
+		if (!isConsentChecked()) {
+			setFieldError(fields.consent, root.dataset.errorConsentRequired ?? 'Required');
+			valid = false;
+		} else {
+			setFieldError(fields.consent, null);
+		}
+
 		return valid;
 	};
 
@@ -127,6 +140,7 @@ export function initContactForm(root: HTMLFormElement): void {
 			name: getInputValue('name'),
 			email: getInputValue('email'),
 			message: getInputValue('message'),
+			consent: 'accepted',
 			_subject: root.dataset.subject ?? 'Contact form',
 			_captcha: 'false',
 		};
@@ -150,6 +164,7 @@ export function initContactForm(root: HTMLFormElement): void {
 				setFieldError(fields.name, null);
 				setFieldError(fields.email, null);
 				setFieldError(fields.message, null);
+				setFieldError(fields.consent, null);
 				setStatus(status, root.dataset.successText ?? 'Success', 'success');
 				return;
 			}
