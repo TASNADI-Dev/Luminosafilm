@@ -32,7 +32,6 @@ export interface ServiceWhyChooseUsRow {
 export interface ServiceWhyChooseUs {
 	heading: string
 	paragraph: string
-	buttonText: string
 	imageUrl?: string
 	imageAlt?: string
 	rows: ServiceWhyChooseUsRow[]
@@ -89,7 +88,6 @@ interface ServicePageQueryResult {
 	whyChooseUs?: {
 		heading?: string
 		paragraph?: string
-		buttonText?: string
 		image?: ServiceHeroImageQuery
 		rows?: ServiceWhyChooseUsRowQuery[]
 	}
@@ -186,12 +184,7 @@ function normalizeWhyChooseUs(
 	result: ServicePageQueryResult | null,
 ): ServiceWhyChooseUs | undefined {
 	const section = result?.whyChooseUs
-	if (
-		!section?.heading ||
-		!section.paragraph ||
-		!section.buttonText ||
-		!section.rows?.length
-	) {
+	if (!section?.heading || !section.paragraph || !section.rows?.length) {
 		return undefined
 	}
 
@@ -218,7 +211,6 @@ function normalizeWhyChooseUs(
 	return {
 		heading: section.heading,
 		paragraph: section.paragraph,
-		buttonText: section.buttonText,
 		imageUrl,
 		imageAlt: section.image?.alt,
 		rows,

@@ -6,11 +6,12 @@ import ServiceHeroMarquee from '../../components/ServiceHeroMarquee.astro';
 import { asset } from '../../lib/assets';
 import {
 	globalCtaSectionButtonHref,
+	heroButtonHref,
 	localeHomePath,
 	serviceRelatedReferencesHeading,
-	serviceWhyChooseUsButtonHref,
 } from '../../lib/i18n';
 import { getGlobalCtaSection } from '../../lib/sanity/globalCtaSection';
+import { getHomePageHero } from '../../lib/sanity/homePage';
 import { getServicePageBySlug, getServicePageSlugs } from '../../lib/sanity/servicePage';
 
 export async function getStaticPaths() {
@@ -28,9 +29,13 @@ if (!page) {
 	return Astro.redirect(localeHomePath('hu'));
 }
 
-const cta = await getGlobalCtaSection('hu');
+const [cta, homeHero] = await Promise.all([
+	getGlobalCtaSection('hu'),
+	getHomePageHero('hu'),
+]);
 const { hero, featureRows, whyChooseUs, relatedReferences } = page;
-const whyChooseUsButtonHref = serviceWhyChooseUsButtonHref.hu;
+const whyChooseUsButtonHref = heroButtonHref.hu;
+const whyChooseUsButtonText = homeHero.buttonText;
 const relatedReferencesHeading = serviceRelatedReferencesHeading.hu;
 const ctaButtonHref = globalCtaSectionButtonHref.hu;
 ---
@@ -131,7 +136,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 							</ul>
 						</div>
 						<div>
-							<Button href={whyChooseUsButtonHref}>{whyChooseUs.buttonText}</Button>
+							<Button href={whyChooseUsButtonHref}>{whyChooseUsButtonText}</Button>
 						</div>
 					</div>
 				</div>

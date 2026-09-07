@@ -245,12 +245,6 @@ export const servicesOverviewButtonLabel: Record<Locale, string> = {
 	en: 'Learn more',
 };
 
-/** Hardcoded service-page why-choose-us CTA href per locale (label is Sanity-editable). */
-export const serviceWhyChooseUsButtonHref: Record<Locale, string> = {
-	hu: '#kapcsolat',
-	en: '#contact',
-};
-
 /** Hardcoded global CTA section href per locale (label is Sanity-editable). */
 export const globalCtaSectionButtonHref: Record<Locale, string> = {
 	hu: pagePath('hu', 'contact'),

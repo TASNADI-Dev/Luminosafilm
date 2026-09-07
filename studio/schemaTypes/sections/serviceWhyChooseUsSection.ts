@@ -1,4 +1,4 @@
-// Service page "why choose us" section: image, heading, intro, boxed rows, button text (link is code-owned).
+// Service page "why choose us" section: image, heading, intro, boxed rows (CTA matches home hero).
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const serviceWhyChooseUsSection = defineType({
@@ -68,13 +68,6 @@ export const serviceWhyChooseUsSection = defineType({
         }),
       ],
       validation: (rule) => rule.required().min(1).max(8),
-    }),
-    defineField({
-      name: 'buttonText',
-      title: 'Button Text',
-      description: 'Button label only. The link target is defined in code.',
-      type: 'localizedString',
-      validation: (rule) => rule.required(),
     }),
   ],
   preview: {

@@ -101,7 +101,6 @@ export const SERVICE_PAGE_BY_ID_QUERY = `coalesce(
   whyChooseUs{
     "heading": heading[$locale],
     "paragraph": paragraph[$locale],
-    "buttonText": buttonText[$locale],
     image{
       hotspot,
       crop,
