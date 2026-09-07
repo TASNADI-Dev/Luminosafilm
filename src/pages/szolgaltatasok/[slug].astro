@@ -11,7 +11,7 @@ import {
 	serviceRelatedReferencesHeading,
 } from '../../lib/i18n';
 import { getGlobalCtaSection } from '../../lib/sanity/globalCtaSection';
-import { getHomePageHero } from '../../lib/sanity/homePage';
+import { getPrimaryButtonText } from '../../lib/sanity/primaryButton';
 import { getServicePageBySlug, getServicePageSlugs } from '../../lib/sanity/servicePage';
 
 export async function getStaticPaths() {
@@ -29,13 +29,12 @@ if (!page) {
 	return Astro.redirect(localeHomePath('hu'));
 }
 
-const [cta, homeHero] = await Promise.all([
+const [cta, primaryButtonText] = await Promise.all([
 	getGlobalCtaSection('hu'),
-	getHomePageHero('hu'),
+	getPrimaryButtonText('hu'),
 ]);
 const { hero, featureRows, whyChooseUs, relatedReferences } = page;
 const whyChooseUsButtonHref = heroButtonHref.hu;
-const whyChooseUsButtonText = homeHero.buttonText;
 const relatedReferencesHeading = serviceRelatedReferencesHeading.hu;
 const ctaButtonHref = globalCtaSectionButtonHref.hu;
 ---
@@ -136,7 +135,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 							</ul>
 						</div>
 						<div>
-							<Button href={whyChooseUsButtonHref}>{whyChooseUsButtonText}</Button>
+							<Button href={whyChooseUsButtonHref}>{primaryButtonText}</Button>
 						</div>
 					</div>
 				</div>
@@ -184,7 +183,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 	<GlobalCtaSection
 		heading={cta.heading}
 		paragraph={cta.paragraph}
-		buttonText={cta.buttonText}
+		buttonText={primaryButtonText}
 		buttonHref={ctaButtonHref}
 	/>
 

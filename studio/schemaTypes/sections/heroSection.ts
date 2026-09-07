@@ -24,12 +24,6 @@ export const heroSection = defineType({
       validation: (rule) => rule.required().uri({scheme: ['http', 'https']}),
       initialValue: 'https://lorem.video/1280x720',
     }),
-    defineField({
-      name: 'buttonText',
-      title: 'Button Text',
-      type: 'localizedString',
-      validation: (rule) => rule.required(),
-    }),
   ],
   preview: {
     select: {headingHu: 'heading.hu'},

@@ -7,9 +7,13 @@ import { asset } from '../lib/assets';
 import { globalCtaSectionButtonHref, recognitionsHeading } from '../lib/i18n';
 import { getAboutPage } from '../lib/sanity/aboutPage';
 import { getGlobalCtaSection } from '../lib/sanity/globalCtaSection';
+import { getPrimaryButtonText } from '../lib/sanity/primaryButton';
 
 const { hero, image, closingParagraph, experienceStats, achievements } = await getAboutPage('hu');
-const cta = await getGlobalCtaSection('hu');
+const [cta, primaryButtonText] = await Promise.all([
+	getGlobalCtaSection('hu'),
+	getPrimaryButtonText('hu'),
+]);
 const ctaButtonHref = globalCtaSectionButtonHref.hu;
 ---
 
@@ -80,7 +84,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 	<GlobalCtaSection
 		heading={cta.heading}
 		paragraph={cta.paragraph}
-		buttonText={cta.buttonText}
+		buttonText={primaryButtonText}
 		buttonHref={ctaButtonHref}
 	/>
 

@@ -6,10 +6,14 @@ import YoutubeEmbed from '../components/YoutubeEmbed.astro';
 import { asset } from '../lib/assets';
 import { globalCtaSectionButtonHref, referencesMoreButton } from '../lib/i18n';
 import { getGlobalCtaSection } from '../lib/sanity/globalCtaSection';
+import { getPrimaryButtonText } from '../lib/sanity/primaryButton';
 import { getReferencesPage } from '../lib/sanity/referencesPage';
 
 const { hero, references } = await getReferencesPage('hu');
-const cta = await getGlobalCtaSection('hu');
+const [cta, primaryButtonText] = await Promise.all([
+	getGlobalCtaSection('hu'),
+	getPrimaryButtonText('hu'),
+]);
 const moreButton = referencesMoreButton.hu;
 const ctaButtonHref = globalCtaSectionButtonHref.hu;
 ---
@@ -78,7 +82,7 @@ const ctaButtonHref = globalCtaSectionButtonHref.hu;
 	<GlobalCtaSection
 		heading={cta.heading}
 		paragraph={cta.paragraph}
-		buttonText={cta.buttonText}
+		buttonText={primaryButtonText}
 		buttonHref={ctaButtonHref}
 	/>
 

@@ -15,7 +15,6 @@ export interface HeroSection {
   heading: string
   paragraph: string
   videoUrl: string
-  buttonText: string
 }
 
 export interface WhyChooseUsItem {
@@ -132,14 +131,12 @@ const defaultHeroByLocale: Record<Locale, Omit<HeroSection, '_type' | '_key'>> =
     paragraph:
       'Egyedi vizuális történeteket alkotunk, amelyek emlékezetes élményt nyújtanak a közönségnek.',
     videoUrl: defaultHeroVideoUrl,
-    buttonText: 'Kapcsolatfelvétel',
   },
   en: {
     heading: 'Professional filmmaking',
     paragraph:
       'We craft distinctive visual stories that create memorable experiences for your audience.',
     videoUrl: defaultHeroVideoUrl,
-    buttonText: 'Get in touch',
   },
 }
 
@@ -156,8 +153,7 @@ function isCompleteHero(section: HeroSection | undefined): section is HeroSectio
     section?._type === 'heroSection' &&
       section.heading &&
       section.paragraph &&
-      section.videoUrl &&
-      section.buttonText,
+      section.videoUrl,
   )
 }
 

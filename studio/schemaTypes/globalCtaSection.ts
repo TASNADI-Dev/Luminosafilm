@@ -1,4 +1,4 @@
-// Global CTA section singleton: heading, paragraph, and button label shared site-wide.
+// Global CTA section singleton: heading and paragraph shared site-wide.
 import {SparklesIcon} from '@sanity/icons/Sparkles'
 import {defineField, defineType} from 'sanity'
 
@@ -18,12 +18,6 @@ export const globalCtaSection = defineType({
       name: 'paragraph',
       title: 'Paragraph',
       type: 'localizedText',
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'buttonText',
-      title: 'Button text',
-      type: 'localizedString',
       validation: (rule) => rule.required(),
     }),
   ],

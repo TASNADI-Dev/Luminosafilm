@@ -11,6 +11,7 @@ const singletonTypes = new Set([
   'aboutPage',
   'privacyPage',
   'globalCtaSection',
+  'primaryButton',
   'clientLogos',
 ])
 

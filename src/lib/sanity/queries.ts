@@ -11,7 +11,6 @@ export const HOME_PAGE_QUERY = `coalesce(
     _key,
     "heading": heading[$locale],
     "paragraph": paragraph[$locale],
-    "buttonText": buttonText[$locale],
     videoUrl,
     items[]{
       _key,
@@ -213,7 +212,15 @@ export const GLOBAL_CTA_SECTION_QUERY = `coalesce(
   *[_id == "drafts." + $documentId][0]
 ){
   "heading": heading[$locale],
-  "paragraph": paragraph[$locale],
+  "paragraph": paragraph[$locale]
+}`
+
+export const PRIMARY_BUTTON_DOCUMENT_ID = 'primaryButton'
+
+export const PRIMARY_BUTTON_QUERY = `coalesce(
+  *[_id == $documentId][0],
+  *[_id == "drafts." + $documentId][0]
+){
   "buttonText": buttonText[$locale]
 }`
 

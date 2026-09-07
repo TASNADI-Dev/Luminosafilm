@@ -6,13 +6,11 @@ import {GLOBAL_CTA_SECTION_DOCUMENT_ID, GLOBAL_CTA_SECTION_QUERY} from './querie
 export interface GlobalCtaSectionContent {
 	heading: string
 	paragraph: string
-	buttonText: string
 }
 
 interface GlobalCtaSectionQueryResult {
 	heading?: string
 	paragraph?: string
-	buttonText?: string
 }
 
 const defaultCtaByLocale: Record<Locale, GlobalCtaSectionContent> = {
@@ -20,13 +18,11 @@ const defaultCtaByLocale: Record<Locale, GlobalCtaSectionContent> = {
 		heading: 'Készen áll a következő filmprojektjére?',
 		paragraph:
 			'Mesélje el, miben segíthetünk — felvesszük Önnel a kapcsolatot, és közösen megtaláljuk a legjobb megoldást.',
-		buttonText: 'Kapcsolatfelvétel',
 	},
 	en: {
 		heading: 'Ready for your next film project?',
 		paragraph:
 			'Tell us how we can help — we’ll get in touch and find the best approach together.',
-		buttonText: 'Get in touch',
 	},
 }
 
@@ -42,14 +38,13 @@ export async function getGlobalCtaSection(
 			},
 		)
 
-		if (!result?.heading || !result.paragraph || !result.buttonText) {
+		if (!result?.heading || !result.paragraph) {
 			return defaultCtaByLocale[locale]
 		}
 
 		return {
 			heading: result.heading,
 			paragraph: result.paragraph,
-			buttonText: result.buttonText,
 		}
 	} catch {
 		return defaultCtaByLocale[locale]

@@ -16,6 +16,7 @@ import {
 } from '../../lib/i18n';
 import { getClientLogos } from '../../lib/sanity/clientLogos';
 import { getGlobalCtaSection } from '../../lib/sanity/globalCtaSection';
+import { getPrimaryButtonText } from '../../lib/sanity/primaryButton';
 import {
 	getHomePageHero,
 	getHomePageHighlightedReferences,
@@ -28,7 +29,10 @@ const logos = await getClientLogos('en');
 const servicesOverview = await getHomePageServicesOverview('en');
 const whyChooseUs = await getHomePageWhyChooseUs('en');
 const highlightedReferences = await getHomePageHighlightedReferences('en');
-const cta = await getGlobalCtaSection('en');
+const [cta, primaryButtonText] = await Promise.all([
+	getGlobalCtaSection('en'),
+	getPrimaryButtonText('en'),
+]);
 const heroVideoSrc = asset('/home/Showreel.mp4');
 const ctaButtonHref = globalCtaSectionButtonHref.en;
 const servicesOverviewCtaLabel = servicesOverviewButtonLabel.en;
@@ -66,7 +70,7 @@ const heroVideoToggle = heroVideoToggleLabels.en;
 					{hero.paragraph}
 				</p>
 				<div>
-					<Button href={heroButtonHref.en}>{hero.buttonText}</Button>
+					<Button href={heroButtonHref.en}>{primaryButtonText}</Button>
 				</div>
 			</div>
 
@@ -161,7 +165,7 @@ const heroVideoToggle = heroVideoToggleLabels.en;
 				</ol>
 
 				<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
-					<Button href={heroButtonHref.en}>{hero.buttonText}</Button>
+					<Button href={heroButtonHref.en}>{primaryButtonText}</Button>
 				</div>
 			</div>
 		</section>
@@ -232,7 +236,7 @@ const heroVideoToggle = heroVideoToggleLabels.en;
 	<GlobalCtaSection
 		heading={cta.heading}
 		paragraph={cta.paragraph}
-		buttonText={cta.buttonText}
+		buttonText={primaryButtonText}
 		buttonHref={ctaButtonHref}
 	/>
 
