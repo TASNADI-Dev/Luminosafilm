@@ -45,7 +45,7 @@ export const servicePage = defineType({
     }),
     defineField({
       name: 'featureRows',
-      title: 'Feature Rows',
+      title: 'Feature Section',
       type: 'featureRowsSection',
     }),
     defineField({

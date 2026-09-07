@@ -18,17 +18,9 @@ export interface ServiceHero {
 	images: ServiceHeroImage[]
 }
 
-export interface ServiceFeatureRow {
-	_key: string
-	title: string
-	body: string
-	imageUrl?: string
-	imageAlt?: string
-}
-
 export interface ServiceFeatureRows {
 	heading: string
-	rows: ServiceFeatureRow[]
+	paragraph: string
 }
 
 export interface ServiceWhyChooseUsRow {
@@ -74,13 +66,6 @@ interface ServiceHeroImageQuery {
 	}
 }
 
-interface ServiceFeatureRowQuery {
-	_key?: string
-	title?: string
-	body?: string
-	image?: ServiceHeroImageQuery
-}
-
 interface ServiceWhyChooseUsRowQuery {
 	_key?: string
 	title?: string
@@ -99,7 +84,7 @@ interface ServicePageQueryResult {
 	images?: ServiceHeroImageQuery[]
 	featureRows?: {
 		heading?: string
-		rows?: ServiceFeatureRowQuery[]
+		paragraph?: string
 	}
 	whyChooseUs?: {
 		heading?: string
@@ -187,35 +172,13 @@ function normalizeFeatureRows(
 	result: ServicePageQueryResult | null,
 ): ServiceFeatureRows | undefined {
 	const section = result?.featureRows
-	if (!section?.heading || !section.rows?.length) {
-		return undefined
-	}
-
-	const rows = section.rows
-		.map((row, index) => {
-			if (!row.title || !row.body) {
-				return null
-			}
-
-			const imageUrl = row.image ? resolveImageUrl(row.image, 468, 342) : undefined
-
-			return {
-				_key: row._key || `row-${index + 1}`,
-				title: row.title,
-				body: row.body,
-				imageUrl,
-				imageAlt: row.image?.alt,
-			}
-		})
-		.filter((row): row is ServiceFeatureRow => row !== null)
-
-	if (rows.length === 0) {
+	if (!section?.heading || !section.paragraph) {
 		return undefined
 	}
 
 	return {
 		heading: section.heading,
-		rows,
+		paragraph: section.paragraph,
 	}
 }
 
