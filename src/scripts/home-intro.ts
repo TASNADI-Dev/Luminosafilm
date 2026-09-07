@@ -12,12 +12,6 @@ export function initHomeIntro(): void {
 	initHeroLoad();
 }
 
-function keepViewportAtTop(): void {
-	if (window.scrollY > 0 && window.scrollY < 80) {
-		window.scrollTo(0, 0);
-	}
-}
-
 function initHeroLoad(): void {
 	const section = document.querySelector<HTMLElement>('[data-hero-section]');
 	if (!section) {
@@ -37,10 +31,8 @@ function initHeroLoad(): void {
 		return;
 	}
 
-	const startedAtTop = window.scrollY < 1;
 	const timeline = gsap.timeline({
 		defaults: { ease: 'power3.out' },
-		onUpdate: startedAtTop ? keepViewportAtTop : undefined,
 	});
 
 	if (copyItems.length > 0) {
