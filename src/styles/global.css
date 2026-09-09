@@ -104,8 +104,7 @@
 		transition: opacity 150ms ease-in-out;
 	}
 
-	[data-hero-video-main]:hover ~ [data-hero-video-toggle],
-	[data-hero-video-toggle]:hover,
+	[data-hero-section]:hover [data-hero-video-toggle],
 	[data-hero-video-toggle]:focus-visible {
 		opacity: 1;
 		pointer-events: auto;

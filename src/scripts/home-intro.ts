@@ -20,7 +20,6 @@ function initHeroLoad(): void {
 
 	const copy = section.querySelector<HTMLElement>('[data-hero-copy]');
 	const copyItems = section.querySelectorAll<HTMLElement>('[data-hero-copy-item]');
-	const media = section.querySelector<HTMLElement>('[data-hero-media]');
 	const background = section.querySelector<HTMLElement>('[data-hero-video-bg]');
 	const blob = document.querySelector<HTMLElement>('[data-intro-blob]');
 
@@ -49,9 +48,7 @@ function initHeroLoad(): void {
 		);
 	}
 
-	const fadeInPlace = [media, background].filter(
-		(element): element is HTMLElement => element !== null,
-	);
+	const fadeInPlace = [background].filter((element): element is HTMLElement => element !== null);
 
 	if (fadeInPlace.length > 0) {
 		timeline.fromTo(

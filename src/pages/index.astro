@@ -42,10 +42,10 @@ const heroVideoToggle = heroVideoToggleLabels.hu;
 ---
 
 <BaseLayout locale="hu">
-	<section class="relative isolate z-10 overflow-hidden pt-6 lg:pt-[20rem]" data-hero-section>
+	<section class="group relative isolate z-10 overflow-hidden pt-6 lg:pt-hero-top" data-hero-section>
 		<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
 			<video
-				class="h-full w-full scale-110 object-cover blur-[5rem]"
+				class="h-full w-full object-cover"
 				src={heroVideoSrc}
 				autoplay
 				muted
@@ -56,7 +56,6 @@ const heroVideoToggle = heroVideoToggleLabels.hu;
 				data-hero-video-bg
 			>
 			</video>
-			<div class="absolute inset-0 bg-woodsmoke-950/50"></div>
 		</div>
 
 		<div
@@ -74,46 +73,34 @@ const heroVideoToggle = heroVideoToggleLabels.hu;
 				</div>
 			</div>
 
-			<div class="relative order-1 lg:order-2" data-hero-media>
-				<video
-					class="aspect-video w-full bg-woodsmoke-900 object-cover"
-					src={heroVideoSrc}
-					autoplay
-					muted
-					playsinline
-					loop
-					preload="auto"
-					disablepictureinpicture
-					data-hero-video-main
-				>
-				</video>
-				<button
-					type="button"
-					class="absolute bottom-4 left-4 flex size-12 items-center justify-center rounded-full bg-woodsmoke-50 text-bunting-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-woodsmoke-50"
-					data-hero-video-toggle
-					data-label-play={heroVideoToggle.play}
-					data-label-pause={heroVideoToggle.pause}
-					aria-label={heroVideoToggle.pause}
-				>
-					<svg
-						data-hero-video-icon="play"
-						class="hidden h-5 w-5 fill-current"
-						viewBox="0 0 24 24"
-						aria-hidden="true"
-					>
-						<path d="M8 5v14l11-7z"></path>
-					</svg>
-					<svg
-						data-hero-video-icon="pause"
-						class="h-5 w-5 fill-current"
-						viewBox="0 0 24 24"
-						aria-hidden="true"
-					>
-						<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
-					</svg>
-				</button>
-			</div>
+			<div class="order-1 aspect-video w-full lg:order-2" aria-hidden="true"></div>
 		</div>
+
+		<button
+			type="button"
+			class="absolute bottom-4 right-4 z-30 flex size-12 cursor-pointer items-center justify-center rounded-full bg-woodsmoke-50 text-bunting-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-woodsmoke-50 lg:bottom-6 lg:right-6"
+			data-hero-video-toggle
+			data-label-play={heroVideoToggle.play}
+			data-label-pause={heroVideoToggle.pause}
+			aria-label={heroVideoToggle.pause}
+		>
+			<svg
+				data-hero-video-icon="play"
+				class="hidden h-5 w-5 fill-current"
+				viewBox="0 0 24 24"
+				aria-hidden="true"
+			>
+				<path d="M8 5v14l11-7z"></path>
+			</svg>
+			<svg
+				data-hero-video-icon="pause"
+				class="h-5 w-5 fill-current"
+				viewBox="0 0 24 24"
+				aria-hidden="true"
+			>
+				<path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+			</svg>
+		</button>
 
 		<div
 			class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-12 bg-gradient-to-t from-woodsmoke to-transparent"

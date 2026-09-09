@@ -53,6 +53,9 @@ export default {
 			maxWidth: {
 				container: '90rem', // 1440px
 			},
+			spacing: {
+				'hero-top': 'clamp(6rem, 25vh, 20rem)', // 96px–320px, scales with viewport height
+			},
 			container: {
 				center: true,
 				screens: {
