@@ -42,7 +42,7 @@ const heroVideoToggle = heroVideoToggleLabels.en;
 ---
 
 <BaseLayout locale="en">
-	<section class="group relative isolate z-10 overflow-hidden pt-6 lg:pt-hero-top" data-hero-section>
+	<section class="group relative isolate overflow-hidden pt-6 lg:pt-hero-top" data-hero-section>
 		<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
 			<video
 				class="h-full w-full object-cover"
@@ -108,55 +108,43 @@ const heroVideoToggle = heroVideoToggleLabels.en;
 		></div>
 	</section>
 
-	<div class="relative overflow-x-clip">
-		{
-			logos && (
-				<section class="relative z-10 py-12 lg:py-16" data-stagger>
-					<div class="mx-auto max-w-container px-6 lg:px-10">
-						<ClientLogos logos={logos} />
-					</div>
-				</section>
-			)
-		}
-
-		<section id="services" class="relative isolate z-0 py-16 lg:py-24">
-			<img
-				src={asset('/global/horizontal-blur-blob.svg')}
-				alt=""
-				width="1920"
-				height="469"
-				loading="lazy"
-				decoding="async"
-				aria-hidden="true"
-				class="pointer-events-none absolute left-1/2 top-0 -z-10 w-[180rem] max-w-none -translate-x-1/2 -translate-y-1/2"
-			/>
-			<div class="relative z-10 mx-auto max-w-container px-6 lg:px-10">
-				<div class="mb-10 lg:mb-14">
-					<h2 class="font-heading max-w-3xl text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
-						{whyChooseUs.heading}
-					</h2>
+	{
+		logos && (
+			<section class="py-12 lg:py-16" data-stagger>
+				<div class="mx-auto max-w-container px-6 lg:px-10">
+					<ClientLogos logos={logos} />
 				</div>
+			</section>
+		)
+	}
 
-				<ol class="list-none divide-y divide-woodsmoke-900 border-b border-woodsmoke-900 p-0" data-stagger>
-					{
-						whyChooseUs.items.map((item, index) => (
-							<WhyChooseUsItem
-								index={index}
-								title={item.title}
-								body={item.body}
-								imageUrl={item.imageUrl}
-								imageAlt={item.imageAlt}
-							/>
-						))
-					}
-				</ol>
-
-				<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
-					<Button href={heroButtonHref.en}>{primaryButtonText}</Button>
-				</div>
+	<section id="why" class="py-16 lg:py-24">
+		<div class="mx-auto max-w-container px-6 lg:px-10">
+			<div class="mb-10 lg:mb-14">
+				<h2 class="font-heading max-w-3xl text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
+					{whyChooseUs.heading}
+				</h2>
 			</div>
-		</section>
-	</div>
+
+			<ol class="list-none divide-y divide-woodsmoke-900 border-b border-woodsmoke-900 p-0" data-stagger>
+				{
+					whyChooseUs.items.map((item, index) => (
+						<WhyChooseUsItem
+							index={index}
+							title={item.title}
+							body={item.body}
+							imageUrl={item.imageUrl}
+							imageAlt={item.imageAlt}
+						/>
+					))
+				}
+			</ol>
+
+			<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
+				<Button href={heroButtonHref.en}>{primaryButtonText}</Button>
+			</div>
+		</div>
+	</section>
 
 	<section class="py-16 lg:py-24">
 		<div class="mx-auto max-w-container px-6 lg:px-10">

@@ -1,4 +1,4 @@
-// Page-load fade-up for hero copy; fades intro blobs after that animation.
+// Page-load fade-up for hero copy and background video.
 import gsap from 'gsap';
 
 const prefersReducedMotion = () =>
@@ -21,12 +21,8 @@ function initHeroLoad(): void {
 	const copy = section.querySelector<HTMLElement>('[data-hero-copy]');
 	const copyItems = section.querySelectorAll<HTMLElement>('[data-hero-copy-item]');
 	const background = section.querySelector<HTMLElement>('[data-hero-video-bg]');
-	const blob = document.querySelector<HTMLElement>('[data-intro-blob]');
 
 	if (!copy && copyItems.length === 0) {
-		if (blob) {
-			gsap.to(blob, { opacity: 1, duration: 0.9, ease: 'power2.out' });
-		}
 		return;
 	}
 
@@ -48,18 +44,12 @@ function initHeroLoad(): void {
 		);
 	}
 
-	const fadeInPlace = [background].filter((element): element is HTMLElement => element !== null);
-
-	if (fadeInPlace.length > 0) {
+	if (background) {
 		timeline.fromTo(
-			fadeInPlace,
+			background,
 			{ opacity: 0 },
 			{ opacity: 1, duration: 0.9, ease: 'power2.out' },
 			'-=0.2',
 		);
-	}
-
-	if (blob) {
-		timeline.to(blob, { opacity: 1, duration: 0.9, ease: 'power2.out' });
 	}
 }

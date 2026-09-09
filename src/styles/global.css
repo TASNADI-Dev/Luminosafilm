@@ -67,12 +67,7 @@
 		transform: translateY(2.5rem);
 	}
 
-	[data-hero-media],
 	[data-hero-video-bg] {
-		opacity: 0;
-	}
-
-	[data-intro-blob] {
 		opacity: 0;
 	}
 
@@ -91,9 +86,7 @@
 			transform: none;
 		}
 
-		[data-hero-media],
-		[data-hero-video-bg],
-		[data-intro-blob] {
+		[data-hero-video-bg] {
 			opacity: 1;
 		}
 	}
