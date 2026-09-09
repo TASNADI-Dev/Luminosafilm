@@ -49,11 +49,6 @@ export const servicePage = defineType({
       type: 'featureRowsSection',
     }),
     defineField({
-      name: 'whyChooseUs',
-      title: 'Why Choose Us',
-      type: 'serviceWhyChooseUsSection',
-    }),
-    defineField({
       name: 'relatedReferences',
       title: 'Related References',
       type: 'serviceRelatedReferencesSection',

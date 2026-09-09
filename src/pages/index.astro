@@ -4,7 +4,6 @@ import Button from '../components/Button.astro';
 import ClientLogos from '../components/ClientLogos.astro';
 import GlobalCtaSection from '../components/GlobalCtaSection.astro';
 import ServicesOverviewBlock from '../components/ServicesOverviewBlock.astro';
-import WhyChooseUsItem from '../components/WhyChooseUsItem.astro';
 import { asset } from '../lib/assets';
 import {
 	globalCtaSectionButtonHref,
@@ -21,13 +20,11 @@ import {
 	getHomePageHero,
 	getHomePageHighlightedReferences,
 	getHomePageServicesOverview,
-	getHomePageWhyChooseUs,
 } from '../lib/sanity/homePage';
 
 const hero = await getHomePageHero('hu');
 const logos = await getClientLogos('hu');
 const servicesOverview = await getHomePageServicesOverview('hu');
-const whyChooseUs = await getHomePageWhyChooseUs('hu');
 const highlightedReferences = await getHomePageHighlightedReferences('hu');
 const [cta, primaryButtonText] = await Promise.all([
 	getGlobalCtaSection('hu'),
@@ -117,34 +114,6 @@ const heroVideoToggle = heroVideoToggleLabels.hu;
 			</section>
 		)
 	}
-
-	<section id="miert" class="py-16 lg:py-24">
-		<div class="mx-auto max-w-container px-6 lg:px-10">
-			<div class="mb-10 lg:mb-14">
-				<h2 class="font-heading max-w-3xl text-[2.5rem] leading-[1.15] tracking-tight lg:text-[3rem]">
-					{whyChooseUs.heading}
-				</h2>
-			</div>
-
-			<ol class="list-none divide-y divide-woodsmoke-900 border-b border-woodsmoke-900 p-0" data-stagger>
-				{
-					whyChooseUs.items.map((item, index) => (
-						<WhyChooseUsItem
-							index={index}
-							title={item.title}
-							body={item.body}
-							imageUrl={item.imageUrl}
-							imageAlt={item.imageAlt}
-						/>
-					))
-				}
-			</ol>
-
-			<div class="mt-8 flex flex-wrap items-center gap-3 lg:mt-10">
-				<Button href={heroButtonHref.hu}>{primaryButtonText}</Button>
-			</div>
-		</div>
-	</section>
 
 	<section class="py-16 lg:py-24">
 		<div class="mx-auto max-w-container px-6 lg:px-10">

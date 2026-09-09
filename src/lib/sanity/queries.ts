@@ -15,23 +15,7 @@ export const HOME_PAGE_QUERY = `coalesce(
     items[]{
       _key,
       "title": title[$locale],
-      "body": body[$locale],
-      videoUrl,
-      image{
-        hotspot,
-        crop,
-        "alt": alt[$locale],
-        asset->{
-          _id,
-          url,
-          metadata {
-            dimensions {
-              width,
-              height
-            }
-          }
-        }
-      }
+      videoUrl
     },
     logos[]{
       _key,
@@ -96,30 +80,6 @@ export const SERVICE_PAGE_BY_ID_QUERY = `coalesce(
   featureRows{
     "heading": heading[$locale],
     "paragraph": paragraph[$locale]
-  },
-  whyChooseUs{
-    "heading": heading[$locale],
-    "paragraph": paragraph[$locale],
-    image{
-      hotspot,
-      crop,
-      "alt": alt[$locale],
-      asset->{
-        _id,
-        url,
-        metadata {
-          dimensions {
-            width,
-            height
-          }
-        }
-      }
-    },
-    rows[]{
-      _key,
-      "title": title[$locale],
-      "body": body[$locale]
-    }
   },
   relatedReferences{
     items[]{

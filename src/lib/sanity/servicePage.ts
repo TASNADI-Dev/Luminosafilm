@@ -23,20 +23,6 @@ export interface ServiceFeatureRows {
 	paragraph: string
 }
 
-export interface ServiceWhyChooseUsRow {
-	_key: string
-	title: string
-	body: string
-}
-
-export interface ServiceWhyChooseUs {
-	heading: string
-	paragraph: string
-	imageUrl?: string
-	imageAlt?: string
-	rows: ServiceWhyChooseUsRow[]
-}
-
 export interface ServiceRelatedReference {
 	_key: string
 	title: string
@@ -50,7 +36,6 @@ export interface ServicePageContent {
 	slug: string
 	hero: ServiceHero
 	featureRows?: ServiceFeatureRows
-	whyChooseUs?: ServiceWhyChooseUs
 	relatedReferences?: ServiceRelatedReference[]
 }
 
@@ -63,12 +48,6 @@ interface ServiceHeroImageQuery {
 		_id: string
 		url: string
 	}
-}
-
-interface ServiceWhyChooseUsRowQuery {
-	_key?: string
-	title?: string
-	body?: string
 }
 
 interface ServiceRelatedReferenceQuery {
@@ -84,12 +63,6 @@ interface ServicePageQueryResult {
 	featureRows?: {
 		heading?: string
 		paragraph?: string
-	}
-	whyChooseUs?: {
-		heading?: string
-		paragraph?: string
-		image?: ServiceHeroImageQuery
-		rows?: ServiceWhyChooseUsRowQuery[]
 	}
 	relatedReferences?: {
 		items?: ServiceRelatedReferenceQuery[]
@@ -180,43 +153,6 @@ function normalizeFeatureRows(
 	}
 }
 
-function normalizeWhyChooseUs(
-	result: ServicePageQueryResult | null,
-): ServiceWhyChooseUs | undefined {
-	const section = result?.whyChooseUs
-	if (!section?.heading || !section.paragraph || !section.rows?.length) {
-		return undefined
-	}
-
-	const rows = section.rows
-		.map((row, index) => {
-			if (!row.title || !row.body) {
-				return null
-			}
-
-			return {
-				_key: row._key || `row-${index + 1}`,
-				title: row.title,
-				body: row.body,
-			}
-		})
-		.filter((row): row is ServiceWhyChooseUsRow => row !== null)
-
-	if (rows.length === 0) {
-		return undefined
-	}
-
-	const imageUrl = section.image ? resolveImageUrl(section.image, 960, 960) : undefined
-
-	return {
-		heading: section.heading,
-		paragraph: section.paragraph,
-		imageUrl,
-		imageAlt: section.image?.alt,
-		rows,
-	}
-}
-
 function normalizeRelatedReferences(
 	result: ServicePageQueryResult | null,
 ): ServiceRelatedReference[] | undefined {
@@ -253,7 +189,6 @@ function buildPage(
 	serviceId: ServiceId,
 	hero: ServiceHero,
 	featureRows?: ServiceFeatureRows,
-	whyChooseUs?: ServiceWhyChooseUs,
 	relatedReferences?: ServiceRelatedReference[],
 ): ServicePageContent {
 	const service = services.find((entry) => entry.id === serviceId)!
@@ -264,7 +199,6 @@ function buildPage(
 		slug: service.slugs[locale],
 		hero,
 		featureRows,
-		whyChooseUs,
 		relatedReferences,
 	}
 }
@@ -298,7 +232,6 @@ export async function getServicePageBySlug(
 			catalogEntry.id,
 			normalizeHero(result, locale, title),
 			normalizeFeatureRows(result),
-			normalizeWhyChooseUs(result),
 			normalizeRelatedReferences(result),
 		)
 	} catch {
