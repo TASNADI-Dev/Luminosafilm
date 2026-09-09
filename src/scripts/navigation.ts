@@ -1,12 +1,17 @@
-// Toggles the mobile navigation panel and desktop/mobile dropdown submenus.
+// Toggles the mobile navigation panel, opens desktop dropdowns on hover, and handles mobile submenu clicks.
+const DESKTOP_NAV_QUERY = '(min-width: 64rem)';
+
 export function initNavigation(root: HTMLElement): void {
 	const toggle = root.querySelector<HTMLButtonElement>('[data-nav-toggle]');
 	const panel = root.querySelector<HTMLElement>('[data-nav-panel]');
 	const menuIcon = toggle?.querySelector<SVGElement>('[data-nav-icon="menu"]');
 	const closeIcon = toggle?.querySelector<SVGElement>('[data-nav-icon="close"]');
 	const dropdowns = root.querySelectorAll<HTMLElement>('[data-nav-dropdown]');
+	const desktopNav = window.matchMedia(DESKTOP_NAV_QUERY);
 
 	if (!toggle || !panel || !menuIcon || !closeIcon) return;
+
+	const isDesktopNav = () => desktopNav.matches;
 
 	const setDropdownOpen = (dropdown: HTMLElement, open: boolean) => {
 		const button = dropdown.querySelector<HTMLButtonElement>('[data-nav-dropdown-toggle]');
@@ -53,8 +58,34 @@ export function initNavigation(root: HTMLElement): void {
 		const button = dropdown.querySelector<HTMLButtonElement>('[data-nav-dropdown-toggle]');
 		if (!button) return;
 
+		const isMobileDropdown = panel.contains(dropdown);
+
+		if (!isMobileDropdown) {
+			dropdown.addEventListener('pointerenter', () => {
+				if (!isDesktopNav()) return;
+				closeAllDropdowns(dropdown);
+				setDropdownOpen(dropdown, true);
+			});
+			dropdown.addEventListener('pointerleave', () => {
+				if (!isDesktopNav()) return;
+				setDropdownOpen(dropdown, false);
+			});
+			dropdown.addEventListener('focusin', () => {
+				if (!isDesktopNav()) return;
+				closeAllDropdowns(dropdown);
+				setDropdownOpen(dropdown, true);
+			});
+			dropdown.addEventListener('focusout', (event) => {
+				if (!isDesktopNav()) return;
+				const next = event.relatedTarget;
+				if (next instanceof Node && dropdown.contains(next)) return;
+				setDropdownOpen(dropdown, false);
+			});
+		}
+
 		button.addEventListener('click', (event) => {
 			event.stopPropagation();
+			if (!isMobileDropdown && isDesktopNav()) return;
 			const nextOpen = button.getAttribute('aria-expanded') !== 'true';
 			closeAllDropdowns(dropdown);
 			setDropdownOpen(dropdown, nextOpen);
@@ -85,6 +116,10 @@ export function initNavigation(root: HTMLElement): void {
 			setOpen(false);
 			return;
 		}
+		closeAllDropdowns();
+	});
+
+	desktopNav.addEventListener('change', () => {
 		closeAllDropdowns();
 	});
 }

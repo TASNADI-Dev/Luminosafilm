@@ -22,12 +22,12 @@ const navLabel = locale === 'hu' ? 'Főnavigáció' : 'Main navigation';
 const langLabel = locale === 'hu' ? 'Nyelvválasztó' : 'Language switcher';
 
 const linkClass =
-	'cursor-pointer font-sans text-[0.9375rem] font-medium tracking-wide text-woodsmoke-50 transition-colors hover:text-azure-300';
+	'cursor-pointer font-sans text-[0.9375rem] font-medium tracking-wide text-woodsmoke transition-colors hover:text-azure';
 const dropdownLinkClass =
-	'block cursor-pointer px-4 py-2.5 font-sans text-[0.875rem] font-medium tracking-wide text-woodsmoke-50 transition-colors hover:bg-woodsmoke-900 hover:text-azure-300';
+	'block cursor-pointer px-4 py-2.5 font-sans text-[0.875rem] font-medium tracking-wide text-woodsmoke transition-colors hover:bg-woodsmoke-100 hover:text-azure';
 ---
 
-<header class="sticky top-0 z-50 border-b border-woodsmoke-50/10 bg-woodsmoke text-woodsmoke-50" data-navigation>
+<header class="sticky top-0 z-50 border-b border-woodsmoke-200 bg-woodsmoke-50 text-woodsmoke" data-navigation>
 	<nav
 		class="mx-auto flex h-[5rem] max-w-container items-center justify-between gap-6 px-6 lg:px-10"
 		aria-label={navLabel}
@@ -71,7 +71,7 @@ const dropdownLinkClass =
 								</button>
 								<ul
 									id={`nav-dropdown-${index}`}
-									class="absolute left-0 top-full z-50 mt-3 min-w-[16rem] border border-woodsmoke-800 bg-woodsmoke py-2 shadow-lg"
+									class="absolute left-0 top-full z-50 mt-3 min-w-[16rem] border border-woodsmoke-200 bg-woodsmoke-50 py-2 shadow-lg before:absolute before:bottom-full before:left-0 before:h-3 before:w-full before:content-['']"
 									data-nav-dropdown-panel
 									hidden
 								>
@@ -103,7 +103,7 @@ const dropdownLinkClass =
 					href={huHref}
 					hreflang="hu"
 					class:list={[
-						'transition-colors hover:text-azure-300',
+						'transition-colors hover:text-azure',
 						locale === 'hu' && 'underline underline-offset-4',
 					]}
 					aria-current={locale === 'hu' ? 'true' : undefined}
@@ -115,7 +115,7 @@ const dropdownLinkClass =
 					href={enHref}
 					hreflang="en"
 					class:list={[
-						'transition-colors hover:text-azure-300',
+						'transition-colors hover:text-azure',
 						locale === 'en' && 'underline underline-offset-4',
 					]}
 					aria-current={locale === 'en' ? 'true' : undefined}
@@ -162,7 +162,7 @@ const dropdownLinkClass =
 
 	<div
 		id="mobile-nav-panel"
-		class="absolute inset-x-0 top-full border-y border-woodsmoke-50/10 bg-woodsmoke px-6 pb-6 pt-4 lg:hidden"
+		class="absolute inset-x-0 top-full border-y border-woodsmoke-200 bg-woodsmoke-50 px-6 pb-6 pt-4 lg:hidden"
 		data-nav-panel
 		hidden
 	>
@@ -199,7 +199,7 @@ const dropdownLinkClass =
 							</button>
 							<ul
 								id={`mobile-nav-dropdown-${index}`}
-								class="mb-2 ml-3 flex flex-col gap-1 border-l border-woodsmoke-800 pl-4"
+								class="mb-2 ml-3 flex flex-col gap-1 border-l border-woodsmoke-200 pl-4"
 								data-nav-dropdown-panel
 								hidden
 							>
@@ -207,7 +207,7 @@ const dropdownLinkClass =
 									<li>
 										<a
 											href={child.href}
-											class="block cursor-pointer py-2 font-sans text-[0.875rem] font-medium text-woodsmoke-200 transition-colors hover:text-azure-300"
+											class="block cursor-pointer py-2 font-sans text-[0.875rem] font-medium text-woodsmoke-600 transition-colors hover:text-azure"
 										>
 											{child.label}
 										</a>
@@ -233,7 +233,7 @@ const dropdownLinkClass =
 				href={huHref}
 				hreflang="hu"
 				class:list={[
-					'transition-colors hover:text-azure-300',
+					'transition-colors hover:text-azure',
 					locale === 'hu' && 'underline underline-offset-4',
 				]}
 				aria-current={locale === 'hu' ? 'true' : undefined}
@@ -245,7 +245,7 @@ const dropdownLinkClass =
 				href={enHref}
 				hreflang="en"
 				class:list={[
-					'transition-colors hover:text-azure-300',
+					'transition-colors hover:text-azure',
 					locale === 'en' && 'underline underline-offset-4',
 				]}
 				aria-current={locale === 'en' ? 'true' : undefined}
