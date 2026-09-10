@@ -1,5 +1,12 @@
 import {homePage} from './homePage'
-import {blockContent, localizedBlockContent, localizedString, localizedText} from './localized'
+import {
+  blockContent,
+  localizedBlockContent,
+  localizedSimpleBlockContent,
+  localizedString,
+  localizedText,
+  simpleBlockContent,
+} from './localized'
 import {servicePage} from './servicePage'
 import {globalCtaSection} from './globalCtaSection'
 import {primaryButton} from './primaryButton'
@@ -13,7 +20,9 @@ export const schemaTypes = [
   localizedString,
   localizedText,
   blockContent,
+  simpleBlockContent,
   localizedBlockContent,
+  localizedSimpleBlockContent,
   ...homePageSectionTypes,
   ...servicePageSectionTypes,
   homePage,

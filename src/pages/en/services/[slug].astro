@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GlobalCtaSection from '../../../components/GlobalCtaSection.astro';
+import PortableText from '../../../components/PortableText.astro';
 import ServiceHeroMarquee from '../../../components/ServiceHeroMarquee.astro';
 import {
 	globalCtaSectionButtonHref,
@@ -64,9 +65,9 @@ const ctaButtonHref = globalCtaSectionButtonHref.en;
 							{featureRows.heading}
 						</h2>
 					</div>
-					<p class="text-[1.125rem] leading-relaxed text-woodsmoke-50 lg:col-span-7">
-						{featureRows.paragraph}
-					</p>
+					<div class="lg:col-span-7">
+						<PortableText value={featureRows.paragraph} />
+					</div>
 				</div>
 			</section>
 		)

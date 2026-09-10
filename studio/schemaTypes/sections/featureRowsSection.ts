@@ -1,4 +1,4 @@
-// Service page section: heading plus supporting paragraph.
+// Service page section: heading plus supporting rich-text paragraph.
 import {defineField, defineType} from 'sanity'
 
 export const featureRowsSection = defineType({
@@ -15,7 +15,7 @@ export const featureRowsSection = defineType({
     defineField({
       name: 'paragraph',
       title: 'Paragraph',
-      type: 'localizedText',
+      type: 'localizedSimpleBlockContent',
       validation: (rule) => rule.required(),
     }),
   ],
@@ -24,7 +24,7 @@ export const featureRowsSection = defineType({
     prepare({headingHu}) {
       return {
         title: headingHu || 'Feature Section',
-        subtitle: 'Heading and paragraph',
+        subtitle: 'Heading and rich text',
       }
     },
   },

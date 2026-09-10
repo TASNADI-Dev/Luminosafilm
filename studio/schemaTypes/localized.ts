@@ -1,6 +1,37 @@
 // Reusable field-level localization types with hu/en sub-fields for Sanity schemas.
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
+const blockMarks = {
+  decorators: [
+    {title: 'Strong', value: 'strong'},
+    {title: 'Italic', value: 'em'},
+  ],
+  annotations: [
+    defineArrayMember({
+      name: 'link',
+      type: 'object',
+      title: 'Link',
+      fields: [
+        defineField({
+          name: 'href',
+          title: 'URL',
+          type: 'url',
+          validation: (rule) =>
+            rule.uri({
+              allowRelative: true,
+              scheme: ['http', 'https', 'mailto', 'tel'],
+            }),
+        }),
+      ],
+    }),
+  ],
+}
+
+const blockLists = [
+  {title: 'Bulleted list', value: 'bullet'},
+  {title: 'Numbered list', value: 'number'},
+]
+
 export const blockContent = defineType({
   name: 'blockContent',
   title: 'Block Content',
@@ -14,35 +45,22 @@ export const blockContent = defineType({
         {title: 'Heading 3', value: 'h3'},
         {title: 'Quote', value: 'blockquote'},
       ],
-      lists: [
-        {title: 'Bulleted list', value: 'bullet'},
-        {title: 'Numbered list', value: 'number'},
-      ],
-      marks: {
-        decorators: [
-          {title: 'Strong', value: 'strong'},
-          {title: 'Italic', value: 'em'},
-        ],
-        annotations: [
-          defineArrayMember({
-            name: 'link',
-            type: 'object',
-            title: 'Link',
-            fields: [
-              defineField({
-                name: 'href',
-                title: 'URL',
-                type: 'url',
-                validation: (rule) =>
-                  rule.uri({
-                    allowRelative: true,
-                    scheme: ['http', 'https', 'mailto', 'tel'],
-                  }),
-              }),
-            ],
-          }),
-        ],
-      },
+      lists: blockLists,
+      marks: blockMarks,
+    }),
+  ],
+})
+
+export const simpleBlockContent = defineType({
+  name: 'simpleBlockContent',
+  title: 'Simple Block Content',
+  type: 'array',
+  of: [
+    defineArrayMember({
+      type: 'block',
+      styles: [{title: 'Normal', value: 'normal'}],
+      lists: blockLists,
+      marks: blockMarks,
     }),
   ],
 })
@@ -62,6 +80,26 @@ export const localizedBlockContent = defineType({
       name: 'en',
       title: 'English',
       type: 'blockContent',
+      validation: (rule) => rule.required(),
+    }),
+  ],
+})
+
+export const localizedSimpleBlockContent = defineType({
+  name: 'localizedSimpleBlockContent',
+  title: 'Localized Simple Rich Text',
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'hu',
+      title: 'Hungarian',
+      type: 'simpleBlockContent',
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'en',
+      title: 'English',
+      type: 'simpleBlockContent',
       validation: (rule) => rule.required(),
     }),
   ],

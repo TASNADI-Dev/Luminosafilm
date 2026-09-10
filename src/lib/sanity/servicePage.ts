@@ -1,4 +1,5 @@
 // Fetches and normalizes localized service page content from Sanity.
+import type {PortableTextBlock} from '@portabletext/types'
 import type {SanityImageSource} from '@sanity/image-url/lib/types/types'
 import {sanityClient} from 'sanity:client'
 import {type Locale, type ServiceId, services} from '../i18n'
@@ -20,7 +21,7 @@ export interface ServiceHero {
 
 export interface ServiceFeatureRows {
 	heading: string
-	paragraph: string
+	paragraph: PortableTextBlock[]
 }
 
 export interface ServiceRelatedReference {
@@ -62,7 +63,7 @@ interface ServicePageQueryResult {
 	images?: ServiceHeroImageQuery[]
 	featureRows?: {
 		heading?: string
-		paragraph?: string
+		paragraph?: PortableTextBlock[] | string
 	}
 	relatedReferences?: {
 		items?: ServiceRelatedReferenceQuery[]
@@ -139,17 +140,53 @@ function normalizeHero(
 	}
 }
 
+function paragraphBlock(text: string, key: string): PortableTextBlock {
+	return {
+		_type: 'block',
+		_key: key,
+		style: 'normal',
+		markDefs: [],
+		children: [
+			{
+				_type: 'span',
+				_key: `${key}-span`,
+				text,
+				marks: [],
+			},
+		],
+	}
+}
+
+function toPortableText(
+	value: PortableTextBlock[] | string | undefined,
+): PortableTextBlock[] | undefined {
+	if (Array.isArray(value) && value.length > 0) {
+		return value
+	}
+
+	if (typeof value === 'string' && value.trim()) {
+		return value
+			.split(/\n+/)
+			.map((line) => line.trim())
+			.filter(Boolean)
+			.map((line, index) => paragraphBlock(line, `feature-rows-paragraph-${index}`))
+	}
+
+	return undefined
+}
+
 function normalizeFeatureRows(
 	result: ServicePageQueryResult | null,
 ): ServiceFeatureRows | undefined {
 	const section = result?.featureRows
-	if (!section?.heading || !section.paragraph) {
+	const paragraph = toPortableText(section?.paragraph)
+	if (!section?.heading || !paragraph) {
 		return undefined
 	}
 
 	return {
 		heading: section.heading,
-		paragraph: section.paragraph,
+		paragraph,
 	}
 }
 
