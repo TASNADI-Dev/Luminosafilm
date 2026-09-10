@@ -290,20 +290,22 @@ export const referencesMoreButton: Record<Locale, { href: string; label: string 
 export const footerUi = {
 	hu: {
 		navLabel: 'Lábléc navigáció',
-		copyright: 'Minden jog fenntartva. © Copyright {year} Luminosa Film',
+		copyright: 'Minden jog fenntartva. © Copyright {year} LuminosaFilm',
 		privacy: 'Adatvédelmi irányelvek',
 		cookieSettings: 'Süti beállítások',
 		designBy: 'Design:',
 		designName: 'Tasnadi',
+		youtubeLabel: 'LuminosaFilm YouTube csatornája',
 		youtubeAria: 'Luminosa Film YouTube-csatorna',
 	},
 	en: {
 		navLabel: 'Footer navigation',
-		copyright: 'All rights reserved. © Copyright {year} Luminosa Film',
+		copyright: 'All rights reserved. © Copyright {year} LuminosaFilm',
 		privacy: 'Privacy Policy',
 		cookieSettings: 'Cookie settings',
 		designBy: 'Design by',
 		designName: 'Tasnadi',
+		youtubeLabel: 'YouTube channel of LuminosaFilm',
 		youtubeAria: 'Luminosa Film YouTube channel',
 	},
 } as const satisfies Record<Locale, Record<string, string>>;
