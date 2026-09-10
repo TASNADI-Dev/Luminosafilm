@@ -36,6 +36,8 @@ const servicesOverviewCtaLabel = servicesOverviewButtonLabel.en;
 const highlightedReferencesHeading = homeReferencesHeading.en;
 const highlightedReferencesCta = homeHighlightedReferencesButton.en;
 const heroVideoToggle = heroVideoToggleLabels.en;
+const programSupportDspLogoSrc = asset('/home/home_DSP_logo_vector.svg');
+const programSupportNeumLogoSrc = asset('/home/home_NEUM_logo_fekete_vector.svg');
 ---
 
 <BaseLayout locale="en">
@@ -183,6 +185,38 @@ const heroVideoToggle = heroVideoToggleLabels.en;
 		buttonText={primaryButtonText}
 		buttonHref={ctaButtonHref}
 	/>
+
+	<section aria-label="Program support">
+		<div class="mx-auto max-w-container px-6 py-16 lg:px-10 lg:py-24">
+			<div class="mx-auto flex max-w-4xl flex-col items-center gap-10 text-center lg:gap-12">
+				<p class="text-[0.95rem] leading-relaxed text-woodsmoke-300 lg:text-base">
+					A weboldal a Demján Sándor Program keretében és támogatásával valósult meg.
+				</p>
+				<div
+					class="flex flex-wrap items-center justify-center gap-x-12 gap-y-8 lg:gap-x-20 lg:gap-y-10"
+				>
+					<img
+						src={programSupportDspLogoSrc}
+						alt="Demján Sándor Program — www.dsprogram.hu"
+						width="300"
+						height="120"
+						class="h-auto w-[300px] max-w-full object-contain"
+						loading="lazy"
+						decoding="async"
+					/>
+					<img
+						src={programSupportNeumLogoSrc}
+						alt="Neumann János Nonprofit Kft."
+						width="300"
+						height="100"
+						class="h-auto w-[300px] max-w-full object-contain"
+						loading="lazy"
+						decoding="async"
+					/>
+				</div>
+			</div>
+		</div>
+	</section>
 
 	<script>
 		import { initHeroVideoSync } from '../../scripts/hero-video-sync';
