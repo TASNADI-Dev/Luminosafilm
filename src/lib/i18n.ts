@@ -297,6 +297,7 @@ export const footerUi = {
 		designName: 'Tasnadi',
 		youtubeLabel: 'LuminosaFilm YouTube csatornája',
 		youtubeAria: 'Luminosa Film YouTube-csatorna',
+		facebookLabel: 'LuminosaFilm Facebook oldala',
 	},
 	en: {
 		navLabel: 'Footer navigation',
@@ -307,6 +308,7 @@ export const footerUi = {
 		designName: 'Tasnadi',
 		youtubeLabel: 'YouTube channel of LuminosaFilm',
 		youtubeAria: 'Luminosa Film YouTube channel',
+		facebookLabel: 'Facebook page of LuminosaFilm',
 	},
 } as const satisfies Record<Locale, Record<string, string>>;
 
