@@ -1,5 +1,5 @@
 // Submits the contact form to FormSubmit via AJAX and shows inline status messages.
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/madacsi.peter.98@gmail.com';
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/luminosafilm@gmail.com';
 
 interface FormSubmitResponse {
 	success?: string | boolean;
