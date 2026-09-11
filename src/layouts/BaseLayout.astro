@@ -17,6 +17,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 <html lang={locale} class="scheme-dark">
 	<head>
+		<!-- Start cookieyes banner -->
+		<script
+			is:inline
+			id="cookieyes"
+			type="text/javascript"
+			src="https://cdn-cookieyes.com/client_data/c7d00edda381951a6449bb93a4f30ced/script.js"
+		></script>
+		<!-- End cookieyes banner -->
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/png" href={asset('/global/favicon.png')} />
 		<meta name="viewport" content="width=device-width" />
