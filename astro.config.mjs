@@ -12,14 +12,13 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
 	'',
 );
 
-// Production site URL (canonical links, sitemap). Set ASTRO_SITE in Cloudflare Pages.
-const site = process.env.ASTRO_SITE;
-const base = process.env.ASTRO_BASE ?? '/';
+// Production site URL (canonical links, sitemap). Override with ASTRO_SITE if needed.
+const site = process.env.ASTRO_SITE ?? 'https://luminosafilm.hu';
 
 // https://astro.build/config
 export default defineConfig({
 	...(site ? { site } : {}),
-	base,
+	base: '/',
 	vite: {
 		plugins: [tailwindcss()],
 		optimizeDeps: {
