@@ -19,7 +19,7 @@ Node `>= 22.12.0`.
 ```sh
 cp .env.example .env   # fill PUBLIC_SANITY_PROJECT_ID + PUBLIC_SANITY_DATASET
 npm install
-npm run dev            # http://localhost:4321/Luminosafilm/
+npm run dev            # http://localhost:4321/
 ```
 
 
@@ -32,5 +32,23 @@ npm run dev            # http://localhost:4321/Luminosafilm/
 | `cd studio && npm run deploy` | Deploy hosted Studio         |
 
 
-Embedded Studio is at `/admin`.
 
+
+## Deploy (Cloudflare Pages)
+
+Connect the repo in the Cloudflare dashboard (Workers & Pages → Create → Connect to Git), then use:
+
+
+| Setting       | Value           |
+| ------------- | --------------- |
+| Build command | `npm run build` |
+| Build output  | `dist`          |
+| Node version  | `22`            |
+
+
+Set these environment variables in the Pages project:
+
+- `PUBLIC_SANITY_PROJECT_ID`
+- `PUBLIC_SANITY_DATASET` (e.g. `production`)
+
+Embedded Studio is at `/admin`.

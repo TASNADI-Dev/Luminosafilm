@@ -12,9 +12,9 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
 	'',
 );
 
-// GitHub Pages project site: https://tasnadi-dev.github.io/Luminosafilm/
+// Production site URL (canonical links, sitemap). Set ASTRO_SITE in Cloudflare Pages.
 const site = process.env.ASTRO_SITE;
-const base = process.env.ASTRO_BASE ?? '/Luminosafilm';
+const base = process.env.ASTRO_BASE ?? '/';
 
 // https://astro.build/config
 export default defineConfig({

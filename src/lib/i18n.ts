@@ -4,7 +4,7 @@ export type Locale = 'hu' | 'en';
 export const defaultLocale: Locale = 'hu';
 export const locales: Locale[] = ['hu', 'en'];
 
-/** Astro/Vite base URL (e.g. `/Luminosafilm/` on GitHub Pages). Always ends with `/`. */
+/** Astro/Vite base URL. Always ends with `/`. */
 export const baseUrl = import.meta.env.BASE_URL;
 
 export function isLocale(value: string): value is Locale {
