@@ -12,6 +12,12 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
 	'',
 );
 
+if (!PUBLIC_SANITY_PROJECT_ID) {
+	throw new Error(
+		'Missing PUBLIC_SANITY_PROJECT_ID. Set it in .env locally or in Cloudflare Pages environment variables.',
+	);
+}
+
 // Production site URL (canonical links, sitemap). Override with ASTRO_SITE if needed.
 const site = process.env.ASTRO_SITE ?? 'https://www.luminosafilm.hu';
 
