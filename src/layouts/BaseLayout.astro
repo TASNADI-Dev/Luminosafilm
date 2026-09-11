@@ -11,6 +11,8 @@ interface Props {
 }
 
 const { locale, title = 'Luminosa Film' } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <html lang={locale} class="scheme-dark">
@@ -19,6 +21,7 @@ const { locale, title = 'Luminosa Film' } = Astro.props;
 		<link rel="icon" type="image/png" href={asset('/global/favicon.png')} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={canonicalURL.href} />
 		<title>{title}</title>
 		<link rel="stylesheet" href={withBase('/fonts/fonts.css')} />
 	</head>

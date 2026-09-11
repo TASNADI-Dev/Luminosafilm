@@ -13,7 +13,7 @@ const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
 );
 
 // Production site URL (canonical links, sitemap). Override with ASTRO_SITE if needed.
-const site = process.env.ASTRO_SITE ?? 'https://luminosafilm.hu';
+const site = process.env.ASTRO_SITE ?? 'https://www.luminosafilm.hu';
 
 // https://astro.build/config
 export default defineConfig({
