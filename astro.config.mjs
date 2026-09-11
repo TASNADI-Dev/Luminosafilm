@@ -6,11 +6,13 @@ import tailwindcss from '@tailwindcss/vite';
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
 
-const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
-	process.env.NODE_ENV ?? 'development',
-	process.cwd(),
-	'',
-);
+const fileEnv = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
+
+// loadEnv reads .env files only; Cloudflare Pages injects vars via process.env.
+const PUBLIC_SANITY_PROJECT_ID =
+	fileEnv.PUBLIC_SANITY_PROJECT_ID ?? process.env.PUBLIC_SANITY_PROJECT_ID;
+const PUBLIC_SANITY_DATASET =
+	fileEnv.PUBLIC_SANITY_DATASET ?? process.env.PUBLIC_SANITY_DATASET ?? 'production';
 
 if (!PUBLIC_SANITY_PROJECT_ID) {
 	throw new Error(
