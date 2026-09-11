@@ -46,9 +46,11 @@ Connect the repo in the Cloudflare dashboard (Workers & Pages → Create → Con
 | Node version  | `22`            |
 
 
-Set these environment variables in the Pages project:
+Set these **required** environment variables in the Pages project (Production and Preview):
 
 - `PUBLIC_SANITY_PROJECT_ID`
 - `PUBLIC_SANITY_DATASET` (e.g. `production`)
+
+Do **not** add a `wrangler.json(c)` with `pages_build_output_dir` for this static site — it makes Wrangler the config source of truth and dashboard env vars stop reaching the build.
 
 Embedded Studio is at `/admin`.
