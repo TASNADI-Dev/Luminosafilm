@@ -269,6 +269,17 @@ export const privacyPageHeading: Record<Locale, string> = {
 	en: 'Privacy Policy',
 };
 
+/** Hardcoded meta descriptions for pages without a Sanity hero paragraph. */
+export const contactPageMetaDescription: Record<Locale, string> = {
+	hu: 'Lépjen kapcsolatba a Luminosa Film csapatával dokumentumfilmek, promóciós videók és egyéb filmprojektek megvalósításához.',
+	en: 'Contact the Luminosa Film team about documentaries, promotional videos, and other film projects.',
+};
+
+export const privacyPageMetaDescription: Record<Locale, string> = {
+	hu: 'A Luminosa Film adatvédelmi irányelvei: hogyan kezeljük és védjük személyes adatait a weboldalon és kapcsolatfelvétel során.',
+	en: 'Luminosa Film privacy policy: how we collect, use, and protect your personal data on our website and when you contact us.',
+};
+
 /** Hardcoded home-page highlighted references section heading (items are Sanity-editable). */
 export const homeReferencesHeading: Record<Locale, string> = {
 	hu: 'Kiemelt referenciák',

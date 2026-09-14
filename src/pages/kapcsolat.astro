@@ -2,12 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ClientLogos from '../components/ClientLogos.astro';
 import ContactForm from '../components/ContactForm.astro';
+import { contactPageMetaDescription } from '../lib/i18n';
 import { getClientLogos } from '../lib/sanity/clientLogos';
 
 const logos = await getClientLogos('hu');
 ---
 
-<BaseLayout locale="hu" title="Kapcsolat | Luminosa Film">
+<BaseLayout
+	locale="hu"
+	title="Kapcsolat | Luminosa Film"
+	description={contactPageMetaDescription.hu}
+>
 	<section class="relative overflow-hidden pt-6 pb-16 lg:pt-[10rem] lg:pb-24" data-hero-section>
 		<div class="mx-auto grid max-w-container gap-10 px-6 lg:grid-cols-2 lg:items-start lg:gap-16 lg:px-10">
 			<div class="order-1 flex flex-col gap-8" data-hero-copy-item>

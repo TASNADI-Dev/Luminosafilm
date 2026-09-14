@@ -1,14 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PortableText from '../../components/PortableText.astro';
-import { privacyPageHeading } from '../../lib/i18n';
+import { privacyPageHeading, privacyPageMetaDescription } from '../../lib/i18n';
 import { getPrivacyPage } from '../../lib/sanity/privacyPage';
 
 const heading = privacyPageHeading.en;
 const body = await getPrivacyPage('en');
 ---
 
-<BaseLayout locale="en" title={`${heading} | Luminosa Film`}>
+<BaseLayout
+	locale="en"
+	title={`${heading} | Luminosa Film`}
+	description={privacyPageMetaDescription.en}
+>
 	<section class="relative pt-6 pb-16 lg:pt-[10rem] lg:pb-24">
 		<div class="mx-auto max-w-container px-6 lg:px-10">
 			<div class="mx-auto max-w-3xl">

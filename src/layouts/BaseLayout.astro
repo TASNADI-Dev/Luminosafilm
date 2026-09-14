@@ -2,17 +2,30 @@
 import Footer from '../components/Footer.astro';
 import Navigation from '../components/Navigation.astro';
 import { asset } from '../lib/assets';
-import { type Locale, withBase } from '../lib/i18n';
+import { locales, type Locale, withBase } from '../lib/i18n';
+import {
+	getLocaleAlternateUrls,
+	ogLocaleBySiteLocale,
+	toAbsoluteSeoUrl,
+	truncateMetaDescription,
+} from '../lib/seo';
 import '../styles/global.css';
 
 interface Props {
 	locale: Locale;
 	title?: string;
+	description?: string;
 }
 
-const { locale, title = 'Luminosa Film' } = Astro.props;
+const { locale, title = 'Luminosa Film', description } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = toAbsoluteSeoUrl(Astro.site!, Astro.url.pathname);
+const alternateUrls = getLocaleAlternateUrls(Astro.site!, Astro.url.pathname);
+const metaDescription = description ? truncateMetaDescription(description) : undefined;
+const ogLocale = ogLocaleBySiteLocale[locale];
+const ogLocaleAlternates = locales
+	.filter((entry) => entry !== locale)
+	.map((entry) => ogLocaleBySiteLocale[entry]);
 ---
 
 <html lang={locale} class="scheme-dark">
@@ -29,8 +42,24 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<link rel="icon" type="image/png" href={asset('/global/favicon.png')} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="canonical" href={canonicalURL.href} />
+		<link rel="canonical" href={canonicalURL} />
+		{
+			alternateUrls.map(({ hreflang, href }) => (
+				<link rel="alternate" hreflang={hreflang} href={href} />
+			))
+		}
 		<title>{title}</title>
+		{metaDescription && <meta name="description" content={metaDescription} />}
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Luminosa Film" />
+		<meta property="og:title" content={title} />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:locale" content={ogLocale} />
+		{ogLocaleAlternates.map((entry) => <meta property="og:locale:alternate" content={entry} />)}
+		{metaDescription && <meta property="og:description" content={metaDescription} />}
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={title} />
+		{metaDescription && <meta name="twitter:description" content={metaDescription} />}
 		<link rel="stylesheet" href={withBase('/fonts/fonts.css')} />
 	</head>
 	<body class="flex min-h-screen flex-col bg-woodsmoke font-sans text-woodsmoke-50">

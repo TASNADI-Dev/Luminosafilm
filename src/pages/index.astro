@@ -40,7 +40,11 @@ const programSupportDspLogoSrc = asset('/home/home_DSP_logo_vector.svg');
 const programSupportNeumLogoSrc = asset('/home/home_NEUM_logo_fekete_vector.svg');
 ---
 
-<BaseLayout locale="hu">
+<BaseLayout
+	locale="hu"
+	title={`${hero.heading} | Luminosa Film`}
+	description={hero.paragraph}
+>
 	<section class="group relative isolate overflow-hidden pt-6 lg:pt-hero-top" data-hero-section>
 		<div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
 			<video

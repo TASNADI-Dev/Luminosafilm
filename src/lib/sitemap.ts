@@ -1,4 +1,4 @@
-// Collects public site paths and renders a flat sitemap.xml document.
+// Collects public site paths and renders a flat sitemap.xml document with hreflang alternates.
 import {
 	localeHomePath,
 	locales,
@@ -8,6 +8,7 @@ import {
 	services,
 	type PageId,
 } from './i18n';
+import { getLocaleAlternateUrls, toAbsoluteSeoUrl } from './seo';
 
 function escapeXml(value: string): string {
 	return value
@@ -37,14 +38,24 @@ export function getSitePaths(): string[] {
 	return paths;
 }
 
+function buildAlternateLinks(site: string, path: string): string {
+	return getLocaleAlternateUrls(site, path)
+		.map(
+			({ hreflang, href }) =>
+				`    <xhtml:link rel="alternate" hreflang="${escapeXml(hreflang)}" href="${escapeXml(href)}" />`,
+		)
+		.join('\n');
+}
+
 /** Builds a single flat urlset sitemap (no sitemap index or nested sitemap files). */
 export function buildSitemapXml(site: string, paths: string[]): string {
 	const urlEntries = paths
 		.map((path) => {
-			const loc = new URL(path, site).href;
-			return `  <url>\n    <loc>${escapeXml(loc)}</loc>\n  </url>`;
+			const loc = toAbsoluteSeoUrl(site, path);
+			const alternates = buildAlternateLinks(site, path);
+			return `  <url>\n    <loc>${escapeXml(loc)}</loc>\n${alternates}\n  </url>`;
 		})
 		.join('\n');
 
-	return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlEntries}\n</urlset>\n`;
+	return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urlEntries}\n</urlset>\n`;
 }
