@@ -38,6 +38,17 @@ const ogLocaleAlternates = locales
 			src="https://cdn-cookieyes.com/client_data/c7d00edda381951a6449bb93a4f30ced/script.js"
 		></script>
 		<!-- End cookieyes banner -->
+		<!-- Google tag (gtag.js) -->
+		<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-KSZCK5BQYS"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'G-KSZCK5BQYS');
+		</script>
+		<!-- End Google tag (gtag.js) -->
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/png" href={asset('/global/favicon.png')} />
 		<meta name="viewport" content="width=device-width" />
