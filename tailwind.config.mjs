@@ -56,9 +56,9 @@ export default {
 			spacing: {
 				'hero-top': 'clamp(6rem, 25vh, 20rem)', // 96px–320px, scales with viewport height
 			},
-			maxHeight: {
-				// Leaves room for sticky nav (5rem) + stacked hero copy/padding below lg
-				'hero-spacer': 'calc(100svh - 5rem - 28rem)',
+			minHeight: {
+				// Full small viewport minus sticky nav (h-[5rem])
+				hero: 'calc(100svh - 5rem)',
 			},
 			container: {
 				center: true,
