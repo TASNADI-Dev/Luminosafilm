@@ -1,0 +1,11 @@
+# This site is Astro, hosted on Cloudflare Pages.
+# GitHub still runs its default Jekyll Pages builder against main.
+# Keep the app source out of that build so Astro front matter is not parsed as YAML.
+exclude:
+  - src
+  - studio
+  - public
+  - node_modules
+  - .cursor
+  - .vscode
+  - .github
